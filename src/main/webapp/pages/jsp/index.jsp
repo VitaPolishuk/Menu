@@ -4,7 +4,7 @@
     <title>Меню</title>
     <link rel="stylesheet" href="/pages/css/indexCSs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
-    <script src="/pages/js/indexJs.js"></script>
+    <script src="/pages/js/indexJS.js"></script>
 </head>
 <script>
     listEmployees = ${listEmployees};
@@ -17,49 +17,82 @@
     };
 </script>
 <body onload="loadEmployees(listEmployees)">
-<div class = "header">
-    <font face="Comic Sans MS" size="+3" color=#632d03 >Меню для котиков</font></div>
 
-<div id = "windowDel">
-    <button class = "buttonDelete">Delete</button>
+<div class = "allComplexes">
+    <div class="complexes1">
+        <p>Комплекс 1</p>
+        <table class="tableComplexes1">
 
-</div>
-<div class="Main">
-    <div class="complexes">
-        <table class = "tableComplexes" >
-            <thead>
-            <th>Комплекс 1</th>
-            <th>Комплекс 2</th>
-            <th>Комплекс 3</th>
-            </thead>
-            <tbody>
-            <tr ondblclick="f(this)" onclick="ff(this)">
+            <tr>
                 <td>Супчик1</td>
-                <td>Супчик2</td>
-                <td>Супчик3</td>
             </tr>
-            <tr ondblclick="f(this)" onclick="ff(this)">
-                <td>Пюре</td>
-                <td>Пюре</td>
+            <tr>
                 <td>Пюре</td>
             </tr>
-            <tr ondblclick="f(this)" onclick="ff(this)">
-                <td>Салатик</td>
-                <td>Салатик</td>
+            <tr>
                 <td>Салатик</td>
             </tr>
-            <tr ondblclick="f(this)" onclick="ff(this)">
-                <td class="td1">Сок</td>
-                <td class="td1">Сок</td>
+            <tr>
                 <td class="td1">Сок</td>
             </tr>
-            </tbody>
         </table>
     </div>
-    <input id="button" type="button" value="Войти" onclick=authentication()>
-    <div class="tableEmployees" id="tableEmployees"></div>
-    <div id  = "newButton"></div>
+    <input type="button" id="btnComplex1" class="compl" value="Сохранить">
+    <br>
+    <br>
+    <div class="complexes2">
+        <p>Комплекс 2</p>
+        <table class="tableComplexes2">
+
+            <tr>
+                <td>Супчик2</td>
+            </tr>
+            <tr>
+                <td>Пюре</td>
+            </tr>
+            <tr>
+                <td>Салатик</td>
+            </tr>
+            <tr>
+                <td class="td1">Сок</td>
+            </tr>
+        </table>
+    </div>
+    <input type="button" id="btnComplex2" class="compl" value="Сохранить">
+    <br>
+    <br>
+    <div class="complexes3">
+        <p>Комплекс 3</p>
+        <table class="tableComplexes3">
+
+            <tr>
+                <td>Супчик3</td>
+            </tr>
+            <tr>
+                <td>Пюре</td>
+            </tr>
+            <tr>
+                <td>Салатик</td>
+            </tr>
+            <tr>
+                <td class="td1">Сок</td>
+            </tr>
+        </table>
+    </div>
+    <input type="button" id="btnComplex3" class="compl"value="Сохранить">
+
 </div>
+
+
+<div class="Main">
+
+
+
+
+    <div class="tableEmployees" id="tableEmployees"></div>
+
+</div>
+
 <div id="prompt-form-container">
     <form id="prompt-form">
         <div id="prompt-message"></div>
@@ -68,14 +101,32 @@
         <input type="button" name="cancel" value="Отмена">
     </form>
 </div>
+
 <div id="addEmployees-container">
-   <p>ФИО</p> <input type="text" id="inputFIO">
+    <p>ФИО</p> <input type="text" id="inputFIO">
     <p>Должность</p> <input type="text" id="inputPositionHeld">
     <p></p> <input type="button" value="Добавить сотрудника" id="buttonAdd" onclick="addEmployees()">
 </div>
 
+<div class="header">
+    <font face="Comic Sans MS" size="+3" color=#4F4F4F>Меню для котиков</font>
+    <input id="button" type="button" value="Войти" onclick=authentication()>
+</div>
+
+<div id="windowDel">
+    <button class="buttonDelete">Delete</button>
+</div>
+
+<div class="images">
+    <img src="/pages/css/tiger.png" width="50%">
+</div>
+
+</body>
+
+</html>
+
 <script type="text/template" id="templateTable">
-    <table id="employees" class="employees">
+    <table id="employees" class="employees" rules="Cols">
         <tr class="tr1 stroka">
             <th class="tr1">№</th>
             <th class="tr1">ФИО</th>
@@ -94,7 +145,3 @@
         {{ } }}
     </table>
 </script>
-</body>
-
-</html>
-

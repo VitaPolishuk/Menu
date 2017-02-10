@@ -17,42 +17,41 @@ public class EmployeesDaoImpl implements EmployeesDao {
     }
 
     @Override
-    public void addEmployees(Employees employees) {
+    public void addEmployee(Employees employee) {
         Session session = this.sessionFactory.getCurrentSession();
-        session.persist(employees);
+        session.persist(employee);
     }
 
     @Override
-    public void editEmployees(Employees employees) {
+    public void editEmployee(Employees employee) {
         Session session = this.sessionFactory.getCurrentSession();
-        session.update(employees);
+        session.update(employee);
 
     }
 
     @Override
-    public void removeEmployees(long id) {
+    public void removeEmployee(Long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Employees employees = (Employees) session.load(Employees.class, new Long(id));
-        if (employees != null) {
-            session.delete(employees);
+        Employees employee = (Employees) session.load(Employees.class, new Long(id));
+        if (employee != null) {
+            session.delete(employee);
         }
     }
 
     @Override
-    public Employees getEmployees(long id) {
+    public Employees getEmployee(Long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Employees employees = (Employees) session.load(Employees.class, new Long(id));
+        Employees employee = (Employees) session.load(Employees.class, new Long(id));
 
-        return employees;
+        return employee;
     }
 
     @Override
     public List<Employees> listEmployees() {
         @SuppressWarnings("unchecked")
-        List<Employees> listEmpl = (List<Employees>) sessionFactory.getCurrentSession()
+        List<Employees> listEmployees = (List<Employees>) sessionFactory.getCurrentSession()
                 .createCriteria(Employees.class)
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-
-        return listEmpl;
+        return listEmployees;
     }
 }

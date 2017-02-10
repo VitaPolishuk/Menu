@@ -5,13 +5,13 @@ import com.menuAndersen.model.Employees;
 import java.util.List;
 
 public interface EmployeesDao {
-    public void addEmployees(Employees employees);
+    public void addEmployee(Employees employee);
 
-    public void editEmployees(Employees employees);
+    public void editEmployee(Employees employee);
 
-    public void removeEmployees(long id);
+    public void removeEmployee(Long id);
 
-    public Employees getEmployees(long id);
+    public Employees getEmployee(Long id);
 
     public List<Employees> listEmployees();
 

@@ -80,7 +80,11 @@ function loadEmployees(listEmployees) {
 
 function addButtonPages() {
     var div = document.getElementById("addEmployees-container");
-   div.style.display = "block";
+    div.style.display = "block";
+    var masdiv = document.getElementsByClassName("compl");
+    for (var i=0;i<masdiv.length;i++){
+        masdiv[i].style.display = "block";
+    }
 
 
 
@@ -90,6 +94,9 @@ function addButtonPages() {
 function deleteButtonPages() {
     var div = document.getElementById("addEmployees-container");
     div.style.display = "none";
-
+    var masdiv = document.getElementsByClassName("compl");
+    for (var i=0;i<masdiv.length;i++){
+        masdiv[i].style.display = "none";
+    }
 
 }

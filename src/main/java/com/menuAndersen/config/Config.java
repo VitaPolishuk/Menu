@@ -2,11 +2,12 @@ package com.menuAndersen.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.menuAndersen.dao.EmployeesDao;
-import com.menuAndersen.dao.EmployeesDaoImpl;
+import com.menuAndersen.dao.*;
+import com.menuAndersen.model.Basic;
+import com.menuAndersen.model.Complexes;
 import com.menuAndersen.model.Employees;
-import com.menuAndersen.service.EmployeesService;
-import com.menuAndersen.service.EmployeesServiceImpl;
+import com.menuAndersen.model.MyDate;
+import com.menuAndersen.service.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -31,7 +33,7 @@ import java.util.Properties;
 @EnableWebMvc
 @ComponentScan("com.menuAndersen")
 @EnableTransactionManagement
-public class Config extends WebMvcConfigurerAdapter{
+public class Config extends WebMvcConfigurerAdapter {
     @Autowired
     private Environment environment;
 
@@ -49,6 +51,7 @@ public class Config extends WebMvcConfigurerAdapter{
 
         return resolver;
     }
+
     @Bean
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -72,9 +75,12 @@ public class Config extends WebMvcConfigurerAdapter{
     public SessionFactory getSessionFactory(DataSource dataSource) {
 
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
+        sessionBuilder.addProperties(getHibernateProperties());
 
         sessionBuilder.addAnnotatedClasses(Employees.class);
-        sessionBuilder.addProperties(getHibernateProperties());
+        sessionBuilder.addAnnotatedClasses(MyDate.class);
+        sessionBuilder.addAnnotatedClasses(Complexes.class);
+        sessionBuilder.addAnnotatedClasses(Basic.class);
 
         return sessionBuilder.buildSessionFactory();
     }
@@ -89,19 +95,6 @@ public class Config extends WebMvcConfigurerAdapter{
         return transactionManager;
     }
 
-    @Autowired
-    @Bean(name = "employeesDao")
-    public EmployeesDao getRoleDao(SessionFactory sessionFactory) {
-
-        return new EmployeesDaoImpl(sessionFactory);
-    }
-
-    @Autowired
-    @Bean(name = "employeesService")
-    public EmployeesService getRoleService(EmployeesDao employeesDao) {
-
-        return new EmployeesServiceImpl(employeesDao);
-    }
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.show_sql", "true");
@@ -109,6 +102,63 @@ public class Config extends WebMvcConfigurerAdapter{
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         properties.put("hibernate.id.new_generator_mappings", "false");
 
-        return properties;}
+        return properties;
+    }
+
+    @Autowired
+    @Bean(name = "employeesDao")
+    public EmployeesDao getEmployeesDao(SessionFactory sessionFactory) {
+
+        return new EmployeesDaoImpl(sessionFactory);
+    }
+
+    @Autowired
+    @Bean(name = "employeesService")
+    public EmployeesService getEmployeesService(EmployeesDao employeesDao) {
+
+        return new EmployeesServiceImpl(employeesDao);
+    }
+
+    @Autowired
+    @Bean(name = "complexesDao")
+    public ComplexesDao getComplexesDao(SessionFactory sessionFactory) {
+
+        return new ComplexesDaoImpl(sessionFactory);
+    }
+
+    @Autowired
+    @Bean(name = "complexesService")
+    public ComplexesService getComplexesService(ComplexesDao complexesDao) {
+
+        return new ComplexesServiceImpl(complexesDao);
+    }
+
+    @Autowired
+    @Bean(name = "myDateDao")
+    public MyDateDao getMyDateDao(SessionFactory sessionFactory) {
+
+        return new MyDateDaoImpl(sessionFactory);
+    }
+
+    @Autowired
+    @Bean(name = "myDateService")
+    public MyDateService gMyDateService(MyDateDao myDateDao) {
+
+        return new MyDateServiceImpl(myDateDao);
+    }
+
+    @Autowired
+    @Bean(name = "basicDao")
+    public BasicDao gBasicDao(SessionFactory sessionFactory) {
+
+        return new BasicDaoImpl(sessionFactory);
+    }
+
+    @Autowired
+    @Bean(name = "basicService")
+    public BasicService gBasicService(BasicDao basicDao) {
+
+        return new BasicServiceImpl(basicDao);
+    }
 
 }

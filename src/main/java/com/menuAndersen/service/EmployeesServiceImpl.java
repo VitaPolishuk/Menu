@@ -11,37 +11,37 @@ import java.util.List;
 public class EmployeesServiceImpl implements EmployeesService {
     private EmployeesDao employeesDao;
 
-
     public EmployeesServiceImpl(EmployeesDao employeesDao) {
         this.employeesDao = employeesDao;
     }
+
     @Override
     @Transactional
     public void addEmployees(Employees employees) {
-       this.employeesDao.addEmployees(employees);
+        this.employeesDao.addEmployee(employees);
     }
 
     @Override
     @Transactional
     public void editEmployees(Employees employees) {
-        this.employeesDao.editEmployees(employees);
+        this.employeesDao.editEmployee(employees);
     }
 
     @Override
     @Transactional
     public void removeEmployees(long id) {
-        this.employeesDao.removeEmployees(id);
+        this.employeesDao.removeEmployee(id);
     }
 
     @Override
     @Transactional
     public Employees getEmployees(long id) {
-        return this.employeesDao.getEmployees(id);
+        return this.employeesDao.getEmployee(id);
     }
 
     @Override
     @Transactional
     public List<Employees> listEmployees() {
-        return  this.employeesDao.listEmployees();
+        return this.employeesDao.listEmployees();
     }
 }

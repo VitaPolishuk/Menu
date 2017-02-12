@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Меню</title>
-    <link rel="stylesheet" href="/pages/css/indexCSs.css">
+    <link rel="stylesheet" href="/pages/css/indexCSS.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script src="/pages/js/indexJS.js"></script>
 </head>
@@ -18,75 +18,81 @@
 </script>
 <body onload="loadEmployees(listEmployees)">
 
-<div class = "allComplexes">
-    <div class="complexes1">
-        <p>Комплекс 1</p>
-        <table class="tableComplexes1">
 
-            <tr>
-                <td>Супчик1</td>
-            </tr>
-            <tr>
-                <td>Пюре</td>
-            </tr>
-            <tr>
-                <td>Салатик</td>
-            </tr>
-            <tr>
-                <td class="td1">Сок</td>
-            </tr>
-        </table>
-    </div>
-    <input type="button" id="btnComplex1" class="compl" value="Сохранить">
-    <br>
-    <br>
-    <div class="complexes2">
-        <p>Комплекс 2</p>
-        <table class="tableComplexes2">
-
-            <tr>
-                <td>Супчик2</td>
-            </tr>
-            <tr>
-                <td>Пюре</td>
-            </tr>
-            <tr>
-                <td>Салатик</td>
-            </tr>
-            <tr>
-                <td class="td1">Сок</td>
-            </tr>
-        </table>
-    </div>
-    <input type="button" id="btnComplex2" class="compl" value="Сохранить">
-    <br>
-    <br>
-    <div class="complexes3">
-        <p>Комплекс 3</p>
-        <table class="tableComplexes3">
-
-            <tr>
-                <td>Супчик3</td>
-            </tr>
-            <tr>
-                <td>Пюре</td>
-            </tr>
-            <tr>
-                <td>Салатик</td>
-            </tr>
-            <tr>
-                <td class="td1">Сок</td>
-            </tr>
-        </table>
-    </div>
-    <input type="button" id="btnComplex3" class="compl"value="Сохранить">
-
-</div>
 
 
 <div class="Main">
 
+    <div class = "allComplexes">
+        <div class="head"> <font face="Comic Sans MS" size="+3" color=#4F4F4F>Меню для котиков</font></div>
 
+        <div class="complexes1">
+
+            <table class="tableComplexes1">
+                <th>Комплекс 1</th>
+                <tr>
+                    <td>пюре+минтай "верасневый", в сметане с какашками и яйцами</td>
+                </tr>
+                <tr>
+                    <td>Пюре</td>
+                </tr>
+                <tr>
+                    <td>Салатик</td>
+                </tr>
+                <tr>
+                    <td class="td1">Сок</td>
+                </tr>
+            </table>
+
+        </div>
+
+
+        <div class="complexes2">
+
+            <table class="tableComplexes2">
+                <th>Комплекс 2</th>
+                <tr>
+                    <td>Супчик2</td>
+                </tr>
+                <tr>
+                    <td>Пюре</td>
+                </tr>
+                <tr>
+                    <td>Салатик</td>
+                </tr>
+                <tr>
+                    <td class="td1">Сок</td>
+                </tr>
+            </table>
+
+        </div>
+
+
+        <div class="complexes3">
+
+            <table class="tableComplexes3">
+                <th>Комплекс 3</th>
+                <tr>
+                    <td>Супчик3</td>
+                </tr>
+                <tr>
+                    <td>Пюре</td>
+                </tr>
+                <tr>
+                    <td>Салатик</td>
+                </tr>
+                <tr>
+                    <td class="td1">Сок</td>
+                </tr>
+            </table>
+
+        </div>
+
+
+    </div>
+<div class="tableHead">
+
+</div>
 
 
     <div class="tableEmployees" id="tableEmployees"></div>
@@ -96,7 +102,7 @@
 <div id="prompt-form-container">
     <form id="prompt-form">
         <div id="prompt-message"></div>
-        <input name="text" type="text">
+        <input name="text" type="password">
         <input type="submit" value="Ок">
         <input type="button" name="cancel" value="Отмена">
     </form>
@@ -109,8 +115,9 @@
 </div>
 
 <div class="header">
-    <font face="Comic Sans MS" size="+3" color=#4F4F4F>Меню для котиков</font>
+
     <input id="button" type="button" value="Войти" onclick=authentication()>
+
 </div>
 
 <div id="windowDel">
@@ -127,12 +134,14 @@
 
 <script type="text/template" id="templateTable">
     <table id="employees" class="employees" rules="Cols">
-        <tr class="tr1 stroka">
-            <th class="tr1">№</th>
-            <th class="tr1">ФИО</th>
-            <th class="tr1">Должность</th>
-            <th class="tr1">Комплекс</th>
-        </tr>
+
+            <tr class="tr1 stroka">
+                <th class="tr1">№</th>
+                <th class="tr1">ФИО</th>
+                <th class="tr1">Должность</th>
+                <th class="tr1">Комплекс</th>
+            </tr>
+       
         {{ for (var i = 0; i < listEmployees.length; i++) { }}
         <tr class="tr1 stroka">
             <td class="tr1">{{= listEmployees[i].number }}</td>

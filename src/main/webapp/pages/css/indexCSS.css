@@ -1,21 +1,20 @@
 /*Тело весь фон*/
 body{
     height: 3000px;
-    background-color: #ededed;
+    background-color: #ffa963;
     margin: 0;
     min-width: 700px;
 
 }
-
-.Main, .allComplexes{
-    display: inline-block;
+.head{
+    text-align: center;
 }
 /*Шапка*/
 .header{
-    width: 100%;
+    width: 70%;
     position: fixed;
     top: 0px;
-    background-color: rgb(255, 159, 64);
+    background-color: #fbf7f9;
     text-align: center;
 }
 /*Центральная часть*/
@@ -24,20 +23,19 @@ body{
     background-color: #fbf7f9;
     width: 70%;
     height: 100%;
-    margin-left: 17%;
+
 }
 /*Таблицы коплексов*/
 .allComplexes{
-    width: 15%;
-    padding-top: 191px;
-    padding-left: 10px;
-    padding-right: 10px;
-    float: left;
+    width: 68%;
+    padding-left: 2%;
     position: fixed;
+    background-color: #fbf7f9;
+    z-index: 1;
 
 }
 .tableComplexes1, .tableComplexes2, .tableComplexes3{
-    border: 5px solid rgb(255, 159, 64);
+    border: 5px solid #ffa963;
     border-radius: 10px;
     word-break: break-all;
 
@@ -45,13 +43,17 @@ body{
 .complexes1 td, .complexes2 td, .complexes3 td{
       text-align: center;
 }
+.complexes1, .complexes2, .complexes3{
+    display: inline-block;
+    width: 32%;
+}
 
 .tableComplexes1, .tableComplexes2, .tableComplexes3{
     width: 100%;
 }
 .compl{
    margin-left: 10%;
-    display: none;
+   /* display: none;*/
 }
 p{
     text-align: center;
@@ -99,7 +101,7 @@ p{
     z-index: 9000;
     width: 100%;
     height: 100%;
-    background-color: gray;
+    background-color: #ffc98b;
     opacity: 0.3;
 }
 
@@ -124,11 +126,12 @@ p{
 }
 /*Таблица сотрудников*/
 .tableEmployees{
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 100px;
+    width: 65%;
     border: 2px solid rgb(255, 159, 64);
     border-radius: 10px;
+    margin-top: 200px;
+    position: absolute;
+    margin-left: 2%;
 
 }
 .tableEmployees th{

@@ -85,16 +85,9 @@
                     <td class="td1">Сок</td>
                 </tr>
             </table>
-
         </div>
-
-
     </div>
-<div class="tableHead">
-
-</div>
-
-
+<div class="tableHead"></div>
     <div class="tableEmployees" id="tableEmployees"></div>
 
 </div>

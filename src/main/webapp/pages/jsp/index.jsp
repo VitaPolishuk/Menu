@@ -8,6 +8,7 @@
 </head>
 <script>
     listEmployees = ${listEmployees};
+
 </script>
 <script>
     _.templateSettings = {
@@ -23,7 +24,8 @@
 
     <div class = "allComplexes">
         <div class="head">
-            <font face="Comic Sans MS" size="+3" color=#4F4F4F>Меню для котиков</font>
+            <div class = "titleMenu"> <font face="Comic Sans MS" size="+2.5" color=#4F4F4F>Меню для котиков на </font></div>
+            <div class = "currentDate"> <font face="Comic Sans MS" size="+2.8" color=#4F4F4F> ${currentDate}</font></div>
         </div>
 
         <div class="complexes1">

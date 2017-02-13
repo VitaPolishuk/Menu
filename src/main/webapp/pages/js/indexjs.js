@@ -1,11 +1,19 @@
 
 var password = 1;
-function f(th) {
+function dbClickTable(ev) {
+var row = ev.target.parentElement.rowIndex;
+var cell = ev.target.cellIndex;
+var table = ev.currentTarget;
+ if ((table.id == "employees")&(row==0 || cell==0 || cell==3)) {
+     alert("КУДА ТЫКАЕШЬ");
+     }else {
+     table.rows[row].cells[cell].setAttribute("contenteditable", "true");
+     table.rows[row].cells[cell].focus();
+     table.rows[row].cells[cell].onblur = function () {
 
-    for (var i = 0; i < th.cells.length; i++) {
-        th.cells[i].setAttribute("contenteditable", "true");
-
-    }
+         table.rows[row].cells[cell].setAttribute("contenteditable", "false");
+     }
+ }
 }
 
 function showCover() {
@@ -78,9 +86,30 @@ function loadEmployees(listEmployees) {
     });
 }
 
+function loadComplexes(listComplex) {
+
+    var template = document.getElementById('templateComplex').innerHTML.trim();
+    template = _.template(template);
+    for (var i=0;i<listComplex.length;i++) {
+        var str = 'complex'+(i+1);
+        document.getElementById(str).innerHTML = template({
+            listComplex: listComplex[i]
+
+
+        });
+    }
+}
+
 function addButtonPages() {
     var div = document.getElementById("addEmployees-container");
     div.style.display = "block";
+    var table = document.getElementsByTagName("table");
+    for (var i=0;i<table.length;i++){
+        table[i].setAttribute("ondblclick","dbClickTable(event)");
+    }
+
+
+
     var masdiv = document.getElementsByClassName("compl");
     for (var i=0;i<masdiv.length;i++){
         masdiv[i].style.display = "block";
@@ -94,9 +123,55 @@ function addButtonPages() {
 function deleteButtonPages() {
     var div = document.getElementById("addEmployees-container");
     div.style.display = "none";
+    var table = document.getElementsByTagName("table");
+    for (var i=0;i<table.length;i++){
+        table[i].setAttribute("ondblclick","");
+    }
+
     var masdiv = document.getElementsByClassName("compl");
     for (var i=0;i<masdiv.length;i++){
         masdiv[i].style.display = "none";
+    }
+
+}
+
+function addEmployee() {
+    var dataJson = {
+        fio: document.getElementById("inputFIO").value,
+        positionHeld: document.getElementById("inputPositionHeld").value,
+
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/addEmployee",
+        data: JSON.stringify(dataJson)
+
+        ,
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+            $("#inputFIO").val("");
+            $("#inputPositionHeld").val("");
+            deleteTable();
+            loadEmployees(data);
+        },
+        error: function (data) {
+            alert(data);
+        }
+    })
+
+}
+
+function deleteTable() {
+    var table = document.getElementById("employees")
+
+    for (var i = table.rows.length - 1; i > 0; i--) {
+        table.deleteRow(i);
     }
 
 }

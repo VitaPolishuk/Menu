@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Меню</title>
-    <link rel="stylesheet" href="/pages/css/indexCSS.css">
+    <link rel="stylesheet" href="/pages/css/indexCSs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
-    <script src="/pages/js/indexJS.js"></script>
+    <script src="/pages/js/indexjs.js"></script>
 </head>
 <script>
     listEmployees = ${listEmployees};
-
+    listComplexes = ${listComplexes};
 </script>
 <script>
     _.templateSettings = {
@@ -17,7 +17,7 @@
         escape: /{{-([\s\S]+?)}}/g
     };
 </script>
-<body onload="loadEmployees(listEmployees)">
+<body onload="loadEmployees(listEmployees); loadComplexes(listComplexes)">
 
 
 <div class="Main">
@@ -29,63 +29,25 @@
         </div>
 
         <div class="complexes1">
+            Комплекс 1
+            <table id="complex1" class="tableComplexes1">
 
-            <table class="tableComplexes1">
-                <th>Комплекс 1</th>
-                <tr>
-                    <td>пюре+минтай "верасневый", в сметане с какашками и яйцами</td>
-                </tr>
-                <tr>
-                    <td>Пюре ываыва ываыва вава выа ва ваыаваыва</td>
-                </tr>
-                <tr>
-                    <td>Салатик</td>
-                </tr>
-                <tr>
-                    <td class="td1">Сок</td>
-                </tr>
             </table>
 
         </div>
 
 
         <div class="complexes2">
-
-            <table class="tableComplexes2">
-                <th>Комплекс 2</th>
-                <tr>
-                    <td>Супчик2</td>
-                </tr>
-                <tr>
-                    <td>Пюре</td>
-                </tr>
-                <tr>
-                    <td>Салатик</td>
-                </tr>
-                <tr>
-                    <td class="td1">Сок</td>
-                </tr>
+            Комплекс 2
+            <table id="complex2" class="tableComplexes2">
             </table>
 
         </div>
 
 
         <div class="complexes3">
-
-            <table class="tableComplexes3">
-                <th>Комплекс 3</th>
-                <tr>
-                    <td>Супчик3</td>
-                </tr>
-                <tr>
-                    <td>Пюре</td>
-                </tr>
-                <tr>
-                    <td>Салатик</td>
-                </tr>
-                <tr>
-                    <td class="td1">Сок</td>
-                </tr>
+            Комплекс 3
+            <table id="complex3" class="tableComplexes3">
             </table>
         </div>
     </div>
@@ -106,7 +68,7 @@
 <div id="addEmployees-container">
     <p>ФИО</p> <input type="text" id="inputFIO">
     <p>Должность</p> <input type="text" id="inputPositionHeld">
-    <p></p> <input type="button" value="Добавить сотрудника" id="buttonAdd" onclick="addEmployees()">
+    <p></p> <input type="button" value="Добавить сотрудника" id="buttonAdd" onclick="addEmployee()">
 </div>
 
 <div class="header">
@@ -129,13 +91,13 @@
 <script type="text/template" id="templateTable">
     <table id="employees" class="employees" rules="Cols">
 
-            <tr class="tr1 stroka">
-                <th class="tr1">№</th>
-                <th class="tr1">ФИО</th>
-                <th class="tr1">Должность</th>
-                <th class="tr1">Комплекс</th>
-            </tr>
-       
+        <tr class="tr1 stroka">
+            <th class="tr1">№</th>
+            <th class="tr1">ФИО</th>
+            <th class="tr1">Должность</th>
+            <th class="tr1">Комплекс</th>
+        </tr>
+
         {{ for (var i = 0; i < listEmployees.length; i++) { }}
         <tr class="tr1 stroka">
             <td class="tr1">{{= listEmployees[i].number }}</td>
@@ -147,4 +109,22 @@
         </tr>
         {{ } }}
     </table>
+</script>
+
+<script type="text/template" id="templateComplex">
+
+        <tr>
+            <td>{{=listComplex.firstCourse}}</td>
+        </tr>
+        <tr>
+            <td>{{=listComplex.secondCourse}}</td>
+        </tr>
+        <tr>
+            <td>{{=listComplex.salad}}</td>
+        </tr>
+        <tr>
+            <td class="td1">{{=listComplex.drinks}}</td>
+        </tr>
+
+
 </script>

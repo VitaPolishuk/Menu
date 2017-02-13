@@ -16,6 +16,9 @@ public class MyDate implements Serializable {
     @Column(name = "date")
     private Date date;
 
+    @Column(name = "blocked")
+    private Boolean blocked;
+
     public Long getIdDate() {
         return idDate;
     }
@@ -30,5 +33,13 @@ public class MyDate implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Boolean getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
     }
 }

@@ -19,8 +19,6 @@
 <body onload="loadEmployees(listEmployees)">
 
 
-
-
 <div class="Main">
 
     <div class = "allComplexes">
@@ -36,7 +34,7 @@
                     <td>пюре+минтай "верасневый", в сметане с какашками и яйцами</td>
                 </tr>
                 <tr>
-                    <td>Пюре</td>
+                    <td>Пюре ываыва ываыва вава выа ва ваыаваыва</td>
                 </tr>
                 <tr>
                     <td>Салатик</td>
@@ -110,9 +108,8 @@
 </div>
 
 <div class="header">
-
-    <input id="button" type="button" value="Войти" onclick=authentication()>
-
+    <div>Режим админа</div>
+    <div> <input id="button" type="button" value="Войти" onclick=authentication()></div>
 </div>
 
 <div id="windowDel">

@@ -4,6 +4,7 @@
     <title>Меню</title>
     <link rel="stylesheet" href="/pages/css/indexCSs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="/pages/js/indexjs.js"></script>
 </head>
 <script>
@@ -52,7 +53,9 @@
         </div>
     </div>
 <div class="tableHead"></div>
-    <div class="tableEmployees" id="tableEmployees"></div>
+    <div class="tableEmployees" id="tableEmployees">
+
+    </div>
 
 </div>
 
@@ -90,7 +93,6 @@
 
 <script type="text/template" id="templateTable">
     <table id="employees" class="employees" rules="Cols">
-
         <tr class="tr1 stroka">
             <th class="tr1">№</th>
             <th class="tr1">ФИО</th>

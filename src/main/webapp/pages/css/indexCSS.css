@@ -4,18 +4,16 @@ body{
     background-color: #ffa963;
     margin: 0;
     min-width: 700px;
-
 }
 .head{
     text-align: center;
 }
 /*Шапка*/
 .header{
-    width: 70%;
     position: fixed;
     top: 0px;
-    background-color: #fbf7f9;
-    text-align: center;
+    right: 10px;
+    background-color:  #ffa963;
 }
 /*Центральная часть*/
 .Main{
@@ -23,7 +21,6 @@ body{
     background-color: #fbf7f9;
     width: 70%;
     height: 100%;
-
 }
 /*Таблицы коплексов*/
 .allComplexes{
@@ -32,13 +29,11 @@ body{
     position: fixed;
     background-color: #fbf7f9;
     z-index: 1;
-
 }
 .tableComplexes1, .tableComplexes2, .tableComplexes3{
     border: 5px solid #ffa963;
     border-radius: 10px;
     word-break: break-all;
-
 }
 .complexes1 td, .complexes2 td, .complexes3 td{
       text-align: center;
@@ -53,20 +48,14 @@ body{
 }
 .compl{
    margin-left: 10%;
-   /* display: none;*/
-}
+  }
 p{
     text-align: center;
     font-family: cursive;
     font-size: 20px;
     font-style: italic;
 }
-/*Кнопка админа*/
-#button{
-    position: fixed;
-    top: 10px;
-    right: 20px;
-}
+
 #prompt-form {
     display: inline-block;
     padding: 5px 5px 5px 70px;
@@ -115,7 +104,7 @@ p{
 #addEmployees-container{
     position: fixed;
     top: 300px;
-    right: 20px;
+    left: 20px;
     display: none;
 }
 /*Блок кнопки удалить*/
@@ -129,7 +118,7 @@ p{
     width: 65%;
     border: 2px solid rgb(255, 159, 64);
     border-radius: 10px;
-    margin-top: 200px;
+    margin-top: 250px;
     position: absolute;
     margin-left: 2%;
 

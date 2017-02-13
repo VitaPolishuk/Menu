@@ -43,6 +43,7 @@ body{
     display: inline-block;
     width: 32%;
     vertical-align: middle;
+    text-align: center;
 }
 
 .tableComplexes1, .tableComplexes2, .tableComplexes3{

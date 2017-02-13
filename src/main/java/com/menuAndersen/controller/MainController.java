@@ -45,6 +45,7 @@ public class MainController {
         addCurrDate();
         model.addAttribute("currentDate", newDateFormat.format(new Date(System.currentTimeMillis())));
         model.addAttribute("listEmployees", new Gson().toJson(employeesService.listEmployees()));
+        model.addAttribute("listComplexes", new Gson().toJson(complexesService.listComplexes()));
         return "index";
 
     }

@@ -11,7 +11,7 @@ public class DateAndComplexes implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDateComplex;
 
-    @ManyToOne
+   @ManyToOne
     @JoinColumn(name = "idDate", nullable = false)
     private MyDate idDate;
 
@@ -27,7 +27,7 @@ public class DateAndComplexes implements Serializable {
         this.idDateComplex = idDateComplex;
     }
 
-    public MyDate getIdDate() {
+   public MyDate getIdDate() {
         return idDate;
     }
 

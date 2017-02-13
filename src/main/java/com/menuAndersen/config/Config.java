@@ -3,10 +3,7 @@ package com.menuAndersen.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.menuAndersen.dao.*;
-import com.menuAndersen.model.Basic;
-import com.menuAndersen.model.Complexes;
-import com.menuAndersen.model.Employees;
-import com.menuAndersen.model.MyDate;
+import com.menuAndersen.model.*;
 import com.menuAndersen.service.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
@@ -65,7 +62,7 @@ public class Config extends WebMvcConfigurerAdapter {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/menu?createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setPassword("1234");
         dataSource.setValidationQuery("select 1");
         return dataSource;
     }
@@ -81,6 +78,7 @@ public class Config extends WebMvcConfigurerAdapter {
         sessionBuilder.addAnnotatedClasses(MyDate.class);
         sessionBuilder.addAnnotatedClasses(Complexes.class);
         sessionBuilder.addAnnotatedClasses(Basic.class);
+        sessionBuilder.addAnnotatedClasses(DateAndComplexes.class);
 
         return sessionBuilder.buildSessionFactory();
     }

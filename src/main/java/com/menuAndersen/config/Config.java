@@ -160,5 +160,18 @@ public class Config extends WebMvcConfigurerAdapter {
 
         return new BasicServiceImpl(basicDao);
     }
+    @Autowired
+    @Bean(name = "dateAndComplexesDao")
+    public DateAndComplexesDao dateAndComplexesDao(SessionFactory sessionFactory) {
+
+        return new DateAndComplexesDaoImpl(sessionFactory);
+    }
+
+    @Autowired
+    @Bean(name = "dateAndComplexesService")
+    public DateAndComplexesService dateAndComplexesService(DateAndComplexesDao dateAndComplexesDao) {
+
+        return new DateAndComplexesServiceImpl(dateAndComplexesDao);
+    }
 
 }

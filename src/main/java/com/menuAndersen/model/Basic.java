@@ -21,7 +21,7 @@ public class Basic implements Serializable {
     private MyDate idDate;
     @ManyToOne
     @JoinColumn(name = "idComplex", nullable = false)
-    private Complexes idComplex;
+    private DateAndComplexes idComplex;                //возможно здесь придется поменять
 
     public Long getIdBasic() {
         return idBasic;
@@ -47,11 +47,11 @@ public class Basic implements Serializable {
         this.idDate = idDate;
     }
 
-    public Complexes getIdComplex() {
+    public DateAndComplexes getIdComplex() {
         return idComplex;
     }
 
-    public void setIdComplex(Complexes idComplex) {
+    public void setIdComplex(DateAndComplexes idComplex) {
         this.idComplex = idComplex;
     }
 }

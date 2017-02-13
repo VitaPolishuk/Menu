@@ -38,8 +38,24 @@ public class MyDate implements Serializable {
     public Boolean getBlocked() {
         return blocked;
     }
-
     public void setBlocked(Boolean blocked) {
         this.blocked = blocked;
+    }
+
+
+    public boolean equals(Date currDate) {
+       if(this.getDate().getYear() == currDate.getYear()){
+           if (this.getDate().getMonth() ==  currDate.getMonth()){
+               if(this.getDate().getDay() == currDate.getDay()){
+                   return true;
+               }
+           }
+       }
+       return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

@@ -35,12 +35,14 @@ body{
     border-radius: 10px;
     word-break: break-all;
 }
+
 .complexes1 td, .complexes2 td, .complexes3 td{
       text-align: center;
 }
 .complexes1, .complexes2, .complexes3{
     display: inline-block;
     width: 32%;
+    vertical-align: middle;
 }
 
 .tableComplexes1, .tableComplexes2, .tableComplexes3{

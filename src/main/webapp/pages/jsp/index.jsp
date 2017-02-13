@@ -22,7 +22,9 @@
 <div class="Main">
 
     <div class = "allComplexes">
-        <div class="head"> <font face="Comic Sans MS" size="+3" color=#4F4F4F>Меню для котиков</font></div>
+        <div class="head">
+            <font face="Comic Sans MS" size="+3" color=#4F4F4F>Меню для котиков</font>
+        </div>
 
         <div class="complexes1">
 

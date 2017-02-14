@@ -16,6 +16,24 @@ var table = ev.currentTarget;
  }
 }
 
+function onClickTable(ev) {
+    var row = ev.target.parentElement.rowIndex;
+    var cell = ev.target.cellIndex;
+    var table = ev.currentTarget;
+    var allTable = document.getElementsByTagName("table");
+    for (var j=0;j<allTable.length;j++) {
+        for (var i = 0; i < allTable[j].rows.length; i++) {
+            allTable[j].rows[i].setAttribute("class", "stroka");
+        }
+    }
+
+    if (ev.target.parentElement.tagName=="TR" & row!=0){
+    ev.target.parentElement.setAttribute("class","stroka selectColor");
+
+    }
+
+}
+
 function showCover() {
     var coverDiv = document.createElement('div');
     coverDiv.id = 'cover-div';
@@ -84,6 +102,7 @@ function loadEmployees(listEmployees) {
 
 
     });
+
 }
 
 function loadComplexes(listComplex) {
@@ -98,15 +117,22 @@ function loadComplexes(listComplex) {
 
         });
     }
+
 }
 
 function addButtonPages() {
+    var calendar = document.getElementById("dateqqqq");
     var div = document.getElementById("addEmployees-container");
     div.style.display = "block";
     var table = document.getElementsByTagName("table");
     for (var i=0;i<table.length;i++){
         table[i].setAttribute("ondblclick","dbClickTable(event)");
     }
+
+    for (var i=0;i<table.length;i++){
+        table[i].setAttribute("onclick","onClickTable(event)");
+    }
+
 
 
 
@@ -126,6 +152,16 @@ function deleteButtonPages() {
     var table = document.getElementsByTagName("table");
     for (var i=0;i<table.length;i++){
         table[i].setAttribute("ondblclick","");
+    }
+
+    for (var i=0;i<table.length;i++){
+        table[i].setAttribute("onclick","");
+    }
+
+    for (var j=0;j<allTable.length;j++) {
+        for (var i = 0; i < allTable[j].rows.length; i++) {
+            allTable[j].rows[i].setAttribute("class", "stroka");
+        }
     }
 
     var masdiv = document.getElementsByClassName("compl");
@@ -164,7 +200,10 @@ function addEmployee() {
             alert(data);
         }
     })
-
+    var table = document.getElementsByTagName("table");
+    for (var i=0;i<table.length;i++){
+        table[i].setAttribute("ondblclick","dbClickTable(event)");
+    }
 }
 
 function deleteTable() {

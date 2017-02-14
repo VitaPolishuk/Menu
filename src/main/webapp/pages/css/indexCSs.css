@@ -1,3 +1,5 @@
+
+
 /*Тело весь фон*/
 body{
     height: 3000px;
@@ -129,12 +131,17 @@ p{
 }
 .tableEmployees th{
     border:1px solid #313131 ;
+    background-color: rgba(255, 179, 66, 0.69);
 
 }
 .employees td{
     text-align: center;
     border:1px solid #313131;
 }
+.stroka:hover{
+    background-color: rgba(255, 179, 66, 0.37);
+}
+
 .employees{
     width: 100%;
 
@@ -146,9 +153,16 @@ p{
     right: -250px;
 }
 /*Заголовок и дата */
-.titleMenu, .currentDate{
+.titleMenu, .calendar{
     display: inline-block;
 }
-.currentDate{
+.calendar{
+
     padding-left: 7px;
+}
+#calendarD{
+    background-color: #fbf7f9;
+}
+.selectColor{
+    background-color: rgba(255, 179, 66, 0.69);
 }

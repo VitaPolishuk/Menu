@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/pages/css/indexCSs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/pages/js/indexjs.js"></script>
+    <script src="/pages/js/indexJs.js"></script>
 </head>
 <script>
     listEmployees = ${listEmployees};
@@ -21,12 +21,13 @@
 <body onload="loadEmployees(listEmployees); loadComplexes(listComplexes)">
 
 
+
 <div class="Main">
 
     <div class = "allComplexes">
         <div class="head">
             <div class = "titleMenu"> <font face="Comic Sans MS" size="+2.5" color=#4F4F4F>Меню для котиков на </font></div>
-            <div class = "currentDate"> <font face="Comic Sans MS" size="+2.8" color=#4F4F4F> ${currentDate}</font></div>
+            <div class = "calendar"><input type="date" id="calendarD" value="${currentDate}"></div>
         </div>
 
         <div class="complexes1">
@@ -93,11 +94,11 @@
 
 <script type="text/template" id="templateTable">
     <table id="employees" class="employees" rules="Cols">
-        <tr class="tr1 stroka">
-            <th class="tr1">№</th>
-            <th class="tr1">ФИО</th>
-            <th class="tr1">Должность</th>
-            <th class="tr1">Комплекс</th>
+        <tr >
+            <th >№</th>
+            <th >ФИО</th>
+            <th >Должность</th>
+            <th >Комплекс</th>
         </tr>
 
         {{ for (var i = 0; i < listEmployees.length; i++) { }}
@@ -115,16 +116,16 @@
 
 <script type="text/template" id="templateComplex">
 
-        <tr>
+        <tr class="stroka">
             <td>{{=listComplex.firstCourse}}</td>
         </tr>
-        <tr>
+        <tr class="stroka">
             <td>{{=listComplex.secondCourse}}</td>
         </tr>
-        <tr>
+        <tr class="stroka">
             <td>{{=listComplex.salad}}</td>
         </tr>
-        <tr>
+        <tr class="stroka">
             <td class="td1">{{=listComplex.drinks}}</td>
         </tr>
 

@@ -82,7 +82,7 @@
 </div>
 
 <div id="windowDel">
-    <button class="buttonDelete">Delete</button>
+    <button class="buttonDelete" onclick="deleteEmployees()">Delete</button>
 </div>
 
 <div class="images">
@@ -105,7 +105,7 @@
         {{ for (var i = 0; i < listEmployees.length; i++) { }}
         <tr class="tr1 stroka">
             <td class="tr1">{{= listNumber[i]}}</td>
-            <td class="tr1">{{= listEmployees[i].fio }}</td>
+            <td class="tr1" id="idEmployee" abbr="{{= listEmployees[i].idEmployee}}">{{= listEmployees[i].fio }}</td>
             <td class="tr1">{{= listEmployees[i].positionHeld }}</td>
             <td class="tr1"><input type="radio" name="{{= i}}" value="1">1
                 <input type="radio" name="{{= i}}" value="2">2

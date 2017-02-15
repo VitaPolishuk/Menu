@@ -118,6 +118,7 @@ p{
     position: fixed;
     right:20px;
     top: 100px;
+    display: none;
 }
 /*Таблица сотрудников*/
 .tableEmployees{

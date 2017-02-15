@@ -136,13 +136,10 @@ function addButtonPages() {
         table[i].setAttribute("onclick","onClickTable(event)");
     }
 
+    document.getElementById("windowDel").style.display = "block";
 
 
 
-    var masdiv = document.getElementsByClassName("compl");
-    for (var i=0;i<masdiv.length;i++){
-        masdiv[i].style.display = "block";
-    }
 
 
 
@@ -167,11 +164,8 @@ function deleteButtonPages() {
             table[j].rows[i].setAttribute("class", "stroka");
         }
     }
+    document.getElementById("windowDel").style.display = "none";
 
-    var masdiv = document.getElementsByClassName("compl");
-    for (var i=0;i<masdiv.length;i++){
-        masdiv[i].style.display = "none";
-    }
 
 }
 
@@ -211,6 +205,39 @@ function addEmployee() {
         table[i].setAttribute("ondblclick","dbClickTable(event)");
     }
 }
+
+function deleteEmployees(){
+    var allTable = document.getElementsByTagName("table");
+    for (var j=0;j<allTable.length;j++) {
+        for (var i = 0; i < allTable[j].rows.length; i++) {
+            var str = allTable[j].rows[i].getAttribute("class");
+            if (str == "stroka selectColor"){
+                var dataJson = {idEmployee: document.getElementById("idEmployee").abbr};
+            }
+        }
+    }
+        $.ajax({
+            type: "POST",
+            url: "/deleteEmployee",
+            data: JSON.stringify(dataJson),
+
+            async: false,
+            dataType: "json",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success: function (data, textStatus, jqXHR) {
+                debugger;
+                deleteTable();
+                loadEmployees(Object.keys(data),Object.values(data));
+            },
+            error: function (data) {
+                alert(data);
+            }
+        })
+    }
+
 
 function deleteTable() {
     var table = document.getElementById("employees")

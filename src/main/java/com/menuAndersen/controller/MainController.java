@@ -1,12 +1,11 @@
 package com.menuAndersen.controller;
 
 import com.google.gson.Gson;
+import com.menuAndersen.model.Complexes;
+import com.menuAndersen.model.DateAndComplexes;
 import com.menuAndersen.model.Employees;
 import com.menuAndersen.model.MyDate;
-import com.menuAndersen.service.BasicService;
-import com.menuAndersen.service.ComplexesService;
-import com.menuAndersen.service.EmployeesService;
-import com.menuAndersen.service.MyDateService;
+import com.menuAndersen.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,12 +27,16 @@ import java.util.Locale;
 @RequestMapping(value = "/")
 public class MainController {
     private static final String CONTENT_TYPE = "text/html; charset=utf-8";
-    SimpleDateFormat newDateFormat = new SimpleDateFormat("d.MM.yyyy", Locale.getDefault());
+    SimpleDateFormat newDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+    SimpleDateFormat dateFormatSQl = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     @Autowired(required = true)
     private EmployeesService employeesService;
 
     @Autowired(required = true)
     private MyDateService dateService;
+
+    @Autowired(required = true)
+    private DateAndComplexesService dateAndComplexesService;
 
     @Autowired(required = true)
     private BasicService basicService;
@@ -41,14 +45,17 @@ public class MainController {
     private ComplexesService complexesService;
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
-    public String start(Model model) {
-        addCurrDate();
-        model.addAttribute("currentDate", newDateFormat.format(new Date(System.currentTimeMillis())));
+    public String index(Model model) {
+
+        // List<Complexes> l = returnComplexByDate(myDate);
+        model.addAttribute("currentDate", new Date(System.currentTimeMillis()));
         model.addAttribute("listEmployees", new Gson().toJson(employeesService.listEmployees()));
-        model.addAttribute("listComplexes", new Gson().toJson(complexesService.listComplexes()));
+        model.addAttribute("listNumber", new Gson().toJson(listNumber(this.employeesService.listEmployees().size())));
+        model.addAttribute("listComplexes", new Gson().toJson( addCurrDate()));
         return "index";
 
     }
+
     @RequestMapping(value = "addEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -57,22 +64,71 @@ public class MainController {
 
         return new ResponseEntity<>(this.employeesService.listEmployees(), HttpStatus.OK);
     }
-    public  void addCurrDate(){
-        MyDate todayDate = new MyDate();
-        List<MyDate> myDateList = dateService.listDate();
-        System.out.println(myDateList);
-        Date currentDate = new Date(System.currentTimeMillis());
-        if (myDateList.isEmpty()) {
+
+    public List<Complexes> addCurrDate() {
+        boolean flag = true;
+
+        List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
+        Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
+        List<Complexes> listComplexes = new ArrayList<>();
+       if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
+            MyDate todayDate = new MyDate();
             todayDate.setDate(currentDate);
             dateService.addDate(todayDate);
-        } else {
-            for (MyDate date : myDateList) {
+            complexesService.addComplex(complexInit());
+            complexesService.addComplex(complexInit());
+            complexesService.addComplex(complexInit());
+            return complexesService.listComplexes();
+      }
+
+        /*else {
+            for (MyDate date : myDateList) {// проверяем есть ли в таблице текущая дата
                 if (date.equals(currentDate)) {
-                } else {
-                    todayDate.setDate(currentDate);
-                    dateService.addDate(todayDate);
+                    flag = false;
+                    break;
                 }
             }
-        }
+            if (flag) {
+                todayDate.setDate(currentDate);
+                dateService.addDate(todayDate);
+            }
+        }*/
+      else{ return null;}
     }
+
+   /* public List<Complexes> returnComplexByDate() {
+        List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
+        MyDate lastDate = myDateList.get(myDateList.size() - 1); // получила из таблицы последнюю дату
+
+        Long idCurrentDate = date.getIdDate();
+        List<DateAndComplexes> dateAndComplexesList = dateAndComplexesService.listDateComplexes();
+        List<Complexes> listComplexes = new ArrayList<>();
+        for (int i = 0; i < dateAndComplexesList.size(); i++) {
+            if (idCurrentDate == dateAndComplexesList.get(i).getIdDate().getIdDate()) {
+                Complexes complex = dateAndComplexesList.get(i).getIdComplex();
+                listComplexes.add(complex);
+            } else {
+                listComplexes.add(complexInit());
+            }
+        }
+        return listComplexes;
+    }*/
+
+    public List<Integer> listNumber(int size) {
+        List<Integer> listNumber = new ArrayList<>();
+        for (int i = 1; i < size + 1; i++) {
+            listNumber.add(i);
+        }
+        return listNumber;
+    }
+
+    public Complexes complexInit() {
+        Complexes complex = new Complexes();
+        complex.setFirstCourse("Первое");
+        complex.setSecondCourse("Второе");
+        complex.setSalad("Салат");
+        complex.setDrinks("Сок");
+        return complex;
+    }
+
 }

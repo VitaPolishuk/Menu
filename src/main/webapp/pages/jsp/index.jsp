@@ -32,20 +32,13 @@
         <div class="complexes1">
             Комплекс 1
             <table id="complex1" class="tableComplexes1">
-
             </table>
-
         </div>
-
-
         <div class="complexes2">
             Комплекс 2
             <table id="complex2" class="tableComplexes2">
             </table>
-
         </div>
-
-
         <div class="complexes3">
             Комплекс 3
             <table id="complex3" class="tableComplexes3">
@@ -69,7 +62,7 @@
 </div>
 
 <div id="addEmployees-container">
-    <p>ФИО</p> <input type="text" id="inputFIO ">
+    <p>ФИО</p> <input type="text" id="inputFIO">
     <p>Должность</p> <input type="text" id="inputPositionHeld">
     <p></p> <input type="button" value="Добавить сотрудника" id="buttonAdd" onclick="addEmployee()">
 </div>
@@ -77,16 +70,24 @@
 <div class="header">
     <div>Режим админа</div>
     <div><input id="button" type="button" value="Войти" onclick=authentication()></div>
-    <div></div>
-</div>
+    <div id="changePasswordLink"><a href="#" onclick="clickLink()">Сменить пароль</a></div>
+    <br>
+    <div id="changePassword">
+        <div>Старый пароль</div>
+        <div><input type="password" id="oldPassword" size="20px"></div>
+        <div>Новый пароль</div>
+        <div><input type="password" id="newPassword" size="20px"></div>
+        <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword()"></div>
 
-<div id="windowDel">
-    <button class="buttonDelete" onclick="deleteEmployees()">Delete</button>
-</div>
+    </div>
 
-<div class="images">
-    <img src="/pages/css/tiger.png" width="50%">
-</div>
+    <div id="windowDel">
+        <button class="buttonDelete" onclick="deleteEmployees()">Delete</button>
+    </div>
+
+    <div class="images">
+        <img src="/pages/css/tiger.png" width="50%">
+    </div>
 
 </body>
 

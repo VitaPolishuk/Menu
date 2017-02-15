@@ -1,19 +1,18 @@
-
 var password = 1;
 function dbClickTable(ev) {
-var row = ev.target.parentElement.rowIndex;
-var cell = ev.target.cellIndex;
-var table = ev.currentTarget;
- if ((table.id == "employees")&(row==0 || cell==0 || cell==3)) {
-     alert("КУДА ТЫКАЕШЬ");
-     }else {
-     table.rows[row].cells[cell].setAttribute("contenteditable", "true");
-     table.rows[row].cells[cell].focus();
-     table.rows[row].cells[cell].onblur = function () {
+    var row = ev.target.parentElement.rowIndex;
+    var cell = ev.target.cellIndex;
+    var table = ev.currentTarget;
+    if ((table.id == "employees") & (row == 0 || cell == 0 || cell == 3)) {
+        alert("КУДА ТЫКАЕШЬ");
+    } else {
+        table.rows[row].cells[cell].setAttribute("contenteditable", "true");
+        table.rows[row].cells[cell].focus();
+        table.rows[row].cells[cell].onblur = function () {
 
-         table.rows[row].cells[cell].setAttribute("contenteditable", "false");
-     }
- }
+            table.rows[row].cells[cell].setAttribute("contenteditable", "false");
+        }
+    }
 }
 
 function onClickTable(ev) {
@@ -21,17 +20,15 @@ function onClickTable(ev) {
     var cell = ev.target.cellIndex;
     var table = ev.currentTarget;
     var allTable = document.getElementsByTagName("table");
-    for (var j=0;j<allTable.length;j++) {
+    for (var j = 0; j < allTable.length; j++) {
         for (var i = 0; i < allTable[j].rows.length; i++) {
             allTable[j].rows[i].setAttribute("class", "stroka");
         }
     }
 
-    if (ev.target.parentElement.tagName=="TR" & row!=0){
-    ev.target.parentElement.setAttribute("class","stroka selectColor");
-
+    if (ev.target.parentElement.tagName == "TR" & row != 0) {
+        ev.target.parentElement.setAttribute("class", "stroka selectColor");
     }
-
 }
 
 function showCover() {
@@ -75,7 +72,7 @@ function showPrompt(text, callback) {
 function authentication() {
     var name = document.getElementById("button").value;
 
-    if (name=="Войти") {
+    if (name == "Войти") {
         showPrompt("Введите что-нибудь<br>...умное :)", function (value) {
             if (value != null) {
                 if (value == password) {
@@ -87,62 +84,48 @@ function authentication() {
             } else {
             }
         });
-    }else{
+    } else {
         document.getElementById("button").value = "Войти";
         deleteButtonPages();
     }
 }
 
-function loadEmployees(listNumber,listEmployees) {
+function loadEmployees(listNumber, listEmployees) {
 
     var template = document.getElementById('templateTable').innerHTML.trim();
     template = _.template(template);
     document.getElementById('tableEmployees').innerHTML = template({
         listEmployees: listEmployees,
-        listNumber:listNumber
-
-
+        listNumber: listNumber
     });
-
 }
 
 function loadComplexes(listComplex) {
 
     var template = document.getElementById('templateComplex').innerHTML.trim();
     template = _.template(template);
-    for (var i=0;i<listComplex.length;i++) {
-        var str = 'complex'+(i+1);
+    for (var i = 0; i < listComplex.length; i++) {
+        var str = 'complex' + (i + 1);
         document.getElementById(str).innerHTML = template({
             listComplex: listComplex[i]
-
-
         });
     }
-
 }
 
-
-
 function addButtonPages() {
-    var calendar = document.getElementById("dateqqqq");
+   //var calendar = document.getElementById("dateqqqq");
     var div = document.getElementById("addEmployees-container");
     div.style.display = "block";
     var table = document.getElementsByTagName("table");
-    for (var i=0;i<table.length;i++){
-        table[i].setAttribute("ondblclick","dbClickTable(event)");
+    for (var i = 0; i < table.length; i++) {
+        table[i].setAttribute("ondblclick", "dbClickTable(event)");
     }
-
-    for (var i=0;i<table.length;i++){
-        table[i].setAttribute("onclick","onClickTable(event)");
+    for (var i = 0; i < table.length; i++) {
+        table[i].setAttribute("onclick", "onClickTable(event)");
     }
-
     document.getElementById("windowDel").style.display = "block";
 
-
-
-
-
-
+    document.getElementById("changePasswordLink").style.display = "block";
 
 }
 
@@ -151,22 +134,29 @@ function deleteButtonPages() {
     div.style.display = "none";
     var table = document.getElementsByTagName("table");
 
-    for (var i=0;i<table.length;i++){
-        table[i].setAttribute("ondblclick","");
+    for (var i = 0; i < table.length; i++) {
+        table[i].setAttribute("ondblclick", "");
     }
 
-    for (var i=0;i<table.length;i++){
-        table[i].setAttribute("onclick","");
+    for (var i = 0; i < table.length; i++) {
+        table[i].setAttribute("onclick", "");
     }
 
-    for (var j=0;j<table.length;j++) {
+    for (var j = 0; j < table.length; j++) {
         for (var i = 0; i < table[j].rows.length; i++) {
             table[j].rows[i].setAttribute("class", "stroka");
         }
     }
     document.getElementById("windowDel").style.display = "none";
+    document.getElementById("changePasswordLink").style.display = "none";
 
+}
+function savePassword() {
+    document.getElementById("changePassword").style.display = "none";
 
+}
+function clickLink() {
+    document.getElementById("changePassword").style.display = "block";
 }
 
 function addEmployee() {
@@ -194,59 +184,59 @@ function addEmployee() {
             $("#inputFIO").val("");
             $("#inputPositionHeld").val("");
             deleteTable();
-            loadEmployees(Object.keys(data),Object.values(data));
+            loadEmployees(Object.keys(data), Object.values(data));
         },
         error: function (data) {
             alert(data);
         }
     })
     var table = document.getElementsByTagName("table");
-    for (var i=0;i<table.length;i++){
-        table[i].setAttribute("ondblclick","dbClickTable(event)");
+    for (var i = 0; i < table.length; i++) {
+        table[i].setAttribute("ondblclick", "dbClickTable(event)");
     }
 }
 
-function deleteEmployees(){
+function deleteEmployees() {
     var allTable = document.getElementsByTagName("table");
-    for (var j=0;j<allTable.length;j++) {
+    for (var j = 0; j < allTable.length; j++) {
         for (var i = 0; i < allTable[j].rows.length; i++) {
             var str = allTable[j].rows[i].getAttribute("class");
-            if (str == "stroka selectColor"){
+            if (str == "stroka selectColor") {
                 var dataJson = {idEmployee: document.getElementById("idEmployee").abbr};
             }
         }
     }
-        $.ajax({
-            type: "POST",
-            url: "/deleteEmployee",
-            data: JSON.stringify(dataJson),
+    $.ajax({
+        type: "POST",
+        url: "/deleteEmployee",
+        data: JSON.stringify(dataJson),
 
-            async: false,
-            dataType: "json",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            success: function (data, textStatus, jqXHR) {
-                debugger;
-                deleteTable();
-                loadEmployees(Object.keys(data),Object.values(data));
-            },
-            error: function (data) {
-                alert(data);
-            }
-        })
-    }
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+            debugger;
+            deleteTable();
+            loadEmployees(Object.keys(data), Object.values(data));
+        },
+        error: function (data) {
+            alert(data);
+        }
+    })
+}
 
 
 function deleteTable() {
     var table = document.getElementById("employees")
     if (table.rowIndex > 0) {
 
-    for (var i = table.rows.length - 1; i > 0; i--) {
-        table.deleteRow(i);
+        for (var i = table.rows.length - 1; i > 0; i--) {
+            table.deleteRow(i);
+        }
     }
-}
 
 }
 

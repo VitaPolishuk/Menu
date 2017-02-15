@@ -19,6 +19,17 @@ public class Employees implements Serializable {
     @Column(name = "positionHeld")
     private String positionHeld;
 
+    @Column(name = "status")
+    private Boolean status;
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
     public String getFio() {
         return fio;
     }

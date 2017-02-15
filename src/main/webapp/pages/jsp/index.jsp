@@ -72,15 +72,17 @@
     <div><input id="button" type="button" value="Войти" onclick=authentication()></div>
     <div id="changePasswordLink"><a href="#" onclick="clickLink()">Сменить пароль</a></div>
     <br>
-    <div id="changePassword">
-        <div>Старый пароль</div>
-        <div><input type="password" id="oldPassword" size="20px"></div>
-        <div>Новый пароль</div>
-        <div><input type="password" id="newPassword" size="20px"></div>
-        <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword()"></div>
 
-    </div>
 </div>
+<div id="changePassword">
+    <div>Старый пароль</div>
+    <div><input type="password" id="oldPassword" size="20px"></div>
+    <div>Новый пароль</div>
+    <div><input type="password" id="newPassword" size="20px"></div>
+    <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword()"></div>
+
+</div>
+
     <div id="windowDel">
         <button class="buttonDelete" onclick="deleteEmployees()">Delete</button>
     </div>
@@ -88,6 +90,11 @@
     <div class="images">
         <img src="/pages/css/tiger.png" width="50%">
     </div>
+
+<div id="blockPages">
+    <input type="button" value="Заблокировать меню">
+
+</div>
 
 </body>
 

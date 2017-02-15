@@ -5,7 +5,7 @@ body{
     height: 3000px;
     background-color: #ffa963;
     margin: 0;
-    min-width: 700px;
+    min-width: 1250px;
 }
 .head{
     text-align: center;
@@ -125,6 +125,9 @@ p{
 }
 #changePassword{
     display: none;
+    position: absolute;
+    top: 8%;
+    right: 2%;
 
 }
 /*Таблица сотрудников*/
@@ -173,4 +176,11 @@ p{
 }
 .selectColor{
     background-color: rgba(255, 179, 66, 0.69);
+}
+
+#blockPages{
+    position: fixed;
+    bottom: 5%;
+    left: 2%;
+    display: none;
 }

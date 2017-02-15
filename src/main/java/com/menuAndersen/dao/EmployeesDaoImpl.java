@@ -2,6 +2,7 @@ package com.menuAndersen.dao;
 
 import com.menuAndersen.model.Employees;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -40,10 +41,17 @@ public class EmployeesDaoImpl implements EmployeesDao {
 
     @Override
     public Employees getEmployee(Long id) {
-        Session session = this.sessionFactory.getCurrentSession();
-        Employees employee = (Employees) session.load(Employees.class, new Long(id));
+        String str = "select * from Employees where idEmployee="+id;
+        Query query = this.sessionFactory.getCurrentSession().createSQLQuery(str);
+      //  Session session = this.sessionFactory.getCurrentSession();
+      //  Employees employee = (Employees) session.load(Employees.class, new Long(id));
+        @SuppressWarnings("unchecked")
+        List<Employees> list = (List<Employees>) query.list();
 
-        return employee;
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
     }
 
     @Override

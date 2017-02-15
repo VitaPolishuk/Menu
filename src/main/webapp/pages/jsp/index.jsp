@@ -19,7 +19,7 @@
         escape: /{{-([\s\S]+?)}}/g
     };
 </script>
-<body onload="loadEmployees(listEmployees,listNumber); loadComplexes(listComplexes)">
+<body onload="loadEmployees(listNumber,listEmployees); loadComplexes(listComplexes)">
 
 
 

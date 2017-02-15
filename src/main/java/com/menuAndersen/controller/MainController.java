@@ -1,5 +1,7 @@
 package com.menuAndersen.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.menuAndersen.model.Complexes;
 import com.menuAndersen.model.DateAndComplexes;
@@ -19,16 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/")
 public class MainController {
     private static final String CONTENT_TYPE = "text/html; charset=utf-8";
-    SimpleDateFormat newDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-    SimpleDateFormat dateFormatSQl = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    SimpleDateFormat newDateFormat = new SimpleDateFormat("d.MM.yyyy", Locale.getDefault());
     @Autowired(required = true)
     private EmployeesService employeesService;
 
@@ -55,15 +54,35 @@ public class MainController {
         return "index";
 
     }
-
     @RequestMapping(value = "addEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseEntity<List<Employees>> addEmployee(@RequestBody Employees employees) throws SQLException {//PathVariable
+  ResponseEntity<Map<Integer,Employees>> addEmployee(@RequestBody Employees employees) throws SQLException {//PathVariable
         this.employeesService.addEmployees(employees);
+       // model.addAttribute("listNumber", new Gson().toJson(listNumber(this.employeesService.listEmployees().size())));
 
-        return new ResponseEntity<>(this.employeesService.listEmployees(), HttpStatus.OK);
+      /*  ObjectMapper mapper = new ObjectMapper();
+        String json = "";
+        try {
+            json = mapper.writeValueAsString();
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }*/
+        return new ResponseEntity<>(listInMap(listNumber(this.employeesService.listEmployees().size()),employeesService.listEmployees()),HttpStatus.OK);
+
+
     }
+
+    public Map<Integer,Employees> listInMap(List<Integer> lstN,List<Employees>lstE){
+        Map<Integer,Employees> map = new HashMap<>();
+        for (int i = 0; i < lstE.size(); i++) {
+            map.put(lstN.get(i),lstE.get(i));
+        }
+        return map;
+    }
+
+
 
     public List<Complexes> addCurrDate() {
         boolean flag = true;
@@ -79,7 +98,7 @@ public class MainController {
             complexesService.addComplex(complexInit());
             complexesService.addComplex(complexInit());
             return complexesService.listComplexes();
-      }
+     }
 
         /*else {
             for (MyDate date : myDateList) {// проверяем есть ли в таблице текущая дата

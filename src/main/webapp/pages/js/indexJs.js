@@ -93,13 +93,13 @@ function authentication() {
     }
 }
 
-function loadEmployees(listEmployees, listNumber) {
+function loadEmployees(listNumber,listEmployees) {
 
     var template = document.getElementById('templateTable').innerHTML.trim();
     template = _.template(template);
     document.getElementById('tableEmployees').innerHTML = template({
         listEmployees: listEmployees,
-        listNumber :  listNumber
+        listNumber:listNumber
 
 
     });
@@ -120,6 +120,8 @@ function loadComplexes(listComplex) {
     }
 
 }
+
+
 
 function addButtonPages() {
     var calendar = document.getElementById("dateqqqq");
@@ -151,6 +153,7 @@ function deleteButtonPages() {
     var div = document.getElementById("addEmployees-container");
     div.style.display = "none";
     var table = document.getElementsByTagName("table");
+
     for (var i=0;i<table.length;i++){
         table[i].setAttribute("ondblclick","");
     }
@@ -159,9 +162,9 @@ function deleteButtonPages() {
         table[i].setAttribute("onclick","");
     }
 
-    for (var j=0;j<allTable.length;j++) {
-        for (var i = 0; i < allTable[j].rows.length; i++) {
-            allTable[j].rows[i].setAttribute("class", "stroka");
+    for (var j=0;j<table.length;j++) {
+        for (var i = 0; i < table[j].rows.length; i++) {
+            table[j].rows[i].setAttribute("class", "stroka");
         }
     }
 
@@ -192,10 +195,12 @@ function addEmployee() {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
+
+
             $("#inputFIO").val("");
             $("#inputPositionHeld").val("");
             deleteTable();
-            loadEmployees(data);
+            loadEmployees(Object.keys(data),Object.values(data));
         },
         error: function (data) {
             alert(data);
@@ -217,3 +222,4 @@ function deleteTable() {
 }
 
 }
+

@@ -1,10 +1,7 @@
 package com.menuAndersen.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.menuAndersen.model.Complexes;
-import com.menuAndersen.model.DateAndComplexes;
 import com.menuAndersen.model.Employees;
 import com.menuAndersen.model.MyDate;
 import com.menuAndersen.service.*;
@@ -45,52 +42,47 @@ public class MainController {
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(Model model) {
-
-        // List<Complexes> l = returnComplexByDate(myDate);
         model.addAttribute("currentDate", new Date(System.currentTimeMillis()));
-        model.addAttribute("listEmployees", new Gson().toJson(employeesService.listEmployees()));
-        model.addAttribute("listNumber", new Gson().toJson(listNumber(this.employeesService.listEmployees().size())));
-        model.addAttribute("listComplexes", new Gson().toJson( addCurrDate()));
+        model.addAttribute("mapNumberEmployees", new Gson().toJson(listInMap(listNumber(this.employeesService.listEmployees().size()),employeesService.listEmployees())));
+        model.addAttribute("listComplexes", new Gson().toJson(addCurrDate()));
         return "index";
-
     }
+
     @RequestMapping(value = "addEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
-  ResponseEntity<Map<Integer,Employees>> addEmployee(@RequestBody Employees employees) throws SQLException {//PathVariable
+    ResponseEntity<Map<Integer, Employees>> addEmployee(@RequestBody Employees employees) throws SQLException {
         this.employeesService.addEmployees(employees);
-       // model.addAttribute("listNumber", new Gson().toJson(listNumber(this.employeesService.listEmployees().size())));
-
-      /*  ObjectMapper mapper = new ObjectMapper();
-        String json = "";
-        try {
-            json = mapper.writeValueAsString();
-        } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
-        return new ResponseEntity<>(listInMap(listNumber(this.employeesService.listEmployees().size()),employeesService.listEmployees()),HttpStatus.OK);
-
-
+          return new ResponseEntity<>(listInMap(listNumber(this.employeesService.listEmployees().size()), employeesService.listEmployees()), HttpStatus.OK);
+    }
+    @RequestMapping(value = "deleteEmployee", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseEntity<Map<Integer, Employees>> removeEmployees(@RequestBody Employees employees) throws SQLException {
+        this.employeesService.removeEmployees(employees.getIdEmployee());
+        return new ResponseEntity<>(listInMap(listNumber(this.employeesService.listEmployees().size()), employeesService.listEmployees()), HttpStatus.OK);
+    }
+    @RequestMapping(value = "editEmployee", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseEntity<Map<Integer, Employees>> editEmployee(@RequestBody Employees employees) throws SQLException {
+        this.employeesService.editEmployees(employees);
+        return new ResponseEntity<>(listInMap(listNumber(this.employeesService.listEmployees().size()), employeesService.listEmployees()), HttpStatus.OK);
     }
 
-    public Map<Integer,Employees> listInMap(List<Integer> lstN,List<Employees>lstE){
-        Map<Integer,Employees> map = new HashMap<>();
+    public Map<Integer, Employees> listInMap(List<Integer> lstN, List<Employees> lstE) {
+        Map<Integer, Employees> map = new HashMap<>();
         for (int i = 0; i < lstE.size(); i++) {
-            map.put(lstN.get(i),lstE.get(i));
+            map.put(lstN.get(i), lstE.get(i));
         }
         return map;
     }
 
-
-
     public List<Complexes> addCurrDate() {
-        boolean flag = true;
-
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         List<Complexes> listComplexes = new ArrayList<>();
-       if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
+        if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
             MyDate todayDate = new MyDate();
             todayDate.setDate(currentDate);
             dateService.addDate(todayDate);
@@ -98,41 +90,11 @@ public class MainController {
             complexesService.addComplex(complexInit());
             complexesService.addComplex(complexInit());
             return complexesService.listComplexes();
-     }
-
-        /*else {
-            for (MyDate date : myDateList) {// проверяем есть ли в таблице текущая дата
-                if (date.equals(currentDate)) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
-                todayDate.setDate(currentDate);
-                dateService.addDate(todayDate);
-            }
-        }*/
-      else{ return null;}
-    }
-
-   /* public List<Complexes> returnComplexByDate() {
-        List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
-        MyDate lastDate = myDateList.get(myDateList.size() - 1); // получила из таблицы последнюю дату
-
-        Long idCurrentDate = date.getIdDate();
-        List<DateAndComplexes> dateAndComplexesList = dateAndComplexesService.listDateComplexes();
-        List<Complexes> listComplexes = new ArrayList<>();
-        for (int i = 0; i < dateAndComplexesList.size(); i++) {
-            if (idCurrentDate == dateAndComplexesList.get(i).getIdDate().getIdDate()) {
-                Complexes complex = dateAndComplexesList.get(i).getIdComplex();
-                listComplexes.add(complex);
-            } else {
-                listComplexes.add(complexInit());
-            }
         }
-        return listComplexes;
-    }*/
-
+        else {
+            return null;
+        }
+    }
     public List<Integer> listNumber(int size) {
         List<Integer> listNumber = new ArrayList<>();
         for (int i = 1; i < size + 1; i++) {

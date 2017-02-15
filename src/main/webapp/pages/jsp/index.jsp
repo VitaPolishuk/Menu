@@ -8,9 +8,8 @@
     <script src="/pages/js/indexJs.js"></script>
 </head>
 <script>
-    listEmployees = ${listEmployees};
     listComplexes = ${listComplexes};
-    listNumber = ${listNumber};
+    mapNumberEmployees = ${mapNumberEmployees};
 </script>
 <script>
     _.templateSettings = {
@@ -19,16 +18,15 @@
         escape: /{{-([\s\S]+?)}}/g
     };
 </script>
-<body onload="loadEmployees(listNumber,listEmployees); loadComplexes(listComplexes)">
-
-
+<body onload="loadEmployees(Object.keys(mapNumberEmployees),Object.values(mapNumberEmployees)); loadComplexes(listComplexes)">
 
 <div class="Main">
 
-    <div class = "allComplexes">
+    <div class="allComplexes">
         <div class="head">
-            <div class = "titleMenu"> <font face="Comic Sans MS" size="+2.5" color=#4F4F4F>Меню для котиков на </font></div>
-            <div class = "calendar"><input type="date" id="calendarD" value="${currentDate}"></div>
+            <div class="titleMenu"><font face="Comic Sans MS" size="+2.5" color=#4F4F4F>Меню для котиков на </font>
+            </div>
+            <div class="calendar"><input type="date" id="calendarD" value="${currentDate}"></div>
         </div>
 
         <div class="complexes1">
@@ -54,7 +52,7 @@
             </table>
         </div>
     </div>
-<div class="tableHead"></div>
+    <div class="tableHead"></div>
     <div class="tableEmployees" id="tableEmployees">
 
     </div>
@@ -71,14 +69,15 @@
 </div>
 
 <div id="addEmployees-container">
-    <p>ФИО</p> <input type="text" id="inputFIO">
+    <p>ФИО</p> <input type="text" id="inputFIO ">
     <p>Должность</p> <input type="text" id="inputPositionHeld">
     <p></p> <input type="button" value="Добавить сотрудника" id="buttonAdd" onclick="addEmployee()">
 </div>
 
 <div class="header">
     <div>Режим админа</div>
-    <div> <input id="button" type="button" value="Войти" onclick=authentication()></div>
+    <div><input id="button" type="button" value="Войти" onclick=authentication()></div>
+    <div></div>
 </div>
 
 <div id="windowDel">
@@ -95,11 +94,11 @@
 
 <script type="text/template" id="templateTable">
     <table id="employees" class="employees" rules="Cols">
-        <tr >
-            <th >№</th>
-            <th >ФИО</th>
-            <th >Должность</th>
-            <th >Комплекс</th>
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            <th>Должность</th>
+            <th>Комплекс</th>
         </tr>
 
         {{ for (var i = 0; i < listEmployees.length; i++) { }}
@@ -117,18 +116,18 @@
 
 <script type="text/template" id="templateComplex">
 
-        <tr class="stroka">
-            <td>{{=listComplex.firstCourse}}</td>
-        </tr>
-        <tr class="stroka">
-            <td>{{=listComplex.secondCourse}}</td>
-        </tr>
-        <tr class="stroka">
-            <td>{{=listComplex.salad}}</td>
-        </tr>
-        <tr class="stroka">
-            <td class="td1">{{=listComplex.drinks}}</td>
-        </tr>
+    <tr class="stroka">
+        <td>{{=listComplex.firstCourse}}</td>
+    </tr>
+    <tr class="stroka">
+        <td>{{=listComplex.secondCourse}}</td>
+    </tr>
+    <tr class="stroka">
+        <td>{{=listComplex.salad}}</td>
+    </tr>
+    <tr class="stroka">
+        <td class="td1">{{=listComplex.drinks}}</td>
+    </tr>
 
 
 </script>

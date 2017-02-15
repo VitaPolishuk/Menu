@@ -82,7 +82,7 @@ function authentication() {
                     addButtonPages();
                     document.getElementById("button").value = "Выйти";
                 } else {
-                    alert("Не угодал ");
+                    alert("Не угадал ");
                 }
             } else {
             }

@@ -1,3 +1,4 @@
+
 var password = 1;
 function dbClickTable(ev) {
     var row = ev.target.parentElement.rowIndex;
@@ -140,6 +141,8 @@ function addButtonPages() {
     document.getElementById("windowDel").style.display = "block";
 
 
+    document.getElementById("changePasswordLink").style.display = "block";
+
 }
 
 function deleteButtonPages() {
@@ -161,8 +164,15 @@ function deleteButtonPages() {
         }
     }
     document.getElementById("windowDel").style.display = "none";
+    document.getElementById("changePasswordLink").style.display = "none";
 
+}
+function savePassword() {
+    document.getElementById("changePassword").style.display = "none";
 
+}
+function clickLink() {
+    document.getElementById("changePassword").style.display = "block";
 }
 
 function addEmployee() {
@@ -190,54 +200,49 @@ function addEmployee() {
             $("#inputFIO").val("");
             $("#inputPositionHeld").val("");
             deleteTable();
-            loadEmployees(Object.keys(data), Object.values(data));
+            loadEmployees(Object.keys(data),Object.values(data));
         },
         error: function (data) {
             alert(data);
         }
     })
     var table = document.getElementsByTagName("table");
-    for (var i = 0; i < table.length; i++) {
-        table[i].setAttribute("ondblclick", "dbClickTable(event)");
-        table[i].setAttribute("onclick", "onClickTable(event)");
+    for (var i=0;i<table.length;i++){
+        table[i].setAttribute("ondblclick","dbClickTable(event)");
     }
 }
 
-function deleteEmployees() {
-    var table = document.getElementById("employees");
-    for (var i = 0; i < table.rows.length; i++) {
-        var str = table.rows[i].getAttribute("class");
-        if (str == "stroka selectColor") {
-            var dataJson = {idEmployee: table.rows[i].cells[1].abbr};
+function deleteEmployees(){
+    var allTable = document.getElementsByTagName("table");
+    for (var j=0;j<allTable.length;j++) {
+        for (var i = 0; i < allTable[j].rows.length; i++) {
+            var str = allTable[j].rows[i].getAttribute("class");
+            if (str == "stroka selectColor"){
+                var dataJson = {idEmployee: document.getElementById("idEmployee").abbr};
+            }
         }
     }
+        $.ajax({
+            type: "POST",
+            url: "/deleteEmployee",
+            data: JSON.stringify(dataJson),
 
-    $.ajax({
-        type: "POST",
-        url: "/deleteEmployee",
-        data: JSON.stringify(dataJson),
-
-        async: false,
-        dataType: "json",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        success: function (data, textStatus, jqXHR) {
-            debugger;
-            deleteTable();
-            loadEmployees(Object.keys(data), Object.values(data));
-        },
-        error: function (data) {
-            alert(data);
-        }
-    })
-    var table = document.getElementsByTagName("table");
-    for (var i = 0; i < table.length; i++) {
-        table[i].setAttribute("ondblclick", "dbClickTable(event)");
-        table[i].setAttribute("onclick", "onClickTable(event)");
+            async: false,
+            dataType: "json",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success: function (data, textStatus, jqXHR) {
+                debugger;
+                deleteTable();
+                loadEmployees(Object.keys(data),Object.values(data));
+            },
+            error: function (data) {
+                alert(data);
+            }
+        })
     }
-}
 
 function editEmployees(table,row,cell) {
   if (cell==1){
@@ -291,10 +296,10 @@ function deleteTable() {
     var table = document.getElementById("employees")
     if (table.rowIndex > 0) {
 
-        for (var i = table.rows.length - 1; i > 0; i--) {
-            table.deleteRow(i);
-        }
+    for (var i = table.rows.length - 1; i > 0; i--) {
+        table.deleteRow(i);
     }
+}
 
 }
 

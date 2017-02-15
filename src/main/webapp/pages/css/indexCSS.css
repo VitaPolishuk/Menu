@@ -117,8 +117,15 @@ p{
 #windowDel{
     position: fixed;
     right:20px;
-    top: 100px;
+    top: 400px;
     display: none;
+}
+#changePasswordLink{
+    display: none;
+}
+#changePassword{
+    display: none;
+
 }
 /*Таблица сотрудников*/
 .tableEmployees{

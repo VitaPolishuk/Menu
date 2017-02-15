@@ -80,7 +80,7 @@
         <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword()"></div>
 
     </div>
-
+</div>
     <div id="windowDel">
         <button class="buttonDelete" onclick="deleteEmployees()">Delete</button>
     </div>

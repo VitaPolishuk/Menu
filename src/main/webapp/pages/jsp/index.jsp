@@ -10,6 +10,7 @@
 <script>
     listEmployees = ${listEmployees};
     listComplexes = ${listComplexes};
+    listNumber = ${listNumber};
 </script>
 <script>
     _.templateSettings = {
@@ -18,7 +19,7 @@
         escape: /{{-([\s\S]+?)}}/g
     };
 </script>
-<body onload="loadEmployees(listEmployees); loadComplexes(listComplexes)">
+<body onload="loadEmployees(listEmployees,listNumber); loadComplexes(listComplexes)">
 
 
 
@@ -103,7 +104,7 @@
 
         {{ for (var i = 0; i < listEmployees.length; i++) { }}
         <tr class="tr1 stroka">
-            <td class="tr1">{{= listEmployees[i].number }}</td>
+            <td class="tr1">{{= listNumber[i]}}</td>
             <td class="tr1">{{= listEmployees[i].fio }}</td>
             <td class="tr1">{{= listEmployees[i].positionHeld }}</td>
             <td class="tr1"><input type="radio" name="{{= i}}" value="1">1

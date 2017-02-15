@@ -93,12 +93,13 @@ function authentication() {
     }
 }
 
-function loadEmployees(listEmployees) {
+function loadEmployees(listEmployees, listNumber) {
 
     var template = document.getElementById('templateTable').innerHTML.trim();
     template = _.template(template);
     document.getElementById('tableEmployees').innerHTML = template({
-        listEmployees: listEmployees
+        listEmployees: listEmployees,
+        listNumber :  listNumber
 
 
     });

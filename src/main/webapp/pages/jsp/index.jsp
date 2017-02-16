@@ -8,8 +8,10 @@
     <script src="/pages/js/indexJS.js"></script>
 </head>
 <script>
+    todayDate = ${currentDate};
     listComplexes = ${listComplexes};
     listEmployees = ${listEmployees};
+    idRecordList = ${idRecordList};
 </script>
 <script>
     _.templateSettings = {
@@ -26,7 +28,7 @@
         <div class="head">
             <div class="titleMenu"><font face="Comic Sans MS" size="+2.5" color=#4F4F4F>Меню для котиков на </font>
             </div>
-            <div class="calendar"><input type="date" id="calendarD" name="${idDate}" value="${currentDate}"></div>
+            <div class="calendar"><input type="date" id="calendarD" name="idRecordList[0]" value="${currentDate}" onchange="changeDate(todayDate,this)"></div>
         </div>
 
         <div class="complexes1">
@@ -115,9 +117,9 @@
             <td class="tr1" id="idEmployee" abbr="{{= listEmployees[i].idEmployee}}">{{= listEmployees[i].fio }}</td>
             <td class="tr1">{{= listEmployees[i].positionHeld }}</td>
             <td class="tr1">
-                <input type="radio" name="{{= i}}" value="1" alt="1">1
-                <input type="radio" name="{{= i}}" value="2" alt="2">2
-                <input type="radio" name="{{= i}}" value="3" alt="3">3
+                <input type="radio" name="{{= i}}" value="1" alt="{{=idRecordList[0]}}" onclick="changeRadioButton(this)">1
+                <input type="radio" name="{{= i}}" value="2" alt="{{=idRecordList[1]}}" onclick="changeRadioButton(this)">2
+                <input type="radio" name="{{= i}}" value="3" alt="{{=idRecordList[2]}}" onclick="changeRadioButton(this)">3
         </tr>
         {{ } }}
     </table>

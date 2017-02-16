@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -76,6 +73,14 @@ public class MainController {
         return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "saveChangeComplex", method = RequestMethod.POST)
+    public @ResponseBody void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord) throws SQLException {
+        System.out.println("111111111");
+        this.basicService.setComplex(idEmployee,idRecord);
+       // this.basicService.setComplex(employees.getIdEmployee(),basic.getIdRecord());
+
+
+    }
   /*  public Map<Integer, Employees> listInMap(List<Integer> lstN, List<Employees> lstE) {
         Map<Integer, Employees> map = new HashMap<>();
         for (int i = 0; i < lstE.size(); i++) {
@@ -87,7 +92,7 @@ public class MainController {
     public void addCurrDate(Model model) {
 
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
-
+        List<Long> idRecordList = new ArrayList<>();
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
         MyDate todayDate = new MyDate();
@@ -96,7 +101,7 @@ public class MainController {
         complexesService.addComplex(complexInit());
         complexesService.addComplex(complexInit());
         complexesService.addComplex(complexInit());
-            List<Long> idRecordList = new ArrayList<>();
+
         for (int i = 0; i < complexesService.listComplexes().size(); i++) {
             DateAndComplexes dateAndComplexes = new DateAndComplexes();
             dateAndComplexes.setIdComplex(complexesService.listComplexes().get(i));
@@ -112,6 +117,7 @@ public class MainController {
          } else {
                 MyDate lastDate = compareDate(myDateList);
                 model.addAttribute("currentDate", lastDate.getDate());
+
           }
     }
 

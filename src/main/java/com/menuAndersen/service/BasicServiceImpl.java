@@ -2,6 +2,7 @@ package com.menuAndersen.service;
 
 import com.menuAndersen.dao.BasicDao;
 import com.menuAndersen.model.Basic;
+import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,5 +44,12 @@ public class BasicServiceImpl implements BasicService {
     @Transactional
     public List<Basic> listBasics() {
         return this.basicDao.listBasics();
+    }
+
+    @Override
+    @Transactional
+    public void setComplex(Long idE, Long idR) {
+       this.basicDao.setComplex(idE,idR);
+
     }
 }

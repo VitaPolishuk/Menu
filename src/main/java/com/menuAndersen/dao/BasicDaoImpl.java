@@ -3,6 +3,7 @@ package com.menuAndersen.dao;
 import com.menuAndersen.model.Basic;
 import com.menuAndersen.model.Employees;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -52,5 +53,13 @@ public class BasicDaoImpl implements BasicDao{
                 .createCriteria(Basic.class)
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         return listBasics;
+    }
+
+    @Override
+    public void setComplex(Long idE, Long idR) {
+        String sql = "update Basic set idRecord =" + idR + " where idEmployee = " + idE;
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        int rez = query.executeUpdate();
+
     }
 }

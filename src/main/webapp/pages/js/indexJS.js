@@ -315,3 +315,42 @@ function deleteTable() {
 
 }
 
+function changeRadioButton(obj) {
+
+            var dataJson = {idEmployee: obj.parentElement.parentElement.cells[1].abbr,
+                idRecord: obj.alt};
+
+
+    $.ajax({
+        type: "POST",
+        url: "/saveChangeComplex?idEmployee="+obj.parentElement.parentElement.cells[1].abbr+"&idRecord="+obj.alt,
+        //data: JSON.stringify(dataJson),
+
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+
+         //   deleteTable();
+          //  loadEmployees(data);
+        },
+        error: function (data) {
+            alert(data);
+        }
+    })
+    var table = document.getElementsByTagName("table");
+    for (var i = 0; i < table.length; i++) {
+        table[i].setAttribute("ondblclick", "dbClickTable(event)");
+        table[i].setAttribute("onclick", "onClickTable(event)");
+    }
+    
+}
+
+function changeDate(curDate,obj) {
+    alert(obj.value);
+    alert(curDate);
+    
+}

@@ -71,7 +71,7 @@
 
 <div class="header">
     <div>Режим админа</div>
-    <div><input id="button" type="button" value="Войти" onclick=authentication()></div>
+    <div><input id="button" type="button" value="Войти" onclick=authentication(${password})></div>
     <div id="changePasswordLink"><a href="#" onclick="clickLink()">Сменить пароль</a></div>
     <br>
 
@@ -81,7 +81,7 @@
     <div><input type="password" id="oldPassword" size="20px"></div>
     <div>Новый пароль</div>
     <div><input type="password" id="newPassword" size="20px"></div>
-    <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword()"></div>
+    <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword(${password})"></div>
 
 </div>
 

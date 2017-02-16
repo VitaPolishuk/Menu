@@ -54,4 +54,14 @@ public class Employees implements Serializable {
     public void setIdEmployee(Long idEmployee) {
         this.idEmployee = idEmployee;
     }
+
+    @Override
+    public String toString() {
+        return "Employees{" +
+                "idEmployee=" + idEmployee +
+                ", fio='" + fio + '\'' +
+                ", positionHeld='" + positionHeld + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

@@ -41,8 +41,8 @@ public class EmployeesDaoImpl implements EmployeesDao {
 
     @Override
     public Employees getEmployee(Long id) {
-        String str = "select * from Employees where idEmployee="+id;
-        Query query = this.sessionFactory.getCurrentSession().createSQLQuery(str);
+        String str = "from Employees where idEmployee="+id;
+        Query query = this.sessionFactory.getCurrentSession().createQuery(str);
       //  Session session = this.sessionFactory.getCurrentSession();
       //  Employees employee = (Employees) session.load(Employees.class, new Long(id));
         @SuppressWarnings("unchecked")
@@ -61,5 +61,13 @@ public class EmployeesDaoImpl implements EmployeesDao {
                 .createCriteria(Employees.class)
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         return listEmployees;
+    }
+
+    @Override
+    public void setStatus(Long id, boolean status) {
+        String sql = "update Employees set status =" + status + " where idEmployee = " + id;
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        int rez = query.executeUpdate();
+
     }
 }

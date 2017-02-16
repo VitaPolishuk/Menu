@@ -17,12 +17,9 @@ public class Basic implements Serializable {
     private Employees idEmployee;
 
     @ManyToOne
-    @JoinColumn(name = "idDate", nullable = false)
-    private MyDate idDate;
+    @JoinColumn(name = "idRecord")
+    private DateAndComplexes idRecord;
 
-    @ManyToOne
-    @JoinColumn(name = "idDateComplex", nullable = false)
-    private DateAndComplexes idDateComplex;                //возможно здесь придется поменять
 
     public Long getIdBasic() {
         return idBasic;
@@ -40,19 +37,11 @@ public class Basic implements Serializable {
         this.idEmployee = idEmployee;
     }
 
-    public MyDate getIdDate() {
-        return idDate;
+    public DateAndComplexes getIdRecord() {
+        return idRecord;
     }
 
-    public void setIdDate(MyDate idDate) {
-        this.idDate = idDate;
-    }
-
-    public DateAndComplexes getIdDateComplex() {
-        return idDateComplex;
-    }
-
-    public void setIdDateComplex(DateAndComplexes idDateComplex) {
-        this.idDateComplex = idDateComplex;
+    public void setIdRecord(DateAndComplexes idRecord) {
+        this.idRecord = idRecord;
     }
 }

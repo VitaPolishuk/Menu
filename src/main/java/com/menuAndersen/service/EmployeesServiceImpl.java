@@ -35,7 +35,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 
     @Override
     @Transactional
-    public Employees getEmployees(long id) {
+    public Employees getEmployee(long id) {
         return this.employeesDao.getEmployee(id);
     }
 
@@ -44,4 +44,10 @@ public class EmployeesServiceImpl implements EmployeesService {
     public List<Employees> listEmployees() {
         return this.employeesDao.listEmployees();
     }
+    @Override
+    @Transactional
+    public void setStatus(Long id, boolean status){
+         this.employeesDao.setStatus(id,status);
+    }
+
 }

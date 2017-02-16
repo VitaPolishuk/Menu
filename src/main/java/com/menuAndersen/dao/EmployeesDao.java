@@ -15,4 +15,5 @@ public interface EmployeesDao {
 
     public List<Employees> listEmployees();
 
+    public void setStatus(Long id, boolean status);
 }

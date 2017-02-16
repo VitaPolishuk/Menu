@@ -9,7 +9,13 @@ function dbClickTable(ev) {
         table.rows[row].cells[cell].setAttribute("contenteditable", "true");
         table.rows[row].cells[cell].focus();
 
-        table.rows[row].cells[cell].onblur = function () {
+        table.rows[row].cells[cell].onkeydown = function (event) {
+            if (event.keyCode == 13) {
+                return false;
+            }
+        }
+
+            table.rows[row].cells[cell].onblur = function () {
             if (table.id == "employees") {
                 editEmployees(table, row, cell);
             }

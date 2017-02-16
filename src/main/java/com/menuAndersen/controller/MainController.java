@@ -63,7 +63,9 @@ public class MainController {
     ResponseEntity<Map<Integer, Employees>> removeEmployees(@RequestBody Employees employees) throws SQLException {
 
 
-        Employees employees1 = this.employeesService.getEmployees(2);
+        System.out.println("ggggggggggggg");
+       this.employeesService.setStatus(Long.valueOf(2),false);
+        System.out.println("ddddddddddddddd");
 
         return new ResponseEntity<>(listInMap(listNumber(this.employeesService.listEmployees().size()), employeesService.listEmployees()), HttpStatus.OK);
     }

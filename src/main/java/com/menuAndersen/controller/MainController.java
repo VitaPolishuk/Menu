@@ -59,7 +59,8 @@ public class MainController {
     public
     @ResponseBody
     ResponseEntity<Map<Integer, Employees>> removeEmployees(@RequestBody Employees employees) throws SQLException {
-        this.employeesService.removeEmployees(employees.getIdEmployee());
+        this.employeesService.getEmployees(employees.getIdEmployee()).setStatus(false);
+        this.employeesService.editEmployees(  this.employeesService.getEmployees(employees.getIdEmployee()));
         return new ResponseEntity<>(listInMap(listNumber(this.employeesService.listEmployees().size()), employeesService.listEmployees()), HttpStatus.OK);
     }
     @RequestMapping(value = "editEmployee", method = RequestMethod.POST)
@@ -92,7 +93,7 @@ public class MainController {
             return complexesService.listComplexes();
         }
         else {
-            return null;
+            return complexesService.listComplexes();
         }
     }
     public List<Integer> listNumber(int size) {

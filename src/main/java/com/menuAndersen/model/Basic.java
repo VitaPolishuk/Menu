@@ -20,9 +20,6 @@ public class Basic implements Serializable {
     @JoinColumn(name = "idDate", nullable = false)
     private MyDate idDate;
 
-    @ManyToOne
-    @JoinColumn(name = "idDateComplex", nullable = false)
-    private DateAndComplexes idDateComplex;                //возможно здесь придется поменять
 
     public Long getIdBasic() {
         return idBasic;

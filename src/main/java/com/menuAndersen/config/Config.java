@@ -60,10 +60,10 @@ public class Config extends WebMvcConfigurerAdapter {
     public DataSource getdataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/menu?createDatabaseIfNotExist=true");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/menu?createDatabaseIfNotExist=true");//
         dataSource.setUsername("root");
-        dataSource.setPassword("1234");
-        dataSource.setValidationQuery("select 1");
+        dataSource.setPassword("root");
+
         return dataSource;
     }
 

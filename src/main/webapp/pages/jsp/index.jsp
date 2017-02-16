@@ -78,7 +78,6 @@
         <div>Новый пароль</div>
         <div><input type="password" id="newPassword" size="20px"></div>
         <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword()"></div>
-
     </div>
 </div>
     <div id="windowDel">
@@ -96,11 +95,11 @@
 <script type="text/template" id="templateTable">
     <table id="employees" class="employees" rules="Cols">
         <tr>
-            <th>№</th>
-            <th>ФИО</th>
-            <th>Должность</th>
-            <th>Комплекс</th>
-        </tr>
+        <th>№</th>
+        <th>ФИО</th>
+        <th>Должность</th>
+        <th>Комплекс</th>
+    </tr>
 
         {{ for (var i = 0; i < listEmployees.length; i++) { }}
         <tr class="tr1 stroka">

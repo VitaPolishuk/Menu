@@ -170,7 +170,7 @@ function addEmployee() {
     var dataJson = {
         fio: document.getElementById("inputFIO").value,
         positionHeld: document.getElementById("inputPositionHeld").value,
-
+        status : true
     };
 
     $.ajax({
@@ -209,7 +209,7 @@ function deleteEmployees() {
     for (var i = 0; i < table.rows.length; i++) {
         var str = table.rows[i].getAttribute("class");
         if (str == "stroka selectColor") {
-            var dataJson = {idEmployee: table.rows[i].cells[1].abbr};
+            var dataJson = {idEmployee: table.rows[i].cells[1].abbr };
         }
     }
 
@@ -254,9 +254,6 @@ function editEmployees(table,row,cell) {
           positionHeld:  table.rows[row].cells[cell].innerHTML
       };
   }
-
-
-
     $.ajax({
         type: "POST",
         url: "/editEmployee",

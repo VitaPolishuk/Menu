@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "complexes")
-public class Complexes  implements Serializable {
+public class Complexes implements Serializable {
     @Id
     @Column(name = "idComplex")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

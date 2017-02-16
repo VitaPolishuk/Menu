@@ -9,7 +9,7 @@
 </head>
 <script>
     listComplexes = ${listComplexes};
-    mapNumberEmployees = ${mapNumberEmployees};
+    listEmployees = ${listEmployees};
 </script>
 <script>
     _.templateSettings = {
@@ -18,7 +18,7 @@
         escape: /{{-([\s\S]+?)}}/g
     };
 </script>
-<body onload="loadEmployees(Object.keys(mapNumberEmployees),Object.values(mapNumberEmployees)); loadComplexes(listComplexes)">
+<body onload="loadEmployees(listEmployees); loadComplexes(listComplexes)">
 
 <div class="Main">
 

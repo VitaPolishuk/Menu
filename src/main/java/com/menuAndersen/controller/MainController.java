@@ -42,7 +42,7 @@ public class MainController {
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(Model model) {
         model.addAttribute("currentDate", new Date(System.currentTimeMillis()));
-        model.addAttribute("mapNumberEmployees", new Gson().toJson(listInMap(listNumber(listEmployeesTrue().size()), listEmployeesTrue())));
+        model.addAttribute("listEmployees", new Gson().toJson(listEmployeesTrue()));
         model.addAttribute("listComplexes", new Gson().toJson(addCurrDate()));
         addEmplBasic();
         return "index";
@@ -51,40 +51,38 @@ public class MainController {
     @RequestMapping(value = "addEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseEntity<Map<Integer, Employees>> addEmployee(@RequestBody Employees employees) throws SQLException {
+    ResponseEntity<List<Employees>> addEmployee(@RequestBody Employees employees) throws SQLException {
         employees.setStatus(true);
         this.employeesService.addEmployees(employees);
-        return new ResponseEntity<>(listInMap(listNumber(this.employeesService.listEmployees().size()), employeesService.listEmployees()), HttpStatus.OK);
+        return new ResponseEntity<>( listEmployeesTrue(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "deleteEmployee", method = RequestMethod.POST)
     public
-    @ResponseBody
-    ResponseEntity<Map<Integer, Employees>> removeEmployees(@RequestBody Employees employees) throws SQLException {
+    @ResponseBody    ResponseEntity<List<Employees>> removeEmployees(@RequestBody Employees employees) throws SQLException {
 
 
-        System.out.println("ggggggggggggg");
-       this.employeesService.setStatus(Long.valueOf(2),false);
-        System.out.println("ddddddddddddddd");
+       this.employeesService.setStatus(employees.getIdEmployee(),false);
 
-        return new ResponseEntity<>(listInMap(listNumber(this.employeesService.listEmployees().size()), employeesService.listEmployees()), HttpStatus.OK);
+
+        return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "editEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseEntity<Map<Integer, Employees>> editEmployee(@RequestBody Employees employees) throws SQLException {
+    ResponseEntity<List<Employees>> editEmployee(@RequestBody Employees employees) throws SQLException {
         this.employeesService.editEmployees(employees);
-        return new ResponseEntity<>(listInMap(listNumber(this.employeesService.listEmployees().size()), employeesService.listEmployees()), HttpStatus.OK);
+        return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
     }
 
-    public Map<Integer, Employees> listInMap(List<Integer> lstN, List<Employees> lstE) {
+  /*  public Map<Integer, Employees> listInMap(List<Integer> lstN, List<Employees> lstE) {
         Map<Integer, Employees> map = new HashMap<>();
         for (int i = 0; i < lstE.size(); i++) {
             map.put(lstN.get(i), lstE.get(i));
         }
         return map;
-    }
+    }*/
 
     public List<Complexes> addCurrDate() {
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
@@ -109,13 +107,13 @@ public class MainController {
           }
     }
 
-    public List<Integer> listNumber(int size) {
+   /* public List<Integer> listNumber(int size) {
         List<Integer> listNumber = new ArrayList<>();
         for (int i = 1; i < size + 1; i++) {
             listNumber.add(i);
         }
         return listNumber;
-    }
+    }*/
 
     public Complexes complexInit() {
         Complexes complex = new Complexes();

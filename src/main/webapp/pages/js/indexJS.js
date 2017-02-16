@@ -101,13 +101,13 @@ function authentication() {
     }
 }
 
-function loadEmployees(listNumber, listEmployees) {
+function loadEmployees(listEmployees) {
 
     var template = document.getElementById('templateTable').innerHTML.trim();
     template = _.template(template);
     document.getElementById('tableEmployees').innerHTML = template({
-        listEmployees: listEmployees,
-        listNumber: listNumber
+        listEmployees: listEmployees
+
 
 
     });
@@ -207,7 +207,7 @@ function addEmployee() {
             $("#inputFIO").val("");
             $("#inputPositionHeld").val("");
             deleteTable();
-            loadEmployees(Object.keys(data), Object.values(data));
+            loadEmployees(data);
         },
         error: function (data) {
             alert(data);
@@ -244,7 +244,7 @@ function deleteEmployees() {
         success: function (data, textStatus, jqXHR) {
             debugger;
             deleteTable();
-            loadEmployees(Object.keys(data), Object.values(data));
+            loadEmployees(data);
         },
         error: function (data) {
             alert(data);
@@ -289,7 +289,7 @@ function editEmployees(table, row, cell) {
             $("#Tname").val("");
             $("#Temail").val("");
             deleteTable();
-            loadEmployees(Object.keys(data), Object.values(data));
+            loadEmployees(data);
 
         },
         error: function (data) {

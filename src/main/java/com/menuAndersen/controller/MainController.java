@@ -54,6 +54,7 @@ public class MainController {
     ResponseEntity<List<Employees>> addEmployee(@RequestBody Employees employees) throws SQLException {
         employees.setStatus(true);
         this.employeesService.addEmployees(employees);
+        addEmplBasic(employees);
         return new ResponseEntity<>( listEmployeesTrue(), HttpStatus.OK);
     }
 
@@ -136,11 +137,19 @@ public class MainController {
     }
 
     public void addEmplBasic() {
-        List<Employees> employeesList = listEmployeesTrue();
+        List<Employees> employeesList = employeesService.listEmployees();
         for (Employees employee : employeesList) {
             Basic basicTable = new Basic();
             basicTable.setIdEmployee(employee);
             basicService.addBasic(basicTable);
         }
+    }
+    public void addEmplBasic(Employees employees) {
+
+
+            Basic basicTable = new Basic();
+            basicTable.setIdEmployee(employees);
+            basicService.addBasic(basicTable);
+
     }
 }

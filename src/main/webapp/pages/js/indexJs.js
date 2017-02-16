@@ -1,4 +1,4 @@
-var password = 1;
+
 function dbClickTable(ev) {
     var row = ev.target.parentElement.rowIndex;
     var cell = ev.target.cellIndex;
@@ -80,7 +80,7 @@ function showPrompt(text, callback) {
     form.elements.text.focus();
 }
 
-function authentication() {
+function authentication(password) {
     var name = document.getElementById("button").value;
 
     if (name == "Войти") {
@@ -174,8 +174,34 @@ function deleteButtonPages() {
     document.getElementById("blockPages").style.display = "none";
 
 }
-function savePassword() {
-    document.getElementById("changePassword").style.display = "none";
+function savePassword(password) {
+
+    if(document.getElementById("oldPassword").value == password){
+        var dataJson = {
+            password: document.getElementById("newPassword").value,
+            idPassword : 1
+        };
+        $.ajax({
+            type: "POST",
+            url: "/changePassword",
+            data: JSON.stringify(dataJson),
+            async: false,
+            dataType: "json",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success: function (data, textStatus, jqXHR) {
+                alert(data);
+                $("#oldPassword").val("");
+                $("#newPassword").val("");
+                document.getElementById("changePassword").style.display = "none";
+            }
+        })
+    }
+    else{alert("Неверный старый пароль!");
+        $("#oldPassword").val("");
+        $("#newPassword").val("");}
 
 }
 function clickLink() {

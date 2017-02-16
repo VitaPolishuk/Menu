@@ -1,7 +1,6 @@
 package com.menuAndersen.controller;
 
 import com.google.gson.Gson;
-import com.menuAndersen.dao.DateAndComplexesDao;
 import com.menuAndersen.model.*;
 import com.menuAndersen.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +38,14 @@ public class MainController {
     @Autowired(required = true)
     private ComplexesService complexesService;
 
+    @Autowired(required = true)
+    private PasswordService passwordService;
+
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(Model model) {
         addCurrDate(model);
-
         addEmplBasic();
+        model.addAttribute("password",this.passwordService.getPassword(Long.valueOf(1)).getPassword());
         return "index";
     }
 
@@ -74,6 +76,13 @@ public class MainController {
     ResponseEntity<List<Employees>> editEmployee(@RequestBody Employees employees) throws SQLException {
         this.employeesService.editEmployees(employees);
         return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
+    }
+    @RequestMapping(value = "changePassword", method = RequestMethod.POST)
+    public
+    String changePassword(@RequestBody Password password) throws SQLException {
+        System.out.println(password.getIdPassword() + "   "+ password.getPassword());
+       this.passwordService.editPassword(password);
+       return "Пароль успешно изменен!";
     }
 
   /*  public Map<Integer, Employees> listInMap(List<Integer> lstN, List<Employees> lstE) {

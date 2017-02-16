@@ -43,8 +43,6 @@ public class EmployeesDaoImpl implements EmployeesDao {
     public Employees getEmployee(Long id) {
         String str = "from Employees where idEmployee="+id;
         Query query = this.sessionFactory.getCurrentSession().createQuery(str);
-      //  Session session = this.sessionFactory.getCurrentSession();
-      //  Employees employee = (Employees) session.load(Employees.class, new Long(id));
         @SuppressWarnings("unchecked")
         List<Employees> list = (List<Employees>) query.list();
 

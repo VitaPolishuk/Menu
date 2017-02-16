@@ -7,9 +7,9 @@ import java.io.Serializable;
 @Table(name = "dateAndComplexes")
 public class DateAndComplexes implements Serializable {
     @Id
-    @Column(name = "idDateComplex")
+    @Column(name = "idRecord")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idDateComplex;
+    private Long idRecord;
 
    @ManyToOne
     @JoinColumn(name = "idDate", nullable = false)
@@ -19,15 +19,15 @@ public class DateAndComplexes implements Serializable {
     @JoinColumn(name = "idComplex", nullable = false)
     private Complexes idComplex;
 
-    public Long getIdDateComplex() {
-        return idDateComplex;
+    public Long getIdRecord() {
+        return idRecord;
     }
 
-    public void setIdDateComplex(Long idDateComplex) {
-        this.idDateComplex = idDateComplex;
+    public void setIdRecord(Long idRecord) {
+        this.idRecord = idRecord;
     }
 
-   public MyDate getIdDate() {
+    public MyDate getIdDate() {
         return idDate;
     }
 

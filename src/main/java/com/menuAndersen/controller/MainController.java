@@ -41,9 +41,8 @@ public class MainController {
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("currentDate", new Date(System.currentTimeMillis()));
-        model.addAttribute("listEmployees", new Gson().toJson(listEmployeesTrue()));
-        model.addAttribute("listComplexes", new Gson().toJson(addCurrDate()));
+        addCurrDate(model);
+
         addEmplBasic();
         return "index";
     }
@@ -85,10 +84,11 @@ public class MainController {
         return map;
     }*/
 
-    public List<Complexes> addCurrDate() {
-        List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
-        Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
+    public void addCurrDate(Model model) {
 
+        List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
+
+        Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
         MyDate todayDate = new MyDate();
         todayDate.setDate(currentDate);
@@ -96,25 +96,25 @@ public class MainController {
         complexesService.addComplex(complexInit());
         complexesService.addComplex(complexInit());
         complexesService.addComplex(complexInit());
+            List<Long> idRecordList = new ArrayList<>();
         for (int i = 0; i < complexesService.listComplexes().size(); i++) {
             DateAndComplexes dateAndComplexes = new DateAndComplexes();
             dateAndComplexes.setIdComplex(complexesService.listComplexes().get(i));
             dateAndComplexes.setIdDate(dateService.listDate().get(0));
             dateAndComplexesService.addDateComplex(dateAndComplexes);
+            idRecordList.add(dateAndComplexes.getIdRecord());
         }
-        return complexesService.listComplexes();
+            model.addAttribute("currentDate", currentDate);
+            model.addAttribute("listEmployees", new Gson().toJson(listEmployeesTrue()));
+            model.addAttribute("listComplexes", new Gson().toJson(complexesService.listComplexes()));
+            model.addAttribute("idRecordList", new Gson().toJson(idRecordList));
+
          } else {
-              return null;
+                MyDate lastDate = compareDate(myDateList);
+                model.addAttribute("currentDate", lastDate.getDate());
           }
     }
 
-   /* public List<Integer> listNumber(int size) {
-        List<Integer> listNumber = new ArrayList<>();
-        for (int i = 1; i < size + 1; i++) {
-            listNumber.add(i);
-        }
-        return listNumber;
-    }*/
 
     public Complexes complexInit() {
         Complexes complex = new Complexes();
@@ -146,10 +146,17 @@ public class MainController {
     }
     public void addEmplBasic(Employees employees) {
 
-
             Basic basicTable = new Basic();
             basicTable.setIdEmployee(employees);
             basicService.addBasic(basicTable);
-
+    }
+    public MyDate compareDate(List<MyDate> listDate){
+        MyDate dateMax = listDate.get(0);
+        for(MyDate dI:listDate){
+         if(dI.getDate().compareTo(dateMax.getDate())>0){
+             dateMax = dI;
+         }
+        }
+        return dateMax;
     }
 }

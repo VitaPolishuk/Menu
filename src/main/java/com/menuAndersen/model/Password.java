@@ -11,7 +11,7 @@ public class Password implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPassword;
 
-    @Column(name = "password")
+    @Column(name = "password", columnDefinition = "varchar(15) default '6'")
     private String password;
 
     public Long getIdPassword() {

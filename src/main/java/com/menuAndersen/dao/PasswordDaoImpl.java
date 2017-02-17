@@ -17,9 +17,9 @@ public class PasswordDaoImpl implements PasswordDao{
         this.sessionFactory = sessionFactory;
     }
     @Override
-    public void addPassword(Password password) {
-        Session session = this.sessionFactory.getCurrentSession();
-        session.persist(password);
+    public void addPassword() {
+        Query query = this.sessionFactory.getCurrentSession().createSQLQuery("insert into Password values()");
+        query.executeUpdate();
     }
     @Override
     public void editPassword(Password password) {

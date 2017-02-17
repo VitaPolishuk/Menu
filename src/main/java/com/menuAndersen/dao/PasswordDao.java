@@ -4,7 +4,7 @@ package com.menuAndersen.dao;
 import com.menuAndersen.model.Password;
 
 public interface PasswordDao {
-    public void addPassword(Password password);
+    public void addPassword();
 
     public void editPassword(Password password);
 

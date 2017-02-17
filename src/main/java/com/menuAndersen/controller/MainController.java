@@ -42,7 +42,6 @@ public class MainController {
     public String index(Model model) {
         addCurrDate(model);
         addEmplBasic();
-
         model.addAttribute("password",this.passwordService.getPassword(Long.valueOf(1)).getPassword());
         return "index";
     }
@@ -87,22 +86,14 @@ public class MainController {
     public @ResponseBody void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord) throws SQLException {
         System.out.println("111111111");
         this.basicService.setComplex(idEmployee,idRecord);
-       // this.basicService.setComplex(employees.getIdEmployee(),basic.getIdRecord());
-
-
     }
-  /*  public Map<Integer, Employees> listInMap(List<Integer> lstN, List<Employees> lstE) {
-        Map<Integer, Employees> map = new HashMap<>();
-        for (int i = 0; i < lstE.size(); i++) {
-            map.put(lstN.get(i), lstE.get(i));
-        }
-        return map;
-    }*/
+
 
     public void addCurrDate(Model model) {
 
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
         List<Long> idRecordList = new ArrayList<>();
+        this.passwordService.addPassword();
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
         MyDate todayDate = new MyDate();
@@ -127,7 +118,6 @@ public class MainController {
          } else {
                 MyDate lastDate = compareDate(myDateList);
                 model.addAttribute("currentDate", lastDate.getDate());
-
           }
     }
 

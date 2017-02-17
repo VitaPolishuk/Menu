@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/pages/css/indexCSS.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/pages/js/indexJS.js"></script>
+    <script src="/pages/js/indexJs.js"></script>
 </head>
 <script>
     todayDate = ${currentDate};

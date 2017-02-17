@@ -29,4 +29,8 @@ public class Password implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    @PostLoad
+    void preInsert() {
+        setPassword( "6" ); 
+    }
 }

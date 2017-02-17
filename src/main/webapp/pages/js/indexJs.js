@@ -192,12 +192,13 @@ function savePassword(password) {
                 'Content-Type': 'application/json'
             },
             success: function (data, textStatus, jqXHR) {
-                alert(data);
-                $("#oldPassword").val("");
-                $("#newPassword").val("");
-                document.getElementById("changePassword").style.display = "none";
+
             }
         })
+        alert("Пароль успешно изменен!")
+        $("#oldPassword").val("");
+        $("#newPassword").val("");
+        document.getElementById("changePassword").style.display = "none";
     }
     else{alert("Неверный старый пароль!");
         $("#oldPassword").val("");

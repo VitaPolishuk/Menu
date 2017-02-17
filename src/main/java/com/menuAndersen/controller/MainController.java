@@ -42,6 +42,7 @@ public class MainController {
     public String index(Model model) {
         addCurrDate(model);
         addEmplBasic();
+
         model.addAttribute("password",this.passwordService.getPassword(Long.valueOf(1)).getPassword());
         return "index";
     }
@@ -76,10 +77,10 @@ public class MainController {
     }
     @RequestMapping(value = "changePassword", method = RequestMethod.POST)
     public
-    String changePassword(@RequestBody Password password) throws SQLException {
+    void changePassword(@RequestBody Password password) throws SQLException {
         System.out.println(password.getIdPassword() + "   "+ password.getPassword());
        this.passwordService.editPassword(password);
-       return "Пароль успешно изменен!";
+
     }
 
     @RequestMapping(value = "saveChangeComplex", method = RequestMethod.POST)

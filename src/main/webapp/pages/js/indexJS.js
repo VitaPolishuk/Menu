@@ -1,4 +1,3 @@
-
 function dbClickTable(ev) {
     var row = ev.target.parentElement.rowIndex;
     var cell = ev.target.cellIndex;
@@ -15,7 +14,7 @@ function dbClickTable(ev) {
             }
         }
 
-            table.rows[row].cells[cell].onblur = function () {
+        table.rows[row].cells[cell].onblur = function () {
             if (table.id == "employees") {
                 editEmployees(table, row, cell);
             }
@@ -109,7 +108,6 @@ function loadEmployees(listEmployees) {
         listEmployees: listEmployees
 
 
-
     });
 
 }
@@ -174,17 +172,134 @@ function deleteButtonPages() {
     document.getElementById("blockPages").style.display = "none";
 
 }
-function savePassword(password) {
 
-    if(document.getElementById("oldPassword").value == password){
+function checkoldPassword() {
+    var oldPassword = document.getElementById("oldPassword");
+    oldPassword.setAttribute("class", "");
+    if (oldPassword.value = "Заполните поле"){
+        oldPassword.value = "";
+        oldPassword.type = "password";
+    }
+    oldPassword.onblur = function () {
+        if (oldPassword.value == "") {
+            oldPassword.setAttribute("class", "oldPassword");
+            oldPassword.value = "Заполните поле";
+            oldPassword.type = "text";
+        }
+    }
+
+}
+
+function checknewPassword() {
+    var newPassword = document.getElementById("newPassword");
+    newPassword.setAttribute("class", "");
+    if ((newPassword.value = "Заполните поле")) {
+        newPassword.value = "";
+        newPassword.type = "password";
+    }
+    newPassword.onblur = function () {
+        if (newPassword.value == "") {
+            newPassword.setAttribute("class", "newPassword");
+            newPassword.value = "Заполните поле";
+            newPassword.type = "text";
+        }
+    }
+}
+
+
+
+
+function savePassword(password) {
+    var oldPassword = document.getElementById("oldPassword");
+    var newPassword = document.getElementById("newPassword");
+    if (oldPassword.className == "" && newPassword.className == "") {
+
+        if (document.getElementById("oldPassword").value == password) {
+            var dataJson = {
+                password: document.getElementById("newPassword").value,
+                idPassword: 1
+            };
+            $.ajax({
+                type: "POST",
+                url: "/changePassword",
+                data: JSON.stringify(dataJson),
+                async: false,
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function (data, textStatus, jqXHR) {
+
+                }
+            })
+            alert("Пароль успешно изменен!")
+            $("#oldPassword").val("");
+            $("#newPassword").val("");
+            document.getElementById("changePassword").style.display = "none";
+        }
+        else {
+            alert("Неверный старый пароль!");
+            $("#oldPassword").val("");
+            $("#newPassword").val("");
+        }
+    }
+
+}
+function clickLink() {
+    document.getElementById("changePassword").style.display = "block";
+}
+
+
+function checkFIO() {
+    var inputFIO = document.getElementById("inputFIO");
+    inputFIO.setAttribute("class", "");
+    if (inputFIO.value = "Введите ФИО"){
+        inputFIO.value = "";
+    }
+    inputFIO.onblur = function () {
+        if (inputFIO.value == "") {
+            inputFIO.setAttribute("class", "inputFIO");
+            inputFIO.value = "Введите ФИО";
+        }
+    }
+
+}
+
+function checkPositionHeld() {
+    var inputPositionHeld = document.getElementById("inputPositionHeld");
+    inputPositionHeld.setAttribute("class", "");
+    if ((inputPositionHeld.value = "Введите должность")) {
+        inputPositionHeld.value = "";
+    }
+    inputPositionHeld.onblur = function () {
+        if (inputPositionHeld.value == "") {
+            inputPositionHeld.setAttribute("class", "inputPositionHeld");
+            inputPositionHeld.value = "Введите должность";
+        }
+    }
+}
+
+
+function addEmployee() {
+    var inputFIO = document.getElementById("inputFIO");
+    var inputPositionHeld = document.getElementById("inputPositionHeld");
+
+    if (inputFIO.className == "" && inputPositionHeld.className == "") {
+
+
         var dataJson = {
-            password: document.getElementById("newPassword").value,
-            idPassword : 1
+            fio: inputFIO.value,
+            positionHeld: inputPositionHeld.value
+
         };
+
         $.ajax({
             type: "POST",
-            url: "/changePassword",
-            data: JSON.stringify(dataJson),
+            url: "/addEmployee",
+            data: JSON.stringify(dataJson)
+
+            ,
             async: false,
             dataType: "json",
             headers: {
@@ -192,58 +307,21 @@ function savePassword(password) {
                 'Content-Type': 'application/json'
             },
             success: function (data, textStatus, jqXHR) {
+                $("#inputFIO").val("");
+                $("#inputPositionHeld").val("");
 
+                deleteTable();
+                loadEmployees(data);
+            },
+            error: function (data) {
+                alert(data);
             }
         })
-        alert("Пароль успешно изменен!")
-        $("#oldPassword").val("");
-        $("#newPassword").val("");
-        document.getElementById("changePassword").style.display = "none";
-    }
-    else{alert("Неверный старый пароль!");
-        $("#oldPassword").val("");
-        $("#newPassword").val("");}
-
-}
-function clickLink() {
-    document.getElementById("changePassword").style.display = "block";
-}
-
-function addEmployee() {
-    var dataJson = {
-        fio: document.getElementById("inputFIO").value,
-        positionHeld: document.getElementById("inputPositionHeld").value
-
-    };
-
-    $.ajax({
-        type: "POST",
-        url: "/addEmployee",
-        data: JSON.stringify(dataJson)
-
-        ,
-        async: false,
-        dataType: "json",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        success: function (data, textStatus, jqXHR) {
-
-
-            $("#inputFIO").val("");
-            $("#inputPositionHeld").val("");
-            deleteTable();
-            loadEmployees(data);
-        },
-        error: function (data) {
-            alert(data);
+        var table = document.getElementsByTagName("table");
+        for (var i = 0; i < table.length; i++) {
+            table[i].setAttribute("ondblclick", "dbClickTable(event)");
+            table[i].setAttribute("onclick", "onClickTable(event)");
         }
-    })
-    var table = document.getElementsByTagName("table");
-    for (var i = 0; i < table.length; i++) {
-        table[i].setAttribute("ondblclick", "dbClickTable(event)");
-        table[i].setAttribute("onclick", "onClickTable(event)");
     }
 }
 
@@ -269,7 +347,6 @@ function deleteEmployees() {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
-            debugger;
             deleteTable();
             loadEmployees(data);
         },
@@ -313,8 +390,7 @@ function editEmployees(table, row, cell) {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
-            $("#Tname").val("");
-            $("#Temail").val("");
+
             deleteTable();
             loadEmployees(data);
 
@@ -344,13 +420,15 @@ function deleteTable() {
 
 function changeRadioButton(obj) {
 
-            var dataJson = {idEmployee: obj.parentElement.parentElement.cells[1].abbr,
-                idRecord: obj.alt};
+    var dataJson = {
+        idEmployee: obj.parentElement.parentElement.cells[1].abbr,
+        idRecord: obj.alt
+    };
 
 
     $.ajax({
         type: "POST",
-        url: "/saveChangeComplex?idEmployee="+obj.parentElement.parentElement.cells[1].abbr+"&idRecord="+obj.alt,
+        url: "/saveChangeComplex?idEmployee=" + obj.parentElement.parentElement.cells[1].abbr + "&idRecord=" + obj.alt,
         //data: JSON.stringify(dataJson),
 
         async: false,
@@ -358,14 +436,6 @@ function changeRadioButton(obj) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-        },
-        success: function (data, textStatus, jqXHR) {
-
-         //   deleteTable();
-          //  loadEmployees(data);
-        },
-        error: function (data) {
-            alert(data);
         }
     })
     var table = document.getElementsByTagName("table");
@@ -373,11 +443,19 @@ function changeRadioButton(obj) {
         table[i].setAttribute("ondblclick", "dbClickTable(event)");
         table[i].setAttribute("onclick", "onClickTable(event)");
     }
-    
+
 }
 
-function changeDate(curDate,obj) {
-    alert(obj.value);
-    alert(curDate);
-    
+function changeDate(obj) {
+    var selectedDate = obj.value;
+    var curDate = obj.alt;
+    var admin = document.getElementById("button").value;
+
+    if (adnim == "Войти") {
+
+    } else {
+
+    }
+
+
 }

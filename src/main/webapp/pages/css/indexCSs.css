@@ -174,13 +174,32 @@ p{
 #calendarD{
     background-color: #fbf7f9;
 }
+/*Выбор строки в таблице*/
 .selectColor{
     background-color: rgba(255, 179, 66, 0.69);
 }
-
+/*Кнопка блокировки*/
 #blockPages{
     position: fixed;
     bottom: 5%;
     left: 2%;
     display: none;
+}
+/*Стили для полей ввода*/
+.inputFIO{
+    border: 3px solid red;
+    color: rgba(0, 0, 0, 0.22);
+}
+.inputPositionHeld{
+    border: 3px solid red;
+    color: rgba(0, 0, 0, 0.22);
+}
+
+.oldPassword{
+    border: 3px solid red;
+    color: rgba(0, 0, 0, 0.22);
+}
+.newPassword{
+    border: 3px solid red;
+    color: rgba(0, 0, 0, 0.22);
 }

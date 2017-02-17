@@ -23,6 +23,17 @@ public class Complexes  implements Serializable {
     @Column(name = "drinks") // напитки
     private String drinks;
 
+    @Column(name = "number") // номер
+    private int number;
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
     public Long getIdComplex() {
         return idComplex;
     }

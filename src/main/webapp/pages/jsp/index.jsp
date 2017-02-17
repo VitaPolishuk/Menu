@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Меню</title>
-    <link rel="stylesheet" href="/pages/css/indexCSS.css">
+    <link rel="stylesheet" href="/pages/css/indexCSs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/pages/js/indexJs.js"></script>
+    <script src="/pages/js/indexJS.js"></script>
 </head>
 <script>
-    todayDate = ${currentDate};
+
     listComplexes = ${listComplexes};
     listEmployees = ${listEmployees};
     idRecordList = ${idRecordList};
@@ -28,7 +28,7 @@
         <div class="head">
             <div class="titleMenu"><font face="Comic Sans MS" size="+2.5" color=#4F4F4F>Меню для котиков на </font>
             </div>
-            <div class="calendar"><input type="date" id="calendarD" name="idRecordList[0]" value="${currentDate}" onchange="changeDate(todayDate,this)"></div>
+            <div class="calendar"><input type="date" id="calendarD" name="idRecordList[0]" value="${currentDate}" alt="${currentDate}" onchange="changeDate(this)"></div>
         </div>
 
         <div class="complexes1">
@@ -64,10 +64,11 @@
 </div>
 
 <div id="addEmployees-container">
-    <p>ФИО</p> <input type="text" id="inputFIO">
-    <p>Должность</p> <input type="text" id="inputPositionHeld">
-    <p></p> <input type="button" value="Добавить сотрудника" id="buttonAdd" onclick="addEmployee()">
+    <p>ФИО</p> <input type="text"  class="" id="inputFIO" onclick="checkFIO()" >
+    <p>Должность</p> <input type="text" class="" id="inputPositionHeld" onclick="checkPositionHeld()" >
+    <p></p> <input type="submit" value="Добавить сотрудника" id="buttonAdd" onclick="addEmployee()">
 </div>
+
 
 <div class="header">
     <div>Режим админа</div>
@@ -78,9 +79,9 @@
 </div>
 <div id="changePassword">
     <div>Старый пароль</div>
-    <div><input type="password" id="oldPassword" size="20px"></div>
+    <div><input type="password" class="" id="oldPassword" size="20px" onclick="checkoldPassword()"></div>
     <div>Новый пароль</div>
-    <div><input type="password" id="newPassword" size="20px"></div>
+    <div><input type="password"  class="" id="newPassword" size="20px" onclick="checknewPassword()"></div>
     <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword(${password})"></div>
 
 </div>

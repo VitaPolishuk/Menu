@@ -42,6 +42,7 @@ public class MainController {
     public String index(Model model) {
         addCurrDate(model);
         addEmplBasic();
+
         model.addAttribute("password",this.passwordService.getPassword(Long.valueOf(1)).getPassword());
         return "index";
     }
@@ -83,9 +84,13 @@ public class MainController {
     }
 
     @RequestMapping(value = "saveChangeComplex", method = RequestMethod.POST)
-    public @ResponseBody void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord) throws SQLException {
-        System.out.println("111111111");
-        this.basicService.setComplex(idEmployee,idRecord);
+    public
+    @ResponseBody
+    void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord) throws SQLException {
+
+        this.basicService.setComplex(idEmployee, idRecord);
+
+
     }
 
 
@@ -96,12 +101,13 @@ public class MainController {
         this.passwordService.addPassword();
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
-        MyDate todayDate = new MyDate();
-        todayDate.setDate(currentDate);
-        dateService.addDate(todayDate);
-        complexesService.addComplex(complexInit());
-        complexesService.addComplex(complexInit());
-        complexesService.addComplex(complexInit());
+
+            MyDate todayDate = new MyDate();
+            todayDate.setDate(currentDate);
+            dateService.addDate(todayDate);
+            complexesService.addComplex(complexInit(1));
+            complexesService.addComplex(complexInit(2));
+            complexesService.addComplex(complexInit(3));
 
         for (int i = 0; i < complexesService.listComplexes().size(); i++) {
             DateAndComplexes dateAndComplexes = new DateAndComplexes();
@@ -118,16 +124,18 @@ public class MainController {
          } else {
                 MyDate lastDate = compareDate(myDateList);
                 model.addAttribute("currentDate", lastDate.getDate());
+
           }
     }
 
 
-    public Complexes complexInit() {
+    public Complexes complexInit(int number) {
         Complexes complex = new Complexes();
         complex.setFirstCourse("Первое");
         complex.setSecondCourse("Второе");
         complex.setSalad("Салат");
         complex.setDrinks("Сок");
+        complex.setNumber(number);
         return complex;
     }
 

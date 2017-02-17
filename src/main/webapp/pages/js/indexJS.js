@@ -452,8 +452,55 @@ function changeDate(obj) {
     var admin = document.getElementById("button").value;
 
     if (adnim == "Войти") {
+        getAllByDate(selectedDate);
 
     } else {
+
+    }
+}
+
+function getAllByDate(selectedDate) {
+
+
+        var dataJson = {
+            date: selectedDate
+
+        }
+
+
+    $.ajax({
+        type: "POST",
+        url: "/getAllByDate",
+        data: JSON.stringify(dataJson),
+
+
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+
+            deleteTable();
+            loadEmployees(data);
+
+        },
+        error: function (data) {
+            alert(data);
+        }
+    })
+    var table = document.getElementsByTagName("table");
+    for (var i = 0; i < table.length; i++) {
+        table[i].setAttribute("ondblclick", "dbClickTable(event)");
+        table[i].setAttribute("onclick", "onClickTable(event)");
+    }
+    
+}
+
+function setRadioButton(listNumber) {
+    var table = document.getElementById("employees");
+    for (var i=0;i<table.rowIndex;i++){
 
     }
 

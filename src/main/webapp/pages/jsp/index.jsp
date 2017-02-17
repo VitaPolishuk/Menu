@@ -12,6 +12,8 @@
     listComplexes = ${listComplexes};
     listEmployees = ${listEmployees};
     idRecordList = ${idRecordList};
+    listNumber = ${listNumber};
+
 </script>
 <script>
     _.templateSettings = {
@@ -20,7 +22,7 @@
         escape: /{{-([\s\S]+?)}}/g
     };
 </script>
-<body onload="loadEmployees(listEmployees); loadComplexes(listComplexes)">
+<body onload="loadEmployees(listEmployees); loadComplexes(listComplexes);setRadioButton(listNumber)">
 
 <div class="Main">
 
@@ -28,7 +30,7 @@
         <div class="head">
             <div class="titleMenu"><font face="Comic Sans MS" size="+2.5" color=#4F4F4F>Меню для котиков на </font>
             </div>
-            <div class="calendar"><input type="date" id="calendarD" name="idRecordList[0]" value="${currentDate}" alt="${currentDate}" onchange="changeDate(this)"></div>
+            <div class="calendar"><input type="date" id="calendarD" name="${idDate}" value="${currentDate}" alt="${currentDate}" onchange="changeDate(this)"></div>
         </div>
 
         <div class="complexes1">
@@ -118,9 +120,9 @@
             <td class="tr1" id="idEmployee" abbr="{{= listEmployees[i].idEmployee}}">{{= listEmployees[i].fio }}</td>
             <td class="tr1">{{= listEmployees[i].positionHeld }}</td>
             <td class="tr1">
-                <input type="radio" name="{{= i}}" value="1" alt="{{=idRecordList[0]}}" onclick="changeRadioButton(this)">1
-                <input type="radio" name="{{= i}}" value="2" alt="{{=idRecordList[1]}}" onclick="changeRadioButton(this)">2
-                <input type="radio" name="{{= i}}" value="3" alt="{{=idRecordList[2]}}" onclick="changeRadioButton(this)">3
+                <input type="radio" name="{{= i}}" value="1" alt="{{=idRecordList[i]}}" onclick="changeRadioButton(this)">1
+                <input type="radio" name="{{= i}}" value="2" alt="{{=idRecordList[i]}}" onclick="changeRadioButton(this)">2
+                <input type="radio" name="{{= i}}" value="3" alt="{{=idRecordList[i]}}" onclick="changeRadioButton(this)">3
         </tr>
         {{ } }}
     </table>

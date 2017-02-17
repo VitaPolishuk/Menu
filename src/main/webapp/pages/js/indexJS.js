@@ -420,10 +420,6 @@ function deleteTable() {
 
 function changeRadioButton(obj) {
 
-    var dataJson = {
-        idEmployee: obj.parentElement.parentElement.cells[1].abbr,
-        idRecord: obj.alt
-    };
 
 
     $.ajax({
@@ -451,7 +447,7 @@ function changeDate(obj) {
     var curDate = obj.alt;
     var admin = document.getElementById("button").value;
 
-    if (adnim == "Войти") {
+    if (admin == "Войти") {
         getAllByDate(selectedDate);
 
     } else {
@@ -461,12 +457,10 @@ function changeDate(obj) {
 
 function getAllByDate(selectedDate) {
 
-
         var dataJson = {
             date: selectedDate
 
         }
-
 
     $.ajax({
         type: "POST",
@@ -479,15 +473,6 @@ function getAllByDate(selectedDate) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-        },
-        success: function (data, textStatus, jqXHR) {
-
-            deleteTable();
-            loadEmployees(data);
-
-        },
-        error: function (data) {
-            alert(data);
         }
     })
     var table = document.getElementsByTagName("table");

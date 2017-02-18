@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -40,9 +41,12 @@ public class MainController {
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(Model model) {
+
         addCurrDate(model);
+
         //  addEmplBasic();
         model.addAttribute("password", this.passwordService.getPassword(Long.valueOf(1)).getPassword());
+
         return "index";
     }
 
@@ -58,11 +62,10 @@ public class MainController {
 
     @RequestMapping(value = "deleteEmployee", method = RequestMethod.POST)
     public
-    @ResponseBody
-    ResponseEntity<List<Employees>> removeEmployees(@RequestBody Employees employees) throws SQLException {
+    @ResponseBody    ResponseEntity<List<Employees>> removeEmployees(@RequestBody Employees employees) throws SQLException {
 
 
-        this.employeesService.setStatus(employees.getIdEmployee(), false);
+       this.employeesService.setStatus(employees.getIdEmployee(),false);
 
 
         return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
@@ -75,11 +78,12 @@ public class MainController {
         this.employeesService.editEmployees(employees);
         return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
     }
-
     @RequestMapping(value = "changePassword", method = RequestMethod.POST)
-    public void changePassword(@RequestBody Password password) throws SQLException {
-        System.out.println(password.getIdPassword() + "   " + password.getPassword());
-        this.passwordService.editPassword(password);
+    public
+    void changePassword(@RequestBody Password password) throws SQLException {
+        System.out.println(password.getIdPassword() + "   "+ password.getPassword());
+       this.passwordService.editPassword(password);
+
     }
 
     @RequestMapping(value = "saveChangeComplex", method = RequestMethod.POST)
@@ -88,12 +92,19 @@ public class MainController {
     void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord) throws SQLException {
 
         this.basicService.setComplex(idEmployee, idRecord);
+
+
     }
+
+
+
+
 
     @RequestMapping(value = "getAllByDate", method = RequestMethod.POST)
     public
     @ResponseBody
-    String getAllByDate(@RequestBody MyDate myDate, Model model) throws SQLException {
+    ResponseEntity<List<List>> getAllByDate(@RequestBody MyDate myDate, Model model) throws SQLException {
+        List<List> listAllPage = new ArrayList<>();
         Date dateValue = myDate.getDate();// значение даты со страницы
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
         Long idGetDate = new Long(0);
@@ -106,14 +117,17 @@ public class MainController {
                 }
             }
         }
-        returnInfoByDay(model, idGetDate, myDate);
-        return "index";
+        myDate.setIdDate(idGetDate);
+        returnInfoByDay(model, idGetDate, myDate,listAllPage);
+        return new ResponseEntity<>(listAllPage,HttpStatus.OK);
     }
 
     public void addCurrDate(Model model) {
 
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
         List<Long> idRecordList = new ArrayList<>();
+        List<Integer> listNumber  = new ArrayList<>();
+        List<List> listAllPage = new ArrayList<>();
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
             this.passwordService.addPassword();
@@ -129,16 +143,21 @@ public class MainController {
                 dateAndComplexesService.addDateComplex(dateAndComplexes);
                 idRecordList.add(dateAndComplexes.getIdRecord());
             }
-            transPage(model, todayDate, listEmployeesTrue(), complexesService.listComplexes(), idRecordList);
+            listNumber.add(1);
+            listNumber.add(2);
+            listNumber.add(3);
+            model.addAttribute("listNumber", new Gson().toJson(listNumber));
+           transPage(model, todayDate, listEmployeesTrue(), complexesService.listComplexes(), idRecordList,listAllPage);
 
         } else {
             MyDate lastDate = compareDate(myDateList);
             Long idLastDate = lastDate.getIdDate();
-            returnInfoByDay(model, idLastDate, lastDate);
+
+            returnInfoByDay(model, idLastDate, lastDate,listAllPage);
         }
     }
 
-    public void returnInfoByDay(Model model, Long idDate, MyDate date) {
+    public void returnInfoByDay(Model model, Long idDate, MyDate date, List<List> listAllPages) {
 
         List<DateAndComplexes> dateAndComplexes = dateAndComplexesService.listDateComplexes();
         List<Long> idRecList = new ArrayList<>();
@@ -156,6 +175,7 @@ public class MainController {
         }
         List<Basic> basicList = basicService.listBasics();
         for (Complexes complex : compList) {
+            System.out.println("QQQQ: "+complex.getIdComplex());
             for (Long idRecord : idRecList) {
                 for (Basic basic : basicList) {
                     System.out.println(basic.getIdRecord().getIdRecord());
@@ -171,12 +191,19 @@ public class MainController {
                 }
             }
         }
+        listAllPages.add(listNumber);
         model.addAttribute("listNumber", new Gson().toJson(listNumber));
-        transPage(model, date, listEmployeesTrue, listComplexes, idRecList);
+        transPage(model, date, listEmployeesTrue, listComplexes, idRecList,listAllPages);
 
     }
 
-    public void transPage(Model model, MyDate date, List<Employees> lEmpl, List<Complexes> lComp, List<Long> lRecord) {
+    public void transPage(Model model, MyDate date, List<Employees> lEmpl, List<Complexes> lComp, List<Long> lRecord,List<List> listAllPage) {
+        listAllPage.add(lEmpl);
+        listAllPage.add(lComp);
+        listAllPage.add(lRecord);
+
+
+
         model.addAttribute("currentDate", date.getDate());
         model.addAttribute("idDate", date.getIdDate());
         model.addAttribute("listEmployees", new Gson().toJson(lEmpl));

@@ -473,19 +473,34 @@ function getAllByDate(selectedDate) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+         alert(1);
+            loadComplexes(data[2]);
+         loadEmployees(data[1]);
+         setRadioButton(data[0]);
+
+        },
+        error: function (data) {
+            alert(2);
+            alert(data);
         }
     })
-    var table = document.getElementsByTagName("table");
-    for (var i = 0; i < table.length; i++) {
-        table[i].setAttribute("ondblclick", "dbClickTable(event)");
-        table[i].setAttribute("onclick", "onClickTable(event)");
-    }
+
     
 }
 
 function setRadioButton(listNumber) {
     var table = document.getElementById("employees");
-    for (var i=0;i<table.rowIndex;i++){
+    for (var i=1;i<table.rows.length;i++){
+        var radio = table.rows[i].cells[3].children;
+        for (var j=0;j<radio.length;j++){
+
+                if (radio[j].value == listNumber[i-1]){
+                    radio[j].checked = true;
+                }
+
+        }
 
     }
 

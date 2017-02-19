@@ -446,7 +446,6 @@ function changeDate(obj) {
 
     if (admin == "Войти") {
         getAllByDate(selectedDate);
-
     } else {
 
     }
@@ -456,7 +455,6 @@ function getAllByDate(selectedDate) {
 
     var dataJson = {
         date: selectedDate
-
     }
 
     $.ajax({
@@ -471,7 +469,6 @@ function getAllByDate(selectedDate) {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
-            alert(1);
             loadComplexes(data[2]);
             loadEmployees(data[1],data[3]);
             setRadioButton(data[0]);

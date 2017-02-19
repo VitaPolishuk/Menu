@@ -22,7 +22,7 @@
         escape: /{{-([\s\S]+?)}}/g
     };
 </script>
-<body onload="loadEmployees(listEmployees); loadComplexes(listComplexes);setRadioButton(listNumber)">
+<body onload="loadEmployees(listEmployees, idRecordList); loadComplexes(listComplexes);setRadioButton(listNumber)">
 
 <div class="Main">
 
@@ -120,9 +120,9 @@
             <td class="tr1" id="idEmployee" abbr="{{= listEmployees[i].idEmployee}}">{{= listEmployees[i].fio }}</td>
             <td class="tr1">{{= listEmployees[i].positionHeld }}</td>
             <td class="tr1">
-                <input type="radio" name="{{= i}}" value="1" alt="{{=idRecordList[i]}}" onclick="changeRadioButton(this)">1
-                <input type="radio" name="{{= i}}" value="2" alt="{{=idRecordList[i]}}" onclick="changeRadioButton(this)">2
-                <input type="radio" name="{{= i}}" value="3" alt="{{=idRecordList[i]}}" onclick="changeRadioButton(this)">3
+                <input type="radio" name="{{= i}}" value="1" alt="{{=idRecordList[0]}}" onclick="changeRadioButton(this)">1
+                <input type="radio" name="{{= i}}" value="2" alt="{{=idRecordList[1]}}" onclick="changeRadioButton(this)">2
+                <input type="radio" name="{{= i}}" value="3" alt="{{=idRecordList[2]}}" onclick="changeRadioButton(this)">3
         </tr>
         {{ } }}
     </table>

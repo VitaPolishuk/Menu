@@ -100,16 +100,16 @@ function authentication(password) {
     }
 }
 
-function loadEmployees(listEmployees) {
+function loadEmployees(listEmployees, idRecordList) {
+    if (idRecordList != 0) {
+        var template = document.getElementById('templateTable').innerHTML.trim();
+        template = _.template(template);
+        document.getElementById('tableEmployees').innerHTML = template({
+            listEmployees: listEmployees,
+            idRecordList: idRecordList
 
-    var template = document.getElementById('templateTable').innerHTML.trim();
-    template = _.template(template);
-    document.getElementById('tableEmployees').innerHTML = template({
-        listEmployees: listEmployees
-
-
-    });
-
+        });
+    }
 }
 
 function loadComplexes(listComplex) {
@@ -176,7 +176,7 @@ function deleteButtonPages() {
 function checkoldPassword() {
     var oldPassword = document.getElementById("oldPassword");
     oldPassword.setAttribute("class", "");
-    if (oldPassword.value = "Заполните поле"){
+    if (oldPassword.value = "Заполните поле") {
         oldPassword.value = "";
         oldPassword.type = "password";
     }
@@ -205,8 +205,6 @@ function checknewPassword() {
         }
     }
 }
-
-
 
 
 function savePassword(password) {
@@ -254,7 +252,7 @@ function clickLink() {
 function checkFIO() {
     var inputFIO = document.getElementById("inputFIO");
     inputFIO.setAttribute("class", "");
-    if (inputFIO.value = "Введите ФИО"){
+    if (inputFIO.value = "Введите ФИО") {
         inputFIO.value = "";
     }
     inputFIO.onblur = function () {
@@ -311,7 +309,7 @@ function addEmployee() {
                 $("#inputPositionHeld").val("");
 
                 deleteTable();
-                loadEmployees(data);
+                loadEmployees(data, 0);
             },
             error: function (data) {
                 alert(data);
@@ -348,7 +346,7 @@ function deleteEmployees() {
         },
         success: function (data, textStatus, jqXHR) {
             deleteTable();
-            loadEmployees(data);
+            loadEmployees(data, 0);
         },
         error: function (data) {
             alert(data);
@@ -392,7 +390,7 @@ function editEmployees(table, row, cell) {
         success: function (data, textStatus, jqXHR) {
 
             deleteTable();
-            loadEmployees(data);
+            loadEmployees(data, 0);
 
         },
         error: function (data) {
@@ -419,7 +417,6 @@ function deleteTable() {
 }
 
 function changeRadioButton(obj) {
-
 
 
     $.ajax({
@@ -457,16 +454,15 @@ function changeDate(obj) {
 
 function getAllByDate(selectedDate) {
 
-        var dataJson = {
-            date: selectedDate
+    var dataJson = {
+        date: selectedDate
 
-        }
+    }
 
     $.ajax({
         type: "POST",
         url: "/getAllByDate",
         data: JSON.stringify(dataJson),
-
 
         async: false,
         dataType: "json",
@@ -475,30 +471,28 @@ function getAllByDate(selectedDate) {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
-         alert(1);
+            alert(1);
             loadComplexes(data[2]);
-         loadEmployees(data[1]);
-         setRadioButton(data[0]);
+            loadEmployees(data[1],data[3]);
+            setRadioButton(data[0]);
 
         },
         error: function (data) {
-            alert(2);
-            alert(data);
         }
     })
 
-    
+
 }
 
 function setRadioButton(listNumber) {
     var table = document.getElementById("employees");
-    for (var i=1;i<table.rows.length;i++){
+    for (var i = 1; i < table.rows.length; i++) {
         var radio = table.rows[i].cells[3].children;
-        for (var j=0;j<radio.length;j++){
+        for (var j = 0; j < radio.length; j++) {
 
-                if (radio[j].value == listNumber[i-1]){
-                    radio[j].checked = true;
-                }
+            if (radio[j].value == listNumber[i - 1]) {
+                radio[j].checked = true;
+            }
 
         }
 

@@ -193,8 +193,16 @@ public class MainController {
         }
         listAllPages.add(listNumber);
         model.addAttribute("listNumber", new Gson().toJson(listNumber));
+        List<Employees> list = sortList(listEmployeesTrue);
         transPage(model, date, listEmployeesTrue, listComplexes, idRecList,listAllPages);
-
+    }
+    public List<Employees> sortList(List<Employees> employeesList){
+        Collections.sort(employeesList, new Comparator<Employees>() {
+            public int compare(Employees o1, Employees o2) {
+                return o1.toString().compareTo(o2.toString());
+            }
+        });
+       return employeesList;
     }
 
     public void transPage(Model model, MyDate date, List<Employees> lEmpl, List<Complexes> lComp, List<Long> lRecord,List<List> listAllPage) {

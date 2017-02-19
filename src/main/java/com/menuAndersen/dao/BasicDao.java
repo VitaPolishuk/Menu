@@ -14,4 +14,5 @@ public interface BasicDao {
     public Basic getBasic(Long id);
 
     public List<Basic> listBasics();
+    public void setComplex(Long idE, Long idR);
 }

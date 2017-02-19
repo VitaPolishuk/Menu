@@ -79,6 +79,7 @@ public class Config extends WebMvcConfigurerAdapter {
         sessionBuilder.addAnnotatedClasses(Complexes.class);
         sessionBuilder.addAnnotatedClasses(Basic.class);
         sessionBuilder.addAnnotatedClasses(DateAndComplexes.class);
+        sessionBuilder.addAnnotatedClasses(Password.class);
 
         return sessionBuilder.buildSessionFactory();
     }
@@ -170,6 +171,19 @@ public class Config extends WebMvcConfigurerAdapter {
     public DateAndComplexesService dateAndComplexesService(DateAndComplexesDao dateAndComplexesDao) {
 
         return new DateAndComplexesServiceImpl(dateAndComplexesDao);
+    }
+
+    @Autowired
+    @Bean(name = "passwordDao")
+    public PasswordDao passwordDao(SessionFactory sessionFactory) {
+
+        return new PasswordDaoImpl(sessionFactory);
+    }
+    @Autowired
+    @Bean(name = "passwordService")
+    public PasswordService passwordService(PasswordDao passwordDao) {
+
+        return new PasswordServiceImpl(passwordDao);
     }
 
 }

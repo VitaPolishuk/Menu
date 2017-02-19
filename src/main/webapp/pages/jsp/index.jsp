@@ -8,8 +8,12 @@
     <script src="/pages/js/indexJS.js"></script>
 </head>
 <script>
+
     listComplexes = ${listComplexes};
-    mapNumberEmployees = ${mapNumberEmployees};
+    listEmployees = ${listEmployees};
+    idRecordList = ${idRecordList};
+    listNumber = ${listNumber};
+
 </script>
 <script>
     _.templateSettings = {
@@ -18,7 +22,7 @@
         escape: /{{-([\s\S]+?)}}/g
     };
 </script>
-<body onload="loadEmployees(Object.keys(mapNumberEmployees),Object.values(mapNumberEmployees)); loadComplexes(listComplexes)">
+<body onload="loadEmployees(listEmployees, idRecordList); loadComplexes(listComplexes);setRadioButton(listNumber)">
 
 <div class="Main">
 
@@ -26,7 +30,7 @@
         <div class="head">
             <div class="titleMenu"><font face="Comic Sans MS" size="+2.5" color=#4F4F4F>Меню для котиков на </font>
             </div>
-            <div class="calendar"><input type="date" id="calendarD" name="${idDate}" value="${currentDate}"></div>
+            <div class="calendar"><input type="date" id="calendarD" name="${idDate}" value="${currentDate}" alt="${currentDate}" onchange="changeDate(this)"></div>
         </div>
 
         <div class="complexes1">
@@ -62,24 +66,25 @@
 </div>
 
 <div id="addEmployees-container">
-    <p>ФИО</p> <input type="text" id="inputFIO">
-    <p>Должность</p> <input type="text" id="inputPositionHeld">
-    <p></p> <input type="button" value="Добавить сотрудника" id="buttonAdd" onclick="addEmployee()">
+    <p>ФИО</p> <input type="text"  class="" id="inputFIO" onclick="checkFIO()" >
+    <p>Должность</p> <input type="text" class="" id="inputPositionHeld" onclick="checkPositionHeld()" >
+    <p></p> <input type="submit" value="Добавить сотрудника" id="buttonAdd" onclick="addEmployee()">
 </div>
+
 
 <div class="header">
     <div>Режим админа</div>
-    <div><input id="button" type="button" value="Войти" onclick=authentication()></div>
+    <div><input id="button" type="button" value="Войти" onclick=authentication(${password})></div>
     <div id="changePasswordLink"><a href="#" onclick="clickLink()">Сменить пароль</a></div>
     <br>
 
 </div>
 <div id="changePassword">
     <div>Старый пароль</div>
-    <div><input type="password" id="oldPassword" size="20px"></div>
+    <div><input type="password" class="" id="oldPassword" size="20px" onclick="checkoldPassword()"></div>
     <div>Новый пароль</div>
-    <div><input type="password" id="newPassword" size="20px"></div>
-    <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword()"></div>
+    <div><input type="password"  class="" id="newPassword" size="20px" onclick="checknewPassword()"></div>
+    <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword(${password})"></div>
 
 </div>
 
@@ -115,9 +120,9 @@
             <td class="tr1" id="idEmployee" abbr="{{= listEmployees[i].idEmployee}}">{{= listEmployees[i].fio }}</td>
             <td class="tr1">{{= listEmployees[i].positionHeld }}</td>
             <td class="tr1">
-                <input type="radio" name="{{= i}}" value="1" alt="1">1
-                <input type="radio" name="{{= i}}" value="2" alt="2">2
-                <input type="radio" name="{{= i}}" value="3" alt="3">3
+                <input type="radio" name="{{= i}}" value="1" alt="{{=idRecordList[0]}}" onclick="changeRadioButton(this)">1
+                <input type="radio" name="{{= i}}" value="2" alt="{{=idRecordList[1]}}" onclick="changeRadioButton(this)">2
+                <input type="radio" name="{{= i}}" value="3" alt="{{=idRecordList[2]}}" onclick="changeRadioButton(this)">3
         </tr>
         {{ } }}
     </table>

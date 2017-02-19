@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -20,7 +19,6 @@ import java.util.*;
 @RequestMapping(value = "/")
 public class MainController {
     private static final String CONTENT_TYPE = "text/html; charset=utf-8";
-    SimpleDateFormat newDateFormat = new SimpleDateFormat("d.MM.yyyy", Locale.getDefault());
     @Autowired(required = true)
     private EmployeesService employeesService;
 
@@ -41,12 +39,8 @@ public class MainController {
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(Model model) {
-
         addCurrDate(model);
-
-        //  addEmplBasic();
         model.addAttribute("password", this.passwordService.getPassword(Long.valueOf(1)).getPassword());
-
         return "index";
     }
 
@@ -62,12 +56,9 @@ public class MainController {
 
     @RequestMapping(value = "deleteEmployee", method = RequestMethod.POST)
     public
-    @ResponseBody    ResponseEntity<List<Employees>> removeEmployees(@RequestBody Employees employees) throws SQLException {
-
-
-       this.employeesService.setStatus(employees.getIdEmployee(),false);
-
-
+    @ResponseBody
+    ResponseEntity<List<Employees>> removeEmployees(@RequestBody Employees employees) throws SQLException {
+        this.employeesService.setStatus(employees.getIdEmployee(), false);
         return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
     }
 
@@ -78,26 +69,18 @@ public class MainController {
         this.employeesService.editEmployees(employees);
         return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
     }
-    @RequestMapping(value = "changePassword", method = RequestMethod.POST)
-    public
-    void changePassword(@RequestBody Password password) throws SQLException {
-        System.out.println(password.getIdPassword() + "   "+ password.getPassword());
-       this.passwordService.editPassword(password);
 
+    @RequestMapping(value = "changePassword", method = RequestMethod.POST)
+    public void changePassword(@RequestBody Password password) throws SQLException {
+        this.passwordService.editPassword(password);
     }
 
     @RequestMapping(value = "saveChangeComplex", method = RequestMethod.POST)
     public
     @ResponseBody
     void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord) throws SQLException {
-
         this.basicService.setComplex(idEmployee, idRecord);
-
-
     }
-
-
-
 
 
     @RequestMapping(value = "getAllByDate", method = RequestMethod.POST)
@@ -109,24 +92,19 @@ public class MainController {
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
         Long idGetDate = new Long(0);
         for (MyDate date : myDateList) {
-            if (dateValue.getYear() == date.getDate().getYear()) {
-                if (dateValue.getMonth() == date.getDate().getMonth()) {
-                    if (dateValue.getDay() == date.getDate().getDay()) {
+            if(compareDate(date.getDate(),dateValue)) {
                         idGetDate = date.getIdDate();
                     }
-                }
-            }
         }
         myDate.setIdDate(idGetDate);
-        returnInfoByDay(model, idGetDate, myDate,listAllPage);
-        return new ResponseEntity<>(listAllPage,HttpStatus.OK);
+        List<List> lists = returnInfoByDay(model, idGetDate, myDate, listAllPage);
+        return new ResponseEntity<>(lists, HttpStatus.OK);
     }
 
     public void addCurrDate(Model model) {
-
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
         List<Long> idRecordList = new ArrayList<>();
-        List<Integer> listNumber  = new ArrayList<>();
+        List<Integer> listNumber = new ArrayList<>();
         List<List> listAllPage = new ArrayList<>();
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
@@ -135,7 +113,6 @@ public class MainController {
             todayDate.setDate(currentDate);
             dateService.addDate(todayDate);
             returnComplexInit();
-
             for (int i = 0; i < complexesService.listComplexes().size(); i++) {
                 DateAndComplexes dateAndComplexes = new DateAndComplexes();
                 dateAndComplexes.setIdComplex(complexesService.listComplexes().get(i));
@@ -147,75 +124,84 @@ public class MainController {
             listNumber.add(2);
             listNumber.add(3);
             model.addAttribute("listNumber", new Gson().toJson(listNumber));
-           transPage(model, todayDate, listEmployeesTrue(), complexesService.listComplexes(), idRecordList,listAllPage);
-
+            setModel(model, todayDate, listEmployeesTrue(), complexesService.listComplexes(), idRecordList, listNumber);
         } else {
             MyDate lastDate = compareDate(myDateList);
             Long idLastDate = lastDate.getIdDate();
-
-            returnInfoByDay(model, idLastDate, lastDate,listAllPage);
+            returnInfoByDay(model, idLastDate, lastDate, listAllPage);
         }
     }
 
-    public void returnInfoByDay(Model model, Long idDate, MyDate date, List<List> listAllPages) {
-
+    // заполняет все списки по выбранной дате
+    public List<List> returnInfoByDay(Model model, Long idDate, MyDate date, List<List> listAllPages) {
         List<DateAndComplexes> dateAndComplexes = dateAndComplexesService.listDateComplexes();
         List<Long> idRecList = new ArrayList<>();
-        List<Complexes> compList = complexesService.listComplexes();
         List<Complexes> listComplexes = new ArrayList<>();
         List<Employees> listEmployeesTrue = new ArrayList<>();
         List<Integer> listNumber = new ArrayList<>();
-
+        List<Basic> basicList = basicService.listBasics();
+        // в цикле заполним список комплексов по дате и получим список записей по дате
         for (DateAndComplexes dateComplex : dateAndComplexes) {
-
             if (idDate == dateComplex.getIdDate().getIdDate()) {
                 idRecList.add(dateComplex.getIdRecord());
                 listComplexes.add(dateComplex.getIdComplex());
             }
         }
-        List<Basic> basicList = basicService.listBasics();
-        for (Complexes complex : compList) {
-            System.out.println("QQQQ: "+complex.getIdComplex());
-            for (Long idRecord : idRecList) {
-                for (Basic basic : basicList) {
-                    System.out.println(basic.getIdRecord().getIdRecord());
-                    if (basic.getIdRecord().getIdRecord() == idRecord) {
-
-                        if (basic.getIdEmployee().getStatus() == true) {
-                            if (basic.getIdRecord().getIdComplex().getIdComplex() == complex.getIdComplex()) {
-                                listNumber.add(complex.getNumber());
-                                listEmployeesTrue.add(basic.getIdEmployee());
-                            }
+        //находим список действительных сотрудников в конкретный день
+        for (int i = 0; i < idRecList.size(); i++) {
+            for (Basic basic : basicList) {
+                if (basic.getIdRecord().getIdRecord() == idRecList.get(i)) {
+                    if (basic.getIdEmployee().getStatus() == true) {
+                        listEmployeesTrue.add(basic.getIdEmployee());
+                    }
+                }
+            }
+        }
+        sortList(listEmployeesTrue);
+        // получаем список комплексов для каждого сотрудника
+        for (Employees listEmpl : listEmployeesTrue) {
+            for (Basic basic : basicList) {
+                if (listEmpl.getIdEmployee() == basic.getIdEmployee().getIdEmployee()) {
+                    for (int i = 0; i < idRecList.size(); i++) {
+                        if (basic.getIdRecord().getIdRecord() == idRecList.get(i)) {
+                            listNumber.add(i + 1);
                         }
                     }
                 }
             }
         }
+        setModel(model, date, listEmployeesTrue(), listComplexes, idRecList, listNumber);
         listAllPages.add(listNumber);
-        model.addAttribute("listNumber", new Gson().toJson(listNumber));
-        List<Employees> list = sortList(listEmployeesTrue);
-        transPage(model, date, listEmployeesTrue, listComplexes, idRecList,listAllPages);
+        listAllPages.add(listEmployeesTrue);
+        listAllPages.add(listComplexes);
+        listAllPages.add(idRecList);
+        return listAllPages;
     }
-    public List<Employees> sortList(List<Employees> employeesList){
+    public boolean compareDate(Date d1, Date d2){
+        if (d1.getYear() == d2.getYear()) {
+            if (d1.getMonth() == d2.getMonth()) {
+                if (d1.getDay() == d2.getDay()) {
+                   return true;
+                }
+            }
+        }
+        return false;
+    }
+    public List<Employees> sortList(List<Employees> employeesList) {
         Collections.sort(employeesList, new Comparator<Employees>() {
             public int compare(Employees o1, Employees o2) {
                 return o1.toString().compareTo(o2.toString());
             }
         });
-       return employeesList;
+        return employeesList;
     }
 
-    public void transPage(Model model, MyDate date, List<Employees> lEmpl, List<Complexes> lComp, List<Long> lRecord,List<List> listAllPage) {
-        listAllPage.add(lEmpl);
-        listAllPage.add(lComp);
-        listAllPage.add(lRecord);
-
-
-
+    public void setModel(Model model, MyDate date, List<Employees> lEmpl, List<Complexes> lComp, List<Long> lRecord, List<Integer> listNumber) {
         model.addAttribute("currentDate", date.getDate());
         model.addAttribute("idDate", date.getIdDate());
         model.addAttribute("listEmployees", new Gson().toJson(lEmpl));
         model.addAttribute("listComplexes", new Gson().toJson(lComp));
+        model.addAttribute("listNumber", new Gson().toJson(listNumber));
         model.addAttribute("idRecordList", new Gson().toJson(lRecord));
     }
 

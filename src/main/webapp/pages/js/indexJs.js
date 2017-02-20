@@ -364,13 +364,15 @@ function editEmployees(table, row, cell) {
         var dataJson = {
             idEmployee: table.rows[row].cells[cell].abbr,
             fio: table.rows[row].cells[cell].innerHTML,
-            positionHeld: table.rows[row].cells[cell + 1].innerHTML
+            positionHeld: table.rows[row].cells[cell + 1].innerHTML,
+            status: true
         };
     } else if (cell == 2) {
         var dataJson = {
             idEmployee: table.rows[row].cells[cell - 1].abbr,
             fio: table.rows[row].cells[cell - 1].innerHTML,
-            positionHeld: table.rows[row].cells[cell].innerHTML
+            positionHeld: table.rows[row].cells[cell].innerHTML,
+            status: true
         };
     }
 
@@ -469,9 +471,9 @@ function getAllByDate(selectedDate) {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
-            loadComplexes(data[2]);
-            loadEmployees(data[1],data[3]);
-            setRadioButton(data[0]);
+            loadComplexes(data.complexesList);
+            loadEmployees(data.employeesList,data.idRecordList);
+            setRadioButton(data.numberList);
 
         },
         error: function (data) {

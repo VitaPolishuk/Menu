@@ -86,8 +86,8 @@ public class MainController {
     @RequestMapping(value = "getAllByDate", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseEntity<List<List>> getAllByDate(@RequestBody MyDate myDate, Model model) throws SQLException {
-        List<List> listAllPage = new ArrayList<>();
+    ResponseEntity<ObjectModel> getAllByDate(@RequestBody MyDate myDate, Model model) throws SQLException {
+        ObjectModel objectModel = new ObjectModel();
         Date dateValue = myDate.getDate();// значение даты со страницы
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
         Long idGetDate = new Long(0);
@@ -97,15 +97,15 @@ public class MainController {
                     }
         }
         myDate.setIdDate(idGetDate);
-        List<List> lists = returnInfoByDay(model, idGetDate, myDate, listAllPage);
-        return new ResponseEntity<>(lists, HttpStatus.OK);
+        objectModel = returnInfoByDay(model, idGetDate, myDate, objectModel);
+        return new ResponseEntity<>(objectModel, HttpStatus.OK);
     }
 
     public void addCurrDate(Model model) {
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
         List<Long> idRecordList = new ArrayList<>();
         List<Integer> listNumber = new ArrayList<>();
-        List<List> listAllPage = new ArrayList<>();
+        ObjectModel objectModel = new ObjectModel();
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
             this.passwordService.addPassword();
@@ -128,18 +128,20 @@ public class MainController {
         } else {
             MyDate lastDate = compareDate(myDateList);
             Long idLastDate = lastDate.getIdDate();
-            returnInfoByDay(model, idLastDate, lastDate, listAllPage);
+            returnInfoByDay(model, idLastDate, lastDate, objectModel);
         }
     }
 
     // заполняет все списки по выбранной дате
-    public List<List> returnInfoByDay(Model model, Long idDate, MyDate date, List<List> listAllPages) {
+    public ObjectModel returnInfoByDay(Model model, Long idDate, MyDate date, ObjectModel objectModel) {
         List<DateAndComplexes> dateAndComplexes = dateAndComplexesService.listDateComplexes();
+        List<Basic> basicList = basicService.listBasics();
+
         List<Long> idRecList = new ArrayList<>();
         List<Complexes> listComplexes = new ArrayList<>();
         List<Employees> listEmployeesTrue = new ArrayList<>();
         List<Integer> listNumber = new ArrayList<>();
-        List<Basic> basicList = basicService.listBasics();
+
         // в цикле заполним список комплексов по дате и получим список записей по дате
         for (DateAndComplexes dateComplex : dateAndComplexes) {
             if (idDate == dateComplex.getIdDate().getIdDate()) {
@@ -171,11 +173,11 @@ public class MainController {
             }
         }
         setModel(model, date, listEmployeesTrue(), listComplexes, idRecList, listNumber);
-        listAllPages.add(listNumber);
-        listAllPages.add(listEmployeesTrue);
-        listAllPages.add(listComplexes);
-        listAllPages.add(idRecList);
-        return listAllPages;
+        objectModel.setComplexesList(listComplexes);
+        objectModel.setEmployeesList(listEmployeesTrue);
+        objectModel.setIdRecordList(idRecList);
+        objectModel.setNumberList(listNumber);
+        return objectModel;
     }
     public boolean compareDate(Date d1, Date d2){
         if (d1.getYear() == d2.getYear()) {

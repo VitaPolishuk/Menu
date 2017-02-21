@@ -50,4 +50,9 @@ public class EmployeesServiceImpl implements EmployeesService {
          this.employeesDao.setStatus(id,status);
     }
 
+    @Override
+    @Transactional
+    public List<Employees> listEmployeesToStatus(boolean status) {
+        return this.employeesDao.listEmployeesToStatus(status);
+    }
 }

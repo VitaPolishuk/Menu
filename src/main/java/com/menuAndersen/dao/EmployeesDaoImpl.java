@@ -68,4 +68,18 @@ public class EmployeesDaoImpl implements EmployeesDao {
         int rez = query.executeUpdate();
 
     }
+
+    @Override
+    public List<Employees> listEmployeesToStatus(boolean status) {
+        String sql = "from Employees where status="+status;
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Employees> list = (List<Employees>) query.list();
+
+        if (list != null && !list.isEmpty()) {
+            return list;
+        }
+        return null;
+    }
+
 }

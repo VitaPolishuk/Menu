@@ -1,6 +1,7 @@
 package com.menuAndersen.service;
 
 import com.menuAndersen.model.Basic;
+import com.menuAndersen.model.Employees;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface BasicService {
     public List<Basic> listBasics();
 
     public void setComplex(Long idE, Long idR);
+
+    public Employees returnEmployeeByRecord(Long idRecord, boolean status);
 }

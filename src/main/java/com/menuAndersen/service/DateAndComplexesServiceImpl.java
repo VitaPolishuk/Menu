@@ -1,10 +1,12 @@
 package com.menuAndersen.service;
 
 import com.menuAndersen.dao.DateAndComplexesDao;
+import com.menuAndersen.model.Complexes;
 import com.menuAndersen.model.DateAndComplexes;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service("dateAndComplexesService")
@@ -44,4 +46,17 @@ public class DateAndComplexesServiceImpl implements DateAndComplexesService{
     public List<DateAndComplexes> listDateComplexes() {
         return this.dateAndComplexesDao.listDateComplexes();
     }
+
+    @Override
+    @Transactional
+    public List<Long> returnIdRecordByDate(Date date) {
+        return this.dateAndComplexesDao.returnIdRecordByDate(date);
+    }
+
+    @Override
+    @Transactional
+    public List<Complexes> returnIdComplexesByDate(Date date) {
+        return this.dateAndComplexesDao.returnIdComplexesByDate(date);
+    }
+
 }

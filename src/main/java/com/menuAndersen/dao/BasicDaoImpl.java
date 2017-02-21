@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 
 @Repository("basicDao")
@@ -61,5 +62,13 @@ public class BasicDaoImpl implements BasicDao{
         Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
         int rez = query.executeUpdate();
 
+    }
+
+    @Override
+    public Employees returnEmployeeByRecord(Long idRecord, boolean status) {
+        String sql = "select idEmployee from Basic where idRecord = " + idRecord+ "  AND  idEmployee = ANY(select idEmployee from Employees where status = "+ status+")";
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        List<Employees> list = query.list();
+        return list.get(0);
     }
 }

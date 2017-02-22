@@ -336,7 +336,7 @@ function deleteEmployees() {
     }
     $.ajax({
         type: "POST",
-        url: "/deleteEmployee",
+        url: "/deleteEmployee?date="+document.getElementById("calendarD").value,
         data: JSON.stringify(dataJson),
 
         async: false,
@@ -380,7 +380,7 @@ function editEmployees(table, row, cell) {
 
     $.ajax({
         type: "POST",
-        url: "/editEmployee",
+        url: "/editEmployee?date="+document.getElementById("calendarD").value,
         data: JSON.stringify(dataJson),
 
 

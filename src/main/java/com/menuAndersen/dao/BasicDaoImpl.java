@@ -3,6 +3,7 @@ package com.menuAndersen.dao;
 import com.menuAndersen.model.Basic;
 import com.menuAndersen.model.DateAndComplexes;
 import com.menuAndersen.model.Employees;
+import com.menuAndersen.model.MyDate;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -58,9 +59,12 @@ public class BasicDaoImpl implements BasicDao{
     }
 
     @Override
-    public void setComplex(Long idE, Long idR) {
-        String sql = "update Basic set idRecord =" + idR + " where idEmployee = " + idE;
+    public void setComplex(Long idE, Long idR,Date date) {
+        String sql = "update Basic b set idRecord =" + idR + " where idEmployee = " + idE+
+                " and b.idRecord = ANY(select idRecord from DateAndComplexes where " +
+                " idDate = (select idDate from MyDate where date=:date))";
         Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        query.setParameter("date",date);
         query.executeUpdate();
 
     }
@@ -90,7 +94,7 @@ public class BasicDaoImpl implements BasicDao{
                 "from DateAndComplexes where " +
                 "idComplex = ANY(from Complexes where number=0) " +
                 "and idDate = (from MyDate where date =:date))" +
-                "where idEmployee="+employees.getIdEmployee();
+                "where idEmployee="+employees.getIdEmployee()+" and idRecord=null";
         Query query1 = this.sessionFactory.getCurrentSession().createQuery(sql1);
         query1.setParameter("date",date);
         query1.executeUpdate();

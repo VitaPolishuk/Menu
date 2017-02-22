@@ -53,23 +53,23 @@ public class MainController {
         this.employeesService.addEmployees(employees);
         this.basicService.addEmployeeToBasic(employees, date);
 
-        return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
+        return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 
     @RequestMapping(value = "deleteEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseEntity<ObjectModel> removeEmployees(@RequestBody Employees employees) throws SQLException {
+    ResponseEntity<ObjectModel> removeEmployees(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
         this.employeesService.setStatus(employees.getIdEmployee(), false);
-        return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
+        return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 
     @RequestMapping(value = "editEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseEntity<ObjectModel> editEmployee(@RequestBody Employees employees) throws SQLException {
+    ResponseEntity<ObjectModel> editEmployee(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
         this.employeesService.editEmployees(employees);
-        return new ResponseEntity<>(listEmployeesTrue(), HttpStatus.OK);
+        return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 
     @RequestMapping(value = "changePassword", method = RequestMethod.POST)
@@ -81,7 +81,8 @@ public class MainController {
     public
     @ResponseBody
     void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
-        this.basicService.setComplex(idEmployee, idRecord);
+
+        this.basicService.setComplex(idEmployee, idRecord,date);
     }
 
     @RequestMapping(value = "getAllByDate", method = RequestMethod.POST)
@@ -94,11 +95,11 @@ public class MainController {
         if (idGetDate == 0) {
             MyDate lastDate = compareDate(dateService.listDate());
             Long idLastDate = lastDate.getIdDate();
-            objectModel = returnInfoByDay(model, idLastDate, lastDate, objectModel);
+            objectModel = returnInfoByDay(model, lastDate, objectModel);
 
         } else {
             myDate.setIdDate(idGetDate);
-            objectModel = returnInfoByDay(model, idGetDate, myDate, objectModel);
+            objectModel = returnInfoByDay(model, myDate, objectModel);
         }
 
         return new ResponseEntity<>(objectModel, HttpStatus.OK);
@@ -112,13 +113,13 @@ public class MainController {
         Long idGetDate = findIdDate(myDate);
         if (idGetDate == 0) {
             dateService.addDate(myDate);
-            objectModel = createData();
-            addEmplBasic(myDate.getDate());
-            objectModel = returnInfoByDay(model, findIdDate(myDate), myDate, objectModel);
+            objectModel = createData(myDate);
+
+            objectModel = returnInfoByDay(model, myDate, objectModel);
 
         } else {
             myDate.setIdDate(idGetDate);
-            objectModel = returnInfoByDay(model, idGetDate, myDate, objectModel);
+            objectModel = returnInfoByDay(model, myDate, objectModel);
         }
         return new ResponseEntity<>(objectModel, HttpStatus.OK);
     }
@@ -131,25 +132,14 @@ public class MainController {
         }
     }
 
-    public ObjectModel createData() {
+    public ObjectModel createData(MyDate myDate) {
         ObjectModel objectModel = new ObjectModel();
-        List<Long> idRecordList = new ArrayList<>();
-        List<Integer> listNumber = new ArrayList<>();
-        returnComplexInit();
+       returnComplexInit();
         for (int i = complexesService.listComplexes().size() - 4; i < complexesService.listComplexes().size(); i++) {
-            DateAndComplexes dateAndComplexes = new DateAndComplexes();
-            dateAndComplexes.setIdComplex(complexesService.listComplexes().get(i));
-            dateAndComplexes.setIdDate(dateService.listDate().get(dateService.listDate().size() - 1));
-            dateAndComplexesService.addDateComplex(dateAndComplexes);
-            idRecordList.add(dateAndComplexes.getIdRecord());
-        }
-        listNumber.add(1);
-        listNumber.add(2);
-        listNumber.add(3);
-        listNumber.add(0);
-        objectModel = listEmployeesTrue();
-        objectModel.setComplexesList(complexesService.listComplexes());
-        objectModel.setNumberList(listNumber);
+           dateAndComplexesService.addToDate(complexesService.listComplexes().get(i),myDate);
+       }
+       addEmplBasic(myDate.getDate());
+        objectModel = listEmployeesTrue(myDate.getDate());
         return objectModel;
     }
 
@@ -163,17 +153,16 @@ public class MainController {
             MyDate todayDate = new MyDate();
             todayDate.setDate(currentDate);
             dateService.addDate(todayDate);
-            objectModel = createData();
+            objectModel = createData(todayDate);
             setModel(model, todayDate, objectModel);
         } else {
             MyDate lastDate = compareDate(myDateList);
-            Long idLastDate = lastDate.getIdDate();
-            returnInfoByDay(model, idLastDate, lastDate, objectModel);
+            returnInfoByDay(model, lastDate, objectModel);
         }
     }
 
     // заполняет все списки по выбранной дате
-    public ObjectModel returnInfoByDay(Model model, Long idDate, MyDate date, ObjectModel objectModel) {
+    public ObjectModel returnInfoByDay(Model model, MyDate date, ObjectModel objectModel) {
         List<Employees> listEmployeesTrue = new ArrayList<>();
         List<Long> idRecList = dateAndComplexesService.returnIdRecordByDate(date.getDate());
         List<Complexes> listComplexes = dateAndComplexesService.returnIdComplexesByDate(date.getDate());
@@ -247,20 +236,21 @@ public class MainController {
         return listok;
     }
 
-    public ObjectModel listEmployeesTrue() {
-        Date currentDate = new Date(System.currentTimeMillis());
+    public ObjectModel listEmployeesTrue(Date date) {
+
         ObjectModel objectModel = new ObjectModel();
-        List<Long> idRecList = dateAndComplexesService.returnIdRecordByDate(currentDate);
+        List<Long> idRecList = dateAndComplexesService.returnIdRecordByDate(date);
         List<Employees> listTrue = employeesService.listEmployeesToStatus(true);
         objectModel.setIdRecordList(idRecList);
         objectModel.setEmployeesList(listTrue);
+
         objectModel.setNumberList(returnNumber(listTrue, idRecList));
+        objectModel.setComplexesList(complexesService.listComplexes());
         return objectModel;
     }
 
     public void addEmplBasic(Date date) {
-        List<Employees> employeesList = employeesService.listEmployees();
-        for (Employees employee : employeesList) {
+        for (Employees employee : employeesService.listEmployees()) {
             basicService.addEmployeeToBasic(employee, date);
         }
     }

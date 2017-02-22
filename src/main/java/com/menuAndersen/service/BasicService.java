@@ -20,7 +20,7 @@ public interface BasicService {
 
     public List<Basic> listBasics();
 
-    public void setComplex(Long idE, Long idR);
+    public void setComplex(Long idE, Long idR,Date date);
 
     public List<Employees>  returnEmployeeByRecord(Long firstIdRecord,Long lastIdRecord, boolean status);
 

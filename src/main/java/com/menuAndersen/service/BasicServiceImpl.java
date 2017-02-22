@@ -51,8 +51,8 @@ public class BasicServiceImpl implements BasicService {
 
     @Override
     @Transactional
-    public void setComplex(Long idE, Long idR) {
-       this.basicDao.setComplex(idE,idR);
+    public void setComplex(Long idE, Long idR,Date date) {
+       this.basicDao.setComplex(idE,idR,date);
 
     }
     @Override

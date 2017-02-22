@@ -1,6 +1,7 @@
 package com.menuAndersen.dao;
 
 import com.menuAndersen.model.Basic;
+import com.menuAndersen.model.DateAndComplexes;
 import com.menuAndersen.model.Employees;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -62,6 +63,20 @@ public class BasicDaoImpl implements BasicDao{
         Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
         query.executeUpdate();
 
+    }
+
+    @Override
+    public Employees returnEmployeeByRecord(Long idRecord, boolean status) {
+        String sql = "select idEmployee from Basic b where idRecord = :par   AND  b.idEmployee = ANY(select idEmployee from Employees where status = "+ status+")";
+       // String sql = "select idEmployee from Basic where idRecord = " + idRecord+ "  AND :par  = ANY( from Employees where status = "+ status+")";
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        query.setParameter("par",idRecord);
+        List<Employees> list = query.list();
+
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
     }
 
 

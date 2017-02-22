@@ -3,6 +3,7 @@ package com.menuAndersen.service;
 import com.menuAndersen.model.MyDate;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
 import java.util.List;
 
 @Component
@@ -13,7 +14,9 @@ public interface MyDateService {
 
     public void removeDate(Long id);
 
-    public MyDate getDate(Long id);
+    public MyDate getDateById(Long id);
 
     public List<MyDate> listDate();
+
+    public MyDate getDateByValue(Date myDate);
 }

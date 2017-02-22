@@ -502,8 +502,8 @@ function getAllByDate(selectedDate,curDate) {
 
         },
         error: function (data) {
-            alert("Нет такого числа, дата будет установлена на последнее существующее");
-            document.getElementById("calendarD").value = curDate;
+
+
          }
     })
 

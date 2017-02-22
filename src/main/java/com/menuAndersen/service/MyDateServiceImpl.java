@@ -5,6 +5,7 @@ import com.menuAndersen.model.MyDate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service("myDateService")
@@ -35,13 +36,19 @@ public class MyDateServiceImpl implements MyDateService {
 
     @Override
     @Transactional
-    public MyDate getDate(Long id) {
-        return this.myDateDao.getDate(id);
+    public MyDate getDateById(Long id) {
+        return this.myDateDao.getDateById(id);
     }
 
     @Override
     @Transactional
     public List<MyDate> listDate() {
         return this.myDateDao.listDate();
+    }
+
+    @Override
+    @Transactional
+    public MyDate getDateByValue(Date myDate) {
+        return this.myDateDao.getDateByValue(myDate);
     }
 }

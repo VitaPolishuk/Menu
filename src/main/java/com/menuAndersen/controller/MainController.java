@@ -80,12 +80,9 @@ public class MainController {
     @RequestMapping(value = "saveChangeComplex", method = RequestMethod.POST)
     public
     @ResponseBody
-    void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord,@RequestParam("date") Date date) throws SQLException {
-
-
+    void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
         this.basicService.setComplex(idEmployee, idRecord);
     }
-
 
     @RequestMapping(value = "getAllByDate", method = RequestMethod.POST)
     public
@@ -98,7 +95,7 @@ public class MainController {
             MyDate lastDate = compareDate(dateService.listDate());
             Long idLastDate = lastDate.getIdDate();
             objectModel = returnInfoByDay(model, idLastDate, lastDate, objectModel);
-            return new ResponseEntity<>(objectModel, HttpStatus.BAD_REQUEST);
+           // return new ResponseEntity<>(objectModel, HttpStatus.BAD_REQUEST);
         } else {
             myDate.setIdDate(idGetDate);
             objectModel = returnInfoByDay(model, idGetDate, myDate, objectModel);
@@ -127,14 +124,19 @@ public class MainController {
     }
 
     public Long findIdDate(MyDate myDate) {
-        Date dateValue = myDate.getDate();// значение даты со страницы
+
+     /*   Date dateValue = myDate.getDate();// значение даты со страницы
         Long idGetDate = new Long(0);
         for (MyDate date : dateService.listDate()) {
             if (compareDate(date.getDate(), dateValue)) {
                 idGetDate = date.getIdDate();
             }
+        }*/
+        if (dateService.getDateByValue(myDate.getDate()) == null) {
+            return new Long(0);
+        } else {
+            return dateService.getDateByValue(myDate.getDate()).getIdDate();
         }
-        return idGetDate;
     }
 
     public ObjectModel createData() {
@@ -162,8 +164,8 @@ public class MainController {
 
     public void addCurrDate(Model model) {
         List<MyDate> myDateList = dateService.listDate();// получаю из таблицы дат все даты
-        List<Long> idRecordList = new ArrayList<>();
-        List<Integer> listNumber = new ArrayList<>();
+       // List<Long> idRecordList = new ArrayList<>();
+      //  List<Integer> listNumber = new ArrayList<>();
         ObjectModel objectModel = new ObjectModel();
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
@@ -182,33 +184,34 @@ public class MainController {
 
     // заполняет все списки по выбранной дате
     public ObjectModel returnInfoByDay(Model model, Long idDate, MyDate date, ObjectModel objectModel) {
-        List<DateAndComplexes> dateAndComplexes = dateAndComplexesService.listDateComplexes();
-        List<Basic> basicList = basicService.listBasics();
-
-        List<Long> idRecList = new ArrayList<>();
-        List<Complexes> listComplexes = new ArrayList<>();
+     ///   List<DateAndComplexes> dateAndComplexes = dateAndComplexesService.listDateComplexes();
+       // List<Basic> basicList = basicService.listBasics();
         List<Employees> listEmployeesTrue = new ArrayList<>();
-        List<Integer> listNumber = new ArrayList<>();
-
+        List<Long> idRecList = dateAndComplexesService.returnIdRecordByDate(date.getDate());
+        List<Complexes> listComplexes = dateAndComplexesService.returnIdComplexesByDate(date.getDate());
         // в цикле заполним список комплексов по дате и получим список записей по дате
-        for (DateAndComplexes dateComplex : dateAndComplexes) {
-            if (idDate == dateComplex.getIdDate().getIdDate()) {
-                idRecList.add(dateComplex.getIdRecord());
-                listComplexes.add(dateComplex.getIdComplex());
-            }
-        }
+        //for (DateAndComplexes dateComplex : dateAndComplexes) {
+         //   if (idDate == dateComplex.getIdDate().getIdDate()) {
+                //idRecList.add(dateComplex.getIdRecord());
+          //      listComplexes.add(dateComplex.getIdComplex());
+         //       System.out.println();
+          //  }
+       // }
         //находим список действительных сотрудников в конкретный день
-        for (int i = 0; i < idRecList.size(); i++) {
-            for (Basic basic : basicList) {
-                if (basic.getIdRecord().getIdRecord() == idRecList.get(i)) {
-                    if (basic.getIdEmployee().getStatus() == true) {
-                        listEmployeesTrue.add(basic.getIdEmployee());
-                    }
-                }
-            }
-        }
-
-        List<Employees> lst = sortList(listEmployeesTrue);
+       for (int i = 0; i < idRecList.size(); i++) {
+        // Employees empl =  basicService.returnEmployeeByRecord(idRecList.get(i));
+          //  for (Basic basic : basicList) {
+          //      if (basic.getIdRecord().getIdRecord() == idRecList.get(i)) {
+           //         if (basic.getIdEmployee().getStatus() == true) {
+         //  DateAndComplexes dateAndComplexes1 = new DateAndComplexes();
+           //dateAndComplexes1.setIdRecord(idRecList.get(i));
+           if( basicService.returnEmployeeByRecord(idRecList.get(i), true) != null){
+                        listEmployeesTrue.add(basicService.returnEmployeeByRecord(idRecList.get(i), true));
+                }}
+            //    }
+           // }
+     //   }
+      sortList(listEmployeesTrue);
         objectModel.setComplexesList(listComplexes);
         objectModel.setEmployeesList(listEmployeesTrue);
         objectModel.setIdRecordList(idRecList);
@@ -288,14 +291,22 @@ public class MainController {
     public ObjectModel listEmployeesTrue() {
         List<DateAndComplexes> dateAndComplexes = dateAndComplexesService.listDateComplexes();
         Date currentDate = new Date(System.currentTimeMillis());
-        List<Long> idRecList = new ArrayList<>();
+        //List<Long> idRecList = new ArrayList<>();
         ObjectModel objectModel = new ObjectModel();
-
-        for (DateAndComplexes dateComplex : dateAndComplexes) {
-            if (compareDate(currentDate, dateComplex.getIdDate().getDate())) {
-                idRecList.add(dateComplex.getIdRecord());
-            }
-        }
+        //for (DateAndComplexes dateComplex : dateAndComplexes) {
+        //    if (compareDate(currentDate, dateComplex.getIdDate().getDate())) {
+         //       idRecList.add(dateComplex.getIdRecord());
+        //    }
+      //  }
+        //
+        List<Long> idRecList = dateAndComplexesService.returnIdRecordByDate(currentDate);
+       // List<Employees> listAll = employeesService.listEmployees();
+      //  List<Employees> listTrue = new ArrayList<Employees>();
+      //  for (Employees employee : listAll) {
+      //      if (employee.getStatus()) {
+     //           listTrue.add(employee);
+      //      }
+      //  }
 
         List<Employees> listTrue = employeesService.listEmployeesToStatus(true);
 
@@ -305,7 +316,7 @@ public class MainController {
         objectModel.setNumberList(returnNumber(listTrue, idRecList));
         return objectModel;
     }
-
+//
     public void addEmplBasic(Date date) {
         List<Employees> employeesList = employeesService.listEmployees();
         for (Employees employee : employeesList) {
@@ -325,6 +336,8 @@ public class MainController {
     }
 
    /* public void addEmplBasic(Employees employees) {
+//
+    public void addEmplBasic(Employees employees) {
 
         Basic basicTable = new Basic();
         basicTable.setIdEmployee(employees);

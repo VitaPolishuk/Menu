@@ -20,7 +20,11 @@ public interface BasicDao {
 
     public void setComplex(Long idE, Long idR,Date date);
 
-    public void addEmployeeToBasic (Employees employees, Date date);
+    public void addEmployeeToBasic (Employees employees, Date date, boolean status);
 
     public List<Employees>  returnEmployeeByRecord(Long firstIdRecord,Long lastIdRecord, boolean status);
+
+    public int returnEmployeeFalse(Employees employee);
+
+    public void setStatus(Long id, boolean status);
 }

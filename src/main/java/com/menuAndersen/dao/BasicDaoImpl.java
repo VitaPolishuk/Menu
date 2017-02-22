@@ -71,7 +71,7 @@ public class BasicDaoImpl implements BasicDao{
 
     @Override
     public List<Employees> returnEmployeeByRecord(Long firstIdRecord,Long lastIdRecord, boolean status) {
-        String sql = "select idEmployee from Basic b where (idRecord between :par1 and :par2)   AND  (b.idEmployee = ANY(select idEmployee from Employees where status = "+ status+"))";
+        String sql = "select idEmployee from Basic b where (idRecord between :par1 and :par2)   AND  (b.status = "+ status+"))";
        // String sql = "select idEmployee from Basic where idRecord = " + idRecord+ "  AND :par  = ANY( from Employees where status = "+ status+")";
         Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
         query.setParameter("par1",firstIdRecord);
@@ -84,13 +84,21 @@ public class BasicDaoImpl implements BasicDao{
         return null;
     }
 
+    @Override
+    public int returnEmployeeFalse(Employees employee) {
+        String sql = "from Basic  where status = false and idEmployee = " + employee.getIdEmployee();
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        List list = query.list();
+        return list.size();
+    }
+
 
     @Override
-    public void addEmployeeToBasic(Employees employees, Date date) {
+    public void addEmployeeToBasic(Employees employees, Date date, boolean status) {
         String sql = "insert into Basic (idEmployee) from Employees where idEmployee ="+employees.getIdEmployee();
         Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
         query.executeUpdate();
-        String sql1 = "update Basic set  idRecord = (" +
+        String sql1 = "update Basic set status ="+ status+", idRecord = (" +
                 "from DateAndComplexes where " +
                 "idComplex = ANY(from Complexes where number=0) " +
                 "and idDate = (from MyDate where date =:date))" +
@@ -98,5 +106,12 @@ public class BasicDaoImpl implements BasicDao{
         Query query1 = this.sessionFactory.getCurrentSession().createQuery(sql1);
         query1.setParameter("date",date);
         query1.executeUpdate();
+    }
+    @Override
+    public void setStatus(Long id, boolean status) {
+        String sql = "update Basic set status =" + status + " where idEmployee = " + id;
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        int rez = query.executeUpdate();
+
     }
 }

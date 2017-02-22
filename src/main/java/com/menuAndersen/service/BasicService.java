@@ -24,5 +24,10 @@ public interface BasicService {
 
     public List<Employees>  returnEmployeeByRecord(Long firstIdRecord,Long lastIdRecord, boolean status);
 
-    public void addEmployeeToBasic (Employees employees, Date date);
+    public void addEmployeeToBasic(Employees employees, Date date, boolean status);
+
+    public int returnEmployeeFalse(Employees employee);
+
+    public void setStatus(Long id, boolean status);
+
 }

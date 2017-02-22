@@ -348,6 +348,7 @@ function deleteEmployees() {
         success: function (data, textStatus, jqXHR) {
             deleteTable();
             loadEmployees(data);
+            setRadioButton(data.numberList);
         },
         error: function (data) {
             alert(data);
@@ -394,6 +395,7 @@ function editEmployees(table, row, cell) {
 
             deleteTable();
             loadEmployees(data);
+            setRadioButton(data.numberList);
 
         },
         error: function (data) {

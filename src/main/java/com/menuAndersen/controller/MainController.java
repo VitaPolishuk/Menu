@@ -48,10 +48,10 @@ public class MainController {
     public
     @ResponseBody
     ResponseEntity<ObjectModel> addEmployee(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
-        employees.setStatus(true);
+       // employees.setStatus(true);
 
         this.employeesService.addEmployees(employees);
-        this.basicService.addEmployeeToBasic(employees, date);
+        this.basicService.addEmployeeToBasic(employees, date, true);
 
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
@@ -60,7 +60,7 @@ public class MainController {
     public
     @ResponseBody
     ResponseEntity<ObjectModel> removeEmployees(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
-        this.employeesService.setStatus(employees.getIdEmployee(), false);
+        this.basicService.setStatus(employees.getIdEmployee(), false);
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 
@@ -131,7 +131,7 @@ public class MainController {
             return dateService.getDateByValue(myDate.getDate()).getIdDate();
         }
     }
-
+// новый день
     public ObjectModel createData(MyDate myDate) {
         ObjectModel objectModel = new ObjectModel();
        returnComplexInit();
@@ -240,18 +240,26 @@ public class MainController {
 
         ObjectModel objectModel = new ObjectModel();
         List<Long> idRecList = dateAndComplexesService.returnIdRecordByDate(date);
-        List<Employees> listTrue = employeesService.listEmployeesToStatus(true);
+        List<Employees> listTrue = new ArrayList<>();
+        for (Employees employee : employeesService.listEmployees()) {
+            if(basicService.returnEmployeeFalse(employee)==0){
+                listTrue.add(employee);
+            }
+        }
+
         objectModel.setIdRecordList(idRecList);
         objectModel.setEmployeesList(listTrue);
 
         objectModel.setNumberList(returnNumber(listTrue, idRecList));
-        objectModel.setComplexesList(complexesService.listComplexes());
+        objectModel.setComplexesList(complexesService.returnComplexesByDate(date));
         return objectModel;
     }
 
     public void addEmplBasic(Date date) {
         for (Employees employee : employeesService.listEmployees()) {
-            basicService.addEmployeeToBasic(employee, date);
+            if(basicService.returnEmployeeFalse(employee)==0){
+            basicService.addEmployeeToBasic(employee, date, true);
+            }
         }
     }
     

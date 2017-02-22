@@ -20,6 +20,18 @@ public class Basic implements Serializable {
     @JoinColumn(name = "idRecord")
     private DateAndComplexes idRecord;
 
+    @Column(name = "status")
+    private boolean status;
+
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 
     public Long getIdBasic() {
         return idBasic;

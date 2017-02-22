@@ -1,11 +1,15 @@
 package com.menuAndersen.dao;
 
+import com.menuAndersen.model.Complexes;
 import com.menuAndersen.model.DateAndComplexes;
+import com.menuAndersen.model.MyDate;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 
 @Repository("dateAndComplexesDao")
@@ -51,4 +55,23 @@ public class DateAndComplexesDaoImpl implements DateAndComplexesDao {
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         return listDateComplexes;
     }
+
+    @Override
+    public List<Long> returnIdRecordByDate(Date date) {
+       String sql = "select idRecord from DateAndComplexes where idDate = ( from MyDate where date = :parDate)";
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        query.setParameter("parDate", date);
+        List<Long> list = query.list();
+        return list;
+    }
+
+    @Override
+    public List<Complexes> returnIdComplexesByDate(Date date) {
+        String sql = "select idComplex from DateAndComplexes where idDate = ( from MyDate where date = :parDate)";
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        query.setParameter("parDate", date);
+        List<Complexes> list = query.list();
+        return list;
+    }
+
 }

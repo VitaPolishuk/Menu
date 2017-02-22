@@ -2,10 +2,13 @@ package com.menuAndersen.service;
 
 import com.menuAndersen.dao.BasicDao;
 import com.menuAndersen.model.Basic;
+import com.menuAndersen.model.DateAndComplexes;
+import com.menuAndersen.model.Employees;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service("basicService")
@@ -51,5 +54,16 @@ public class BasicServiceImpl implements BasicService {
     public void setComplex(Long idE, Long idR) {
        this.basicDao.setComplex(idE,idR);
 
+    }
+    @Override
+    @Transactional
+    public List<Employees>  returnEmployeeByRecord(Long firstIdRecord,Long lastIdRecord, boolean status) {
+        return  this.basicDao.returnEmployeeByRecord(firstIdRecord,lastIdRecord, status);
+    }
+
+    @Override
+    @Transactional
+    public void addEmployeeToBasic(Employees employees, Date date) {
+        this.basicDao.addEmployeeToBasic(employees,date);
     }
 }

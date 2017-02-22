@@ -2,6 +2,7 @@ package com.menuAndersen.service;
 
 import com.menuAndersen.dao.ComplexesDao;
 import com.menuAndersen.model.Complexes;
+import com.menuAndersen.model.Employees;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,4 +46,11 @@ public class ComplexesServiceImpl implements ComplexesService {
     public List<Complexes> listComplexes() {
         return this.complexesDao.listComplexes();
     }
+
+    @Override
+    @Transactional
+    public int numberToEmployee(Employees employees, Long idR){
+        return this.complexesDao.numberToEmployee(employees,idR);
+    }
+
 }

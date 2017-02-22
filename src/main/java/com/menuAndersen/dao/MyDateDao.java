@@ -2,6 +2,7 @@ package com.menuAndersen.dao;
 
 import com.menuAndersen.model.MyDate;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface MyDateDao {
@@ -11,7 +12,9 @@ public interface MyDateDao {
 
     public void removeDate(Long id);
 
-    public MyDate getDate(Long id);
+    public MyDate getDateById(Long id);
 
     public List<MyDate> listDate();
+
+    public MyDate getDateByValue(Date myDate);
 }

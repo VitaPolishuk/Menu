@@ -100,26 +100,27 @@ function authentication(password) {
     }
 }
 
-function loadEmployees(listEmployees, idRecordList) {
-    if (idRecordList != 0) {
-        var template = document.getElementById('templateTable').innerHTML.trim();
+function loadEmployees(objectModel) {
+    var template = document.getElementById('templateTable').innerHTML.trim();
+    if (objectModel.idRecordList != 0) {
+
         template = _.template(template);
         document.getElementById('tableEmployees').innerHTML = template({
-            listEmployees: listEmployees,
-            idRecordList: idRecordList
+            listEmployees: objectModel.employeesList,
+            idRecordList: objectModel.idRecordList
 
         });
     }
 }
 
-function loadComplexes(listComplex) {
+function loadComplexes(objectModel) {
 
     var template = document.getElementById('templateComplex').innerHTML.trim();
     template = _.template(template);
-    for (var i = 0; i < listComplex.length; i++) {
+    for (var i = 0; i < objectModel.complexesList.length-1; i++) {
         var str = 'complex' + (i + 1);
         document.getElementById(str).innerHTML = template({
-            listComplex: listComplex[i]
+            listComplex: objectModel.complexesList[i]
 
 
         });
@@ -294,7 +295,7 @@ function addEmployee() {
 
         $.ajax({
             type: "POST",
-            url: "/addEmployee",
+            url: "/addEmployee?date="+document.getElementById("calendarD").value,
             data: JSON.stringify(dataJson)
 
             ,
@@ -307,9 +308,9 @@ function addEmployee() {
             success: function (data, textStatus, jqXHR) {
                 $("#inputFIO").val("");
                 $("#inputPositionHeld").val("");
-
                 deleteTable();
-                loadEmployees(data, 0);
+                loadEmployees(data);
+                setRadioButton(data.numberList);
             },
             error: function (data) {
                 alert(data);
@@ -346,7 +347,7 @@ function deleteEmployees() {
         },
         success: function (data, textStatus, jqXHR) {
             deleteTable();
-            loadEmployees(data, 0);
+            loadEmployees(data);
         },
         error: function (data) {
             alert(data);
@@ -364,13 +365,15 @@ function editEmployees(table, row, cell) {
         var dataJson = {
             idEmployee: table.rows[row].cells[cell].abbr,
             fio: table.rows[row].cells[cell].innerHTML,
-            positionHeld: table.rows[row].cells[cell + 1].innerHTML
+            positionHeld: table.rows[row].cells[cell + 1].innerHTML,
+            status: true
         };
     } else if (cell == 2) {
         var dataJson = {
             idEmployee: table.rows[row].cells[cell - 1].abbr,
             fio: table.rows[row].cells[cell - 1].innerHTML,
-            positionHeld: table.rows[row].cells[cell].innerHTML
+            positionHeld: table.rows[row].cells[cell].innerHTML,
+            status: true
         };
     }
 
@@ -390,7 +393,7 @@ function editEmployees(table, row, cell) {
         success: function (data, textStatus, jqXHR) {
 
             deleteTable();
-            loadEmployees(data, 0);
+            loadEmployees(data);
 
         },
         error: function (data) {
@@ -421,7 +424,8 @@ function changeRadioButton(obj) {
 
     $.ajax({
         type: "POST",
-        url: "/saveChangeComplex?idEmployee=" + obj.parentElement.parentElement.cells[1].abbr + "&idRecord=" + obj.alt,
+        url: "/saveChangeComplex?idEmployee=" + obj.parentElement.parentElement.cells[1].abbr + "&idRecord="
+        + obj.alt+"&date="+document.getElementById("calendarD").value,
         //data: JSON.stringify(dataJson),
 
         async: false,
@@ -433,7 +437,6 @@ function changeRadioButton(obj) {
     })
     var table = document.getElementsByTagName("table");
     for (var i = 0; i < table.length; i++) {
-        table[i].setAttribute("ondblclick", "dbClickTable(event)");
         table[i].setAttribute("onclick", "onClickTable(event)");
     }
 
@@ -445,13 +448,37 @@ function changeDate(obj) {
     var admin = document.getElementById("button").value;
 
     if (admin == "Войти") {
-        getAllByDate(selectedDate);
+        if (selectedDate<=curDate){
+            getAllByDate(selectedDate,curDate);
+        }else{
+            alert("Нельзя смотреть в будущее");
+            document.getElementById("calendarD").value = curDate;
+        }
     } else {
+        if (selectedDate<curDate){
+            deleteButtonPages();
+            getAllByDate(selectedDate,curDate);
+        }else if (selectedDate==curDate){
+            addButtonPages();
+            getAllByDate(selectedDate,curDate);
+        }else if (selectedDate>curDate){
+            var raz = new Date(selectedDate) - new Date(curDate);
+            if (raz>432000000){   //5 дней в мс = 432 000 000
+                alert("Нельзя создать меню более чем на 5 дней вперед");
+            }else{
+                getAllByDateAdmin(selectedDate);
+                addButtonPages();
+            }
+
+
+        }
+
 
     }
+
 }
 
-function getAllByDate(selectedDate) {
+function getAllByDate(selectedDate,curDate) {
 
     var dataJson = {
         date: selectedDate
@@ -469,12 +496,45 @@ function getAllByDate(selectedDate) {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
-            loadComplexes(data[2]);
-            loadEmployees(data[1],data[3]);
-            setRadioButton(data[0]);
+            loadComplexes(data);
+            loadEmployees(data);
+            setRadioButton(data.numberList);
 
         },
         error: function (data) {
+
+
+         }
+    })
+
+
+}
+
+function getAllByDateAdmin(selectedDate) {
+    var dataJson = {
+        date: selectedDate
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/getAllByDateAdmin",
+        data: JSON.stringify(dataJson),
+
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+            loadComplexes(data);
+            loadEmployees(data);
+            setRadioButton(data.numberList);
+
+        },
+        error: function (data) {
+            alert("Нет такого числа, дата будет установлена на последнее существующее");
+            document.getElementById("calendarD").value = curDate;
         }
     })
 

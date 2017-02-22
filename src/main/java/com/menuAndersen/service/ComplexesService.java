@@ -1,6 +1,7 @@
 package com.menuAndersen.service;
 
 import com.menuAndersen.model.Complexes;
+import com.menuAndersen.model.Employees;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface ComplexesService {
     public Complexes getComplex(Long id);
 
     public List<Complexes> listComplexes();
+
+    public int numberToEmployee(Employees employees, Long idR);
 }

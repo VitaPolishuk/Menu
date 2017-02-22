@@ -1,6 +1,7 @@
 package com.menuAndersen.dao;
 
 import com.menuAndersen.model.Complexes;
+import com.menuAndersen.model.Employees;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface ComplexesDao {
     public Complexes getComplex(Long id);
 
     public List<Complexes> listComplexes();
+
+    public int numberToEmployee(Employees employees,Long idR);
 }

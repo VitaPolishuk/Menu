@@ -19,4 +19,6 @@ public interface EmployeesService {
     public List<Employees> listEmployees();
 
     public void setStatus(Long id, boolean status);
+
+    public List<Employees> listEmployeesToStatus(boolean status);
 }

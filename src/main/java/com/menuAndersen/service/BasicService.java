@@ -1,9 +1,11 @@
 package com.menuAndersen.service;
 
 import com.menuAndersen.model.Basic;
+import com.menuAndersen.model.DateAndComplexes;
 import com.menuAndersen.model.Employees;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
 import java.util.List;
 
 @Component
@@ -21,4 +23,6 @@ public interface BasicService {
     public void setComplex(Long idE, Long idR);
 
     public Employees returnEmployeeByRecord(Long idRecord, boolean status);
+
+    public void addEmployeeToBasic (Employees employees, Date date);
 }

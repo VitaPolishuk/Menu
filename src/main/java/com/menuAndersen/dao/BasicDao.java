@@ -1,6 +1,7 @@
 package com.menuAndersen.dao;
 
 import com.menuAndersen.model.Basic;
+import com.menuAndersen.model.DateAndComplexes;
 import com.menuAndersen.model.Employees;
 
 import java.sql.Date;
@@ -18,6 +19,8 @@ public interface BasicDao {
     public List<Basic> listBasics();
 
     public void setComplex(Long idE, Long idR);
+
+    public void addEmployeeToBasic (Employees employees, Date date);
 
     public Employees  returnEmployeeByRecord(Long idRecord, boolean status);
 }

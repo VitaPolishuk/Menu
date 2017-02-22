@@ -295,7 +295,7 @@ function addEmployee() {
 
         $.ajax({
             type: "POST",
-            url: "/addEmployee",
+            url: "/addEmployee?date="+document.getElementById("calendarD").value,
             data: JSON.stringify(dataJson)
 
             ,

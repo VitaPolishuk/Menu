@@ -22,7 +22,7 @@ public interface BasicService {
 
     public void setComplex(Long idE, Long idR);
 
-    public Employees returnEmployeeByRecord(Long idRecord, boolean status);
+    public List<Employees>  returnEmployeeByRecord(Long firstIdRecord,Long lastIdRecord, boolean status);
 
     public void addEmployeeToBasic (Employees employees, Date date);
 }

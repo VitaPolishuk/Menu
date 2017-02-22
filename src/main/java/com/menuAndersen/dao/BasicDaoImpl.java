@@ -66,15 +66,16 @@ public class BasicDaoImpl implements BasicDao{
     }
 
     @Override
-    public Employees returnEmployeeByRecord(Long idRecord, boolean status) {
-        String sql = "select idEmployee from Basic b where idRecord = :par   AND  b.idEmployee = ANY(select idEmployee from Employees where status = "+ status+")";
+    public List<Employees> returnEmployeeByRecord(Long firstIdRecord,Long lastIdRecord, boolean status) {
+        String sql = "select idEmployee from Basic b where (idRecord between :par1 and :par2)   AND  (b.idEmployee = ANY(select idEmployee from Employees where status = "+ status+"))";
        // String sql = "select idEmployee from Basic where idRecord = " + idRecord+ "  AND :par  = ANY( from Employees where status = "+ status+")";
         Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
-        query.setParameter("par",idRecord);
+        query.setParameter("par1",firstIdRecord);
+        query.setParameter("par2",lastIdRecord);
         List<Employees> list = query.list();
 
         if (list != null && !list.isEmpty()) {
-            return list.get(0);
+            return list;
         }
         return null;
     }

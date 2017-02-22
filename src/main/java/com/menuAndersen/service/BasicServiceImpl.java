@@ -57,8 +57,8 @@ public class BasicServiceImpl implements BasicService {
     }
     @Override
     @Transactional
-    public Employees returnEmployeeByRecord(Long idRecord, boolean status) {
-        return  this.basicDao.returnEmployeeByRecord(idRecord, status);
+    public List<Employees>  returnEmployeeByRecord(Long firstIdRecord,Long lastIdRecord, boolean status) {
+        return  this.basicDao.returnEmployeeByRecord(firstIdRecord,lastIdRecord, status);
     }
 
     @Override

@@ -22,5 +22,5 @@ public interface BasicDao {
 
     public void addEmployeeToBasic (Employees employees, Date date);
 
-    public Employees  returnEmployeeByRecord(Long idRecord, boolean status);
+    public List<Employees>  returnEmployeeByRecord(Long firstIdRecord,Long lastIdRecord, boolean status);
 }

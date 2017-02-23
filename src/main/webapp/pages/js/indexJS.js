@@ -208,8 +208,6 @@ function checknewPassword() {
         }
     }
 }
-
-
 function savePassword(password) {
     var oldPassword = document.getElementById("oldPassword");
     var newPassword = document.getElementById("newPassword");
@@ -246,11 +244,10 @@ function savePassword(password) {
     }
 
 }
+}
 function clickLink() {
     document.getElementById("changePassword").style.display = "block";
 }
-
-
 function checkFIO() {
     var inputFIO = document.getElementById("inputFIO");
     inputFIO.setAttribute("class", "");
@@ -265,7 +262,6 @@ function checkFIO() {
     }
 
 }
-
 function checkPositionHeld() {
     var inputPositionHeld = document.getElementById("inputPositionHeld");
     inputPositionHeld.setAttribute("class", "");
@@ -318,7 +314,6 @@ function editComplex(table) {
         table[i].setAttribute("onclick", "onClickTable(event)");
     }
 }
-
 function addEmployee() {
     var inputFIO = document.getElementById("inputFIO");
     var inputPositionHeld = document.getElementById("inputPositionHeld");
@@ -329,37 +324,36 @@ if (inputFIO.value!="" && inputPositionHeld.value!="") {
             positionHeld: inputPositionHeld.value
         };
 
-        $.ajax({
-            type: "POST",
-            url: "/addEmployee?date="+document.getElementById("calendarD").value,
-            data: JSON.stringify(dataJson),
-            async: false,
-            dataType: "json",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            success: function (data, textStatus, jqXHR) {
-                $("#inputFIO").val("");
-                $("#inputPositionHeld").val("");
-                deleteTable();
-                loadEmployees(data);
-                setRadioButton(data.numberList);
-            },
-            error: function (data) {
-                alert(data);
+            $.ajax({
+                type: "POST",
+                url: "/addEmployee?date=" + document.getElementById("calendarD").value,
+                data: JSON.stringify(dataJson),
+                async: false,
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function (data, textStatus, jqXHR) {
+                    $("#inputFIO").val("");
+                    $("#inputPositionHeld").val("");
+                    deleteTable();
+                    loadEmployees(data);
+                    setRadioButton(data.numberList);
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            })
+            var table = document.getElementsByTagName("table");
+            for (var i = 0; i < table.length; i++) {
+                table[i].setAttribute("ondblclick", "dbClickTable(event)");
+                table[i].setAttribute("onclick", "onClickTable(event)");
             }
-        })
-        var table = document.getElementsByTagName("table");
-        for (var i = 0; i < table.length; i++) {
-            table[i].setAttribute("ondblclick", "dbClickTable(event)");
-            table[i].setAttribute("onclick", "onClickTable(event)");
         }
     }
 }
-}
-
-function deleteEmployees() {
+function  deleteEmployees() {
 
     var table = document.getElementById("employees");
     for (var i = 0; i < table.rows.length; i++) {
@@ -428,7 +422,7 @@ function editEmployees(table, row, cell) {
         },
         success: function (data, textStatus, jqXHR) {
 
-            deleteTable();
+            deleteTableEmployee();
             loadEmployees(data);
             setRadioButton(data.numberList);
 
@@ -444,7 +438,6 @@ function editEmployees(table, row, cell) {
     }
 
 }
-
 function deleteTable() {
     var table = document.getElementById("employees")
     if (table.rowIndex > 0) {
@@ -469,7 +462,6 @@ function deleteTableComplex() {
 }
 
 function changeRadioButton(obj) {
-
 
     $.ajax({
         type: "POST",
@@ -511,25 +503,43 @@ function changeDate(obj) {
             addButtonPages();
             getAllByDate(selectedDate);
         }else if (selectedDate>curDate){
-            var raz = new Date(selectedDate) - new Date(curDate);
+          var lastDat =  lastDate();
+           var raz = new Date(selectedDate) - new Date(curDate);
             if (raz>432000000){   //5 дней в мс = 432 000 000
-                alert("Нельзя создать меню более чем на 5 дней вперед");
-            }else{
-                if (confirm("Вы действительно хотите создать менб на это число?")) {
+            alert("Нельзя создать меню более чем на 5 дней вперед");
+           }else{
+                if(selectedDate>lastDat){
+                if (confirm("Вы действительно хотите создать меню на это число?")) {
                     getAllByDateAdmin(selectedDate);
                     addButtonPages();
-                }else{
-                    document.getElementById("calendarD").value = curDate;
                 }
-
-            }
-
-
+                else{
+                    document.getElementById("calendarD").value = curDate;
+                }}
+                else{
+                    getAllByDateAdmin(selectedDate);
+                    addButtonPages();
+                }
+         }
         }
-
-
     }
-
+}
+function lastDate(){
+    var dat;
+    $.ajax({
+        type: "POST",
+        url: "/lastDate",
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+        dat = data;
+        }
+    })
+    return dat;
 }
 function checkDate(returnDate,selectedDate) {
 

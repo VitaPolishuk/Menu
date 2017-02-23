@@ -97,7 +97,12 @@ public class MainController {
     @ResponseBody
     void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
         this.basicService.setComplex(idEmployee, idRecord,date);
-
+    }
+    @RequestMapping(value = "lastDate", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Date lastDate() throws SQLException {
+        return compareDate(dateService.listDate()).getDate();
     }
 
     @RequestMapping(value = "getAllByDate", method = RequestMethod.POST)

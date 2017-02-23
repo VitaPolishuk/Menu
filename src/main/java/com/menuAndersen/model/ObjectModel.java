@@ -9,17 +9,15 @@ public class ObjectModel {
     private List<Integer> numberList;
     private List<Complexes> complexesList;
     private List<Long> idRecordList;
-    private Date date;
+    private MyDate myDate;
 
-    public Date getDate() {
-        return date;
+    public MyDate getMyDate() {
+        return myDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setMyDate(MyDate myDate) {
+        this.myDate = myDate;
     }
-
-
 
     public List<Employees> getEmployeesList() {
         return employeesList;

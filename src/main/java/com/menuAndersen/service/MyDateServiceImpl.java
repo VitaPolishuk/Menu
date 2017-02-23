@@ -51,4 +51,10 @@ public class MyDateServiceImpl implements MyDateService {
     public MyDate getDateByValue(Date myDate) {
         return this.myDateDao.getDateByValue(myDate);
     }
+
+    @Override
+    @Transactional
+    public void setStatusDate(Date date) {
+        this.myDateDao.setStatusDate(date);
+    }
 }

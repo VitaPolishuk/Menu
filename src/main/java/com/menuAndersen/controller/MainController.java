@@ -37,6 +37,9 @@ public class MainController {
     @Autowired(required = true)
     private PasswordService passwordService;
 
+    @Autowired(required = true)
+    private MyDateService myDateService;
+
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(Model model) {
         addCurrDate(model);
@@ -105,6 +108,15 @@ public class MainController {
         return compareDate(dateService.listDate()).getDate();
     }
 
+    @RequestMapping(value = "blockedDate", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseEntity<MyDate> blockedDate(@RequestParam("date") Date date) throws SQLException {
+    this.myDateService.setStatusDate(date);
+    return new ResponseEntity<MyDate>(myDateService.getDateByValue(date),HttpStatus.OK);
+    }
+
+
     @RequestMapping(value = "getAllByDate", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -131,6 +143,7 @@ public class MainController {
         ObjectModel objectModel = new ObjectModel();
         Long idGetDate = findIdDate(myDate);
         if (idGetDate == 0) {
+            myDate.setBlocked(true);
             dateService.addDate(myDate);
             objectModel = createData(myDate);
 
@@ -173,6 +186,7 @@ public class MainController {
           this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
             MyDate todayDate = new MyDate();
             todayDate.setDate(currentDate);
+            todayDate.setBlocked(true);
             dateService.addDate(todayDate);
             objectModel = createData(todayDate);
             setModel(model, todayDate, objectModel);
@@ -195,7 +209,7 @@ public class MainController {
         objectModel.setEmployeesList(listEmployeesTrue);
         objectModel.setIdRecordList(idRecList);
         objectModel.setNumberList(returnNumber(listEmployeesTrue, idRecList));
-        objectModel.setDate(date.getDate());
+        objectModel.setMyDate(date);
         setModel(model, date, objectModel);
         return objectModel;
     }

@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/pages/css/indexCSS.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/pages/js/indexJs.js"></script>
+    <script src="/pages/js/indexJS.js"></script>
 </head>
 <script>
 
@@ -129,7 +129,7 @@
 <script type="text/template" id="templateComplex">
 
     <tr class="stroka">
-        <td>{{=listComplex.firstCourse}}</td>
+        <td abbr="{{=listComplex.idComplex}}">{{=listComplex.firstCourse}}</td>
     </tr>
     <tr class="stroka">
         <td>{{=listComplex.secondCourse}}</td>

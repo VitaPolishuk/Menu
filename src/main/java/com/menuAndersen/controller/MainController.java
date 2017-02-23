@@ -72,6 +72,14 @@ public class MainController {
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "editComplex", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseEntity<ObjectModel> editComplex(@RequestBody Complexes complexes, @RequestParam("date") Date date) throws SQLException {
+        this.complexesService.editComplex(complexes);
+        return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "changePassword", method = RequestMethod.POST)
     public void changePassword(@RequestBody Password password) throws SQLException {
         this.passwordService.editPassword(password);
@@ -94,7 +102,7 @@ public class MainController {
 
         if (idGetDate == 0) {
             MyDate lastDate = compareDate(dateService.listDate());
-            Long idLastDate = lastDate.getIdDate();
+
             objectModel = returnInfoByDay(model, lastDate, objectModel);
 
         } else {
@@ -174,6 +182,7 @@ public class MainController {
         objectModel.setEmployeesList(listEmployeesTrue);
         objectModel.setIdRecordList(idRecList);
         objectModel.setNumberList(returnNumber(listEmployeesTrue, idRecList));
+        objectModel.setDate(date.getDate());
         setModel(model, date, objectModel);
         return objectModel;
     }

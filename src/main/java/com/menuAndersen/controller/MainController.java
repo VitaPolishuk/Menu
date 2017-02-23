@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -48,9 +47,7 @@ public class MainController {
     public
     @ResponseBody
     ResponseEntity<ObjectModel> addEmployee(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
-       // employees.setStatus(true);
-
-        this.employeesService.addEmployees(employees);
+               this.employeesService.addEmployees(employees);
         this.basicService.addEmployeeToBasic(employees, date, true);
 
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
@@ -73,16 +70,23 @@ public class MainController {
     }
 
     @RequestMapping(value = "changePassword", method = RequestMethod.POST)
-    public void changePassword(@RequestBody Password password) throws SQLException {
+    public
+    @ResponseBody
+    Password changePassword(@RequestParam("passwordNew") String passwordNew) throws SQLException {
+         Password password = new Password();
+         password.setIdPassword(new Long(1));
+         password.setPassword(String.valueOf(passwordNew.hashCode()));
         this.passwordService.editPassword(password);
+    //    model.addAttribute("password",password.getPassword());
+        return password;
     }
 
     @RequestMapping(value = "saveChangeComplex", method = RequestMethod.POST)
     public
     @ResponseBody
     void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
-
         this.basicService.setComplex(idEmployee, idRecord,date);
+
     }
 
     @RequestMapping(value = "getAllByDate", method = RequestMethod.POST)
@@ -94,8 +98,7 @@ public class MainController {
 
         if (idGetDate == 0) {
             MyDate lastDate = compareDate(dateService.listDate());
-            Long idLastDate = lastDate.getIdDate();
-            objectModel = returnInfoByDay(model, lastDate, objectModel);
+              objectModel = returnInfoByDay(model, lastDate, objectModel);
 
         } else {
             myDate.setIdDate(idGetDate);
@@ -149,7 +152,9 @@ public class MainController {
         ObjectModel objectModel = new ObjectModel();
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
-            this.passwordService.addPassword();
+            String passwordInitial= "andersen";
+
+          this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
             MyDate todayDate = new MyDate();
             todayDate.setDate(currentDate);
             dateService.addDate(todayDate);

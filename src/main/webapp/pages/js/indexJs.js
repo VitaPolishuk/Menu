@@ -84,8 +84,8 @@ function authentication(password) {
 
     if (name == "Войти") {
         showPrompt("Введите что-нибудь<br>...умное :)", function (value) {
-            if (value != null) {
-                if (value == password) {
+            if ((value.hashCode()+"")!= null) {
+                if ((value.hashCode()+"") == password) {
                     addButtonPages();
                     document.getElementById("button").value = "Выйти";
                 } else {
@@ -213,15 +213,11 @@ function savePassword(password) {
     var newPassword = document.getElementById("newPassword");
     if (oldPassword.className == "" && newPassword.className == "") {
 
-        if (document.getElementById("oldPassword").value == password) {
-            var dataJson = {
-                password: document.getElementById("newPassword").value,
-                idPassword: 1
-            };
+        if ((document.getElementById("oldPassword").value.hashCode()+"") == password) {
+
             $.ajax({
                 type: "POST",
-                url: "/changePassword",
-                data: JSON.stringify(dataJson),
+                url: "/changePassword?passwordNew="+document.getElementById("newPassword").value ,
                 async: false,
                 dataType: "json",
                 headers: {
@@ -229,10 +225,12 @@ function savePassword(password) {
                     'Content-Type': 'application/json'
                 },
                 success: function (data, textStatus, jqXHR) {
-
+                    alert("Пароль успешно изменен!")
+                   document.getElementById("button").name = data.password;
+                    document.getElementById("buttonSavePassword").name = data.password;
                 }
             })
-            alert("Пароль успешно изменен!")
+
             $("#oldPassword").val("");
             $("#newPassword").val("");
             document.getElementById("changePassword").style.display = "none";
@@ -285,20 +283,15 @@ function addEmployee() {
     var inputPositionHeld = document.getElementById("inputPositionHeld");
 
     if (inputFIO.className == "" && inputPositionHeld.className == "") {
-
-
         var dataJson = {
             fio: inputFIO.value,
             positionHeld: inputPositionHeld.value
-
         };
 
         $.ajax({
             type: "POST",
             url: "/addEmployee?date="+document.getElementById("calendarD").value,
-            data: JSON.stringify(dataJson)
-
-            ,
+            data: JSON.stringify(dataJson),
             async: false,
             dataType: "json",
             headers: {
@@ -308,7 +301,7 @@ function addEmployee() {
             success: function (data, textStatus, jqXHR) {
                 $("#inputFIO").val("");
                 $("#inputPositionHeld").val("");
-                deleteTable();
+                deleteTableEmployee();
                 loadEmployees(data);
                 setRadioButton(data.numberList);
             },
@@ -346,7 +339,7 @@ function deleteEmployees() {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
-            deleteTable();
+            deleteTableEmployee();
             loadEmployees(data);
             setRadioButton(data.numberList);
         },
@@ -393,7 +386,7 @@ function editEmployees(table, row, cell) {
         },
         success: function (data, textStatus, jqXHR) {
 
-            deleteTable();
+            deleteTableEmployee();
             loadEmployees(data);
             setRadioButton(data.numberList);
 
@@ -410,7 +403,7 @@ function editEmployees(table, row, cell) {
 
 }
 
-function deleteTable() {
+function deleteTableEmployee() {
     var table = document.getElementById("employees")
     if (table.rowIndex > 0) {
 
@@ -422,7 +415,6 @@ function deleteTable() {
 }
 
 function changeRadioButton(obj) {
-
 
     $.ajax({
         type: "POST",
@@ -556,6 +548,17 @@ function setRadioButton(listNumber) {
         }
 
     }
-
-
 }
+
+
+
+String.prototype.hashCode = function() {
+    var hash = 0, i, chr, len;
+    if (this.length === 0) return hash;
+    for (i = 0, len = this.length; i < len; i++) {
+        chr   = this.charCodeAt(i);
+        hash  = 31*hash + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+};

@@ -24,7 +24,6 @@ function dbClickTable(ev) {
         }
     }
 }
-
 function onClickTable(ev) {
     var row = ev.target.parentElement.rowIndex;
     var cell = ev.target.cellIndex;
@@ -42,17 +41,14 @@ function onClickTable(ev) {
     }
 
 }
-
 function showCover() {
     var coverDiv = document.createElement('div');
     coverDiv.id = 'cover-div';
     document.body.appendChild(coverDiv);
 }
-
 function hideCover() {
     document.body.removeChild(document.getElementById('cover-div'));
 }
-
 function showPrompt(text, callback) {
     showCover();
     var form = document.getElementById('prompt-form');
@@ -80,7 +76,6 @@ function showPrompt(text, callback) {
     container.style.display = 'block';
     form.elements.text.focus();
 }
-
 function authentication(password) {
     var name = document.getElementById("button").value;
 
@@ -101,7 +96,6 @@ function authentication(password) {
         deleteButtonPages();
     }
 }
-
 function loadEmployees(objectModel) {
     var template = document.getElementById('templateTable').innerHTML.trim();
     if (objectModel.idRecordList != 0) {
@@ -114,7 +108,6 @@ function loadEmployees(objectModel) {
         });
     }
 }
-
 function loadComplexes(objectModel) {
 
     var template = document.getElementById('templateComplex').innerHTML.trim();
@@ -129,8 +122,6 @@ function loadComplexes(objectModel) {
     }
 
 }
-
-
 function addButtonPages() {
     var calendar = document.getElementById("dateqqqq");
     var div = document.getElementById("addEmployees-container");
@@ -151,7 +142,6 @@ function addButtonPages() {
     document.getElementById("blockPages").style.display = "block";
 
 }
-
 function deleteButtonPages() {
     var div = document.getElementById("addEmployees-container");
     div.style.display = "none";
@@ -175,7 +165,6 @@ function deleteButtonPages() {
     document.getElementById("blockPages").style.display = "none";
 
 }
-
 function checkoldPassword() {
     var oldPassword = document.getElementById("oldPassword");
     oldPassword.setAttribute("class", "");
@@ -192,7 +181,6 @@ function checkoldPassword() {
     }
 
 }
-
 function checknewPassword() {
     var newPassword = document.getElementById("newPassword");
     newPassword.setAttribute("class", "");
@@ -208,8 +196,6 @@ function checknewPassword() {
         }
     }
 }
-
-
 function savePassword(password) {
     var oldPassword = document.getElementById("oldPassword");
     var newPassword = document.getElementById("newPassword");
@@ -246,11 +232,10 @@ function savePassword(password) {
     }
 
 }
+}
 function clickLink() {
     document.getElementById("changePassword").style.display = "block";
 }
-
-
 function checkFIO() {
     var inputFIO = document.getElementById("inputFIO");
     inputFIO.setAttribute("class", "");
@@ -265,7 +250,6 @@ function checkFIO() {
     }
 
 }
-
 function checkPositionHeld() {
     var inputPositionHeld = document.getElementById("inputPositionHeld");
     inputPositionHeld.setAttribute("class", "");
@@ -318,48 +302,47 @@ function editComplex(table) {
         table[i].setAttribute("onclick", "onClickTable(event)");
     }
 }
-
 function addEmployee() {
     var inputFIO = document.getElementById("inputFIO");
     var inputPositionHeld = document.getElementById("inputPositionHeld");
-if (inputFIO.value!="" && inputPositionHeld.value!="") {
-    if (inputFIO.className == "" && inputPositionHeld.className == "") {
-        var dataJson = {
-            fio: inputFIO.value,
-            positionHeld: inputPositionHeld.value
+    if (inputFIO.value != "" && inputPositionHeld.value != "") {
+        if (inputFIO.className == "" && inputPositionHeld.className == "") {
+            var dataJson = {
+                fio: inputFIO.value,
+                positionHeld: inputPositionHeld.value
 
-        };
+            };
 
-        $.ajax({
-            type: "POST",
-            url: "/addEmployee?date="+document.getElementById("calendarD").value,
-            data: JSON.stringify(dataJson),
-            async: false,
-            dataType: "json",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            success: function (data, textStatus, jqXHR) {
-                $("#inputFIO").val("");
-                $("#inputPositionHeld").val("");
-                deleteTable();
-                loadEmployees(data);
-                setRadioButton(data.numberList);
-            },
-            error: function (data) {
-                alert(data);
+            $.ajax({
+                type: "POST",
+                url: "/addEmployee?date=" + document.getElementById("calendarD").value,
+                data: JSON.stringify(dataJson),
+                async: false,
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function (data, textStatus, jqXHR) {
+                    $("#inputFIO").val("");
+                    $("#inputPositionHeld").val("");
+                    deleteTable();
+                    loadEmployees(data);
+                    setRadioButton(data.numberList);
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            })
+            var table = document.getElementsByTagName("table");
+            for (var i = 0; i < table.length; i++) {
+                table[i].setAttribute("ondblclick", "dbClickTable(event)");
+                table[i].setAttribute("onclick", "onClickTable(event)");
             }
-        })
-        var table = document.getElementsByTagName("table");
-        for (var i = 0; i < table.length; i++) {
-            table[i].setAttribute("ondblclick", "dbClickTable(event)");
-            table[i].setAttribute("onclick", "onClickTable(event)");
         }
     }
 }
-
-function deleteEmployees() {
+function  deleteEmployees() {
 
     var table = document.getElementById("employees");
     for (var i = 0; i < table.rows.length; i++) {
@@ -395,7 +378,6 @@ function deleteEmployees() {
         table[i].setAttribute("onclick", "onClickTable(event)");
     }
 }
-
 function editEmployees(table, row, cell) {
     if (cell == 1) {
         var dataJson = {
@@ -444,7 +426,6 @@ function editEmployees(table, row, cell) {
     }
 
 }
-
 function deleteTable() {
     var table = document.getElementById("employees")
     if (table.rowIndex > 0) {
@@ -455,7 +436,6 @@ function deleteTable() {
     }
 
 }
-
 function deleteTableComplex() {
     var allTable = document.getElementsByTagName("table")
     for (var i=0;i<allTable.length;i++){
@@ -467,7 +447,6 @@ function deleteTableComplex() {
     }
 
 }
-
 function changeRadioButton(obj) {
 
 
@@ -490,7 +469,6 @@ function changeRadioButton(obj) {
     }
 
 }
-
 function changeDate(obj) {
     var selectedDate = obj.value;
     var curDate = obj.alt;
@@ -511,25 +489,43 @@ function changeDate(obj) {
             addButtonPages();
             getAllByDate(selectedDate);
         }else if (selectedDate>curDate){
-            var raz = new Date(selectedDate) - new Date(curDate);
+          var lastDat =  lastDate();
+           var raz = new Date(selectedDate) - new Date(curDate);
             if (raz>432000000){   //5 дней в мс = 432 000 000
-                alert("Нельзя создать меню более чем на 5 дней вперед");
-            }else{
-                if (confirm("Вы действительно хотите создать менб на это число?")) {
+            alert("Нельзя создать меню более чем на 5 дней вперед");
+           }else{
+                if(selectedDate>lastDat){
+                if (confirm("Вы действительно хотите создать меню на это число?")) {
                     getAllByDateAdmin(selectedDate);
                     addButtonPages();
-                }else{
-                    document.getElementById("calendarD").value = curDate;
                 }
-
-            }
-
-
+                else{
+                    document.getElementById("calendarD").value = curDate;
+                }}
+                else{
+                    getAllByDateAdmin(selectedDate);
+                    addButtonPages();
+                }
+         }
         }
-
-
     }
-
+}
+function lastDate(){
+    var dat;
+    $.ajax({
+        type: "POST",
+        url: "/lastDate",
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+        dat = data;
+        }
+    })
+    return dat;
 }
 function checkDate(returnDate,selectedDate) {
 
@@ -540,18 +536,15 @@ function checkDate(returnDate,selectedDate) {
     document.getElementById("calendarD").value = returnDate;
 
 }
-
 function getAllByDate(selectedDate) {
 
     var dataJson = {
         date: selectedDate
     }
-
     $.ajax({
         type: "POST",
         url: "/getAllByDate",
         data: JSON.stringify(dataJson),
-
         async: false,
         dataType: "json",
         headers: {
@@ -563,18 +556,13 @@ function getAllByDate(selectedDate) {
             loadEmployees(data);
             setRadioButton(data.numberList);
             checkDate(data.date,selectedDate);
-
-
         },
         error: function (data) {
-
-
          }
     })
 
 
 }
-
 function getAllByDateAdmin(selectedDate) {
     var dataJson = {
         date: selectedDate
@@ -605,7 +593,6 @@ function getAllByDateAdmin(selectedDate) {
 
 
 }
-
 function setRadioButton(listNumber) {
     var table = document.getElementById("employees");
     for (var i = 1; i < table.rows.length; i++) {
@@ -620,9 +607,6 @@ function setRadioButton(listNumber) {
 
     }
 }
-
-
-
 String.prototype.hashCode = function() {
     var hash = 0, i, chr, len;
     if (this.length === 0) return hash;
@@ -632,4 +616,4 @@ String.prototype.hashCode = function() {
         hash |= 0; // Convert to 32bit integer
     }
     return hash;
-};
+}

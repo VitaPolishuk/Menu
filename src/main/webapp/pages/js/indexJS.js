@@ -17,6 +17,8 @@ function dbClickTable(ev) {
         table.rows[row].cells[cell].onblur = function () {
             if (table.id == "employees") {
                 editEmployees(table, row, cell);
+            }else if(table.id=="complex1"||table.id=="complex2"||table.id=="complex3"){
+                editComplex(table);
             }
             table.rows[row].cells[cell].setAttribute("contenteditable", "false");
         }
@@ -211,7 +213,8 @@ function checknewPassword() {
 function savePassword(password) {
     var oldPassword = document.getElementById("oldPassword");
     var newPassword = document.getElementById("newPassword");
-    if (oldPassword.className == "" && newPassword.className == "") {
+    if (oldPassword.value!="" && newPassword.value!="") {
+        if (oldPassword.className == "" && newPassword.className == "") {
 
         if ((document.getElementById("oldPassword").value.hashCode()+"") == password) {
 
@@ -276,16 +279,55 @@ function checkPositionHeld() {
         }
     }
 }
+function editComplex(table) {
 
+        var dataJson = {
+            idComplex: table.rows[0].cells[0].abbr,
+            firstCourse: table.rows[0].cells[0].innerHTML,
+            secondCourse: table.rows[1].cells[0].innerHTML,
+            salad: table.rows[2].cells[0].innerHTML,
+            drinks: table.rows[3].cells[0].innerHTML
+        };
+
+    $.ajax({
+        type: "POST",
+        url: "/editComplex?date="+document.getElementById("calendarD").value,
+        data: JSON.stringify(dataJson),
+
+
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+
+            deleteTableComplex();
+            loadComplexes(data);
+
+
+        },
+        error: function (data) {
+            alert(data);
+        }
+    })
+    var table = document.getElementsByTagName("table");
+    for (var i = 0; i < table.length; i++) {
+        table[i].setAttribute("ondblclick", "dbClickTable(event)");
+        table[i].setAttribute("onclick", "onClickTable(event)");
+    }
+}
 
 function addEmployee() {
     var inputFIO = document.getElementById("inputFIO");
     var inputPositionHeld = document.getElementById("inputPositionHeld");
-
+if (inputFIO.value!="" && inputPositionHeld.value!="") {
     if (inputFIO.className == "" && inputPositionHeld.className == "") {
         var dataJson = {
             fio: inputFIO.value,
             positionHeld: inputPositionHeld.value
+
         };
 
         $.ajax({
@@ -301,7 +343,7 @@ function addEmployee() {
             success: function (data, textStatus, jqXHR) {
                 $("#inputFIO").val("");
                 $("#inputPositionHeld").val("");
-                deleteTableEmployee();
+                deleteTable();
                 loadEmployees(data);
                 setRadioButton(data.numberList);
             },
@@ -339,7 +381,7 @@ function deleteEmployees() {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
-            deleteTableEmployee();
+            deleteTable();
             loadEmployees(data);
             setRadioButton(data.numberList);
         },
@@ -386,7 +428,7 @@ function editEmployees(table, row, cell) {
         },
         success: function (data, textStatus, jqXHR) {
 
-            deleteTableEmployee();
+            deleteTable();
             loadEmployees(data);
             setRadioButton(data.numberList);
 
@@ -403,7 +445,7 @@ function editEmployees(table, row, cell) {
 
 }
 
-function deleteTableEmployee() {
+function deleteTable() {
     var table = document.getElementById("employees")
     if (table.rowIndex > 0) {
 
@@ -414,7 +456,20 @@ function deleteTableEmployee() {
 
 }
 
+function deleteTableComplex() {
+    var allTable = document.getElementsByTagName("table")
+    for (var i=0;i<allTable.length;i++){
+        if (allTable[i].id == "complex1" || allTable[i].id == "complex2" || allTable[i].id == "complex3") {
+                for (var j=allTable[i].rows.length-1;j>=0;j--){
+                    allTable[i].deleteRow(j);
+                }
+        }
+    }
+
+}
+
 function changeRadioButton(obj) {
+
 
     $.ajax({
         type: "POST",
@@ -443,7 +498,7 @@ function changeDate(obj) {
 
     if (admin == "Войти") {
         if (selectedDate<=curDate){
-            getAllByDate(selectedDate,curDate);
+            getAllByDate(selectedDate);
         }else{
             alert("Нельзя смотреть в будущее");
             document.getElementById("calendarD").value = curDate;
@@ -451,17 +506,22 @@ function changeDate(obj) {
     } else {
         if (selectedDate<curDate){
             deleteButtonPages();
-            getAllByDate(selectedDate,curDate);
+            getAllByDate(selectedDate);
         }else if (selectedDate==curDate){
             addButtonPages();
-            getAllByDate(selectedDate,curDate);
+            getAllByDate(selectedDate);
         }else if (selectedDate>curDate){
             var raz = new Date(selectedDate) - new Date(curDate);
             if (raz>432000000){   //5 дней в мс = 432 000 000
                 alert("Нельзя создать меню более чем на 5 дней вперед");
             }else{
-                getAllByDateAdmin(selectedDate);
-                addButtonPages();
+                if (confirm("Вы действительно хотите создать менб на это число?")) {
+                    getAllByDateAdmin(selectedDate);
+                    addButtonPages();
+                }else{
+                    document.getElementById("calendarD").value = curDate;
+                }
+
             }
 
 
@@ -471,8 +531,17 @@ function changeDate(obj) {
     }
 
 }
+function checkDate(returnDate,selectedDate) {
 
-function getAllByDate(selectedDate,curDate) {
+    if (returnDate!=selectedDate){
+        alert("Нету такой даты, дата будет установлена на последнее существующее")
+
+    }
+    document.getElementById("calendarD").value = returnDate;
+
+}
+
+function getAllByDate(selectedDate) {
 
     var dataJson = {
         date: selectedDate
@@ -493,6 +562,8 @@ function getAllByDate(selectedDate,curDate) {
             loadComplexes(data);
             loadEmployees(data);
             setRadioButton(data.numberList);
+            checkDate(data.date,selectedDate);
+
 
         },
         error: function (data) {

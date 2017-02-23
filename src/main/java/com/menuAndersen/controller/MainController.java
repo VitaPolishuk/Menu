@@ -69,6 +69,14 @@ public class MainController {
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "editComplex", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseEntity<ObjectModel> editComplex(@RequestBody Complexes complexes, @RequestParam("date") Date date) throws SQLException {
+        this.complexesService.editComplex(complexes);
+        return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "changePassword", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -85,6 +93,7 @@ public class MainController {
     public
     @ResponseBody
     void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
+
         this.basicService.setComplex(idEmployee, idRecord,date);
 
     }
@@ -179,6 +188,7 @@ public class MainController {
         objectModel.setEmployeesList(listEmployeesTrue);
         objectModel.setIdRecordList(idRecList);
         objectModel.setNumberList(returnNumber(listEmployeesTrue, idRecList));
+        objectModel.setDate(date.getDate());
         setModel(model, date, objectModel);
         return objectModel;
     }

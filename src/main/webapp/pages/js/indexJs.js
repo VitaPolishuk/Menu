@@ -543,11 +543,11 @@ function lastDate(){
 }
 function checkDate(returnDate,selectedDate) {
 
-    if (returnDate!=selectedDate){
+    if (returnDate.date!=selectedDate){
         alert("Нету такой даты, дата будет установлена на последнее существующее")
 
     }
-    document.getElementById("calendarD").value = returnDate;
+    document.getElementById("calendarD").value = returnDate.date;
 
 }
 
@@ -572,7 +572,7 @@ function getAllByDate(selectedDate) {
             loadComplexes(data);
             loadEmployees(data);
             setRadioButton(data.numberList);
-            checkDate(data.date,selectedDate);
+            checkDate(data.myDate,selectedDate);
 
 
         },
@@ -629,6 +629,31 @@ function setRadioButton(listNumber) {
         }
 
     }
+}
+
+
+function blockedDate() {
+    var status = checkBlocked();
+}
+
+function checkBlocked() {
+    var status;
+    $.ajax({
+        type: "POST",
+        url: "/blockedDate?date=" + document.getElementById("calendarD").value,
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+            status = data.blocked;
+        },
+        error: function (data) {
+        }
+    })
+    return status;
 }
 
 

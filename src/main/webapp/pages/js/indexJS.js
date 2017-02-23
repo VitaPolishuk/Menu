@@ -86,8 +86,8 @@ function authentication(password) {
 
     if (name == "Войти") {
         showPrompt("Введите что-нибудь<br>...умное :)", function (value) {
-            if (value != null) {
-                if (value == password) {
+            if ((value.hashCode()+"")!= null) {
+                if ((value.hashCode()+"") == password) {
                     addButtonPages();
                     document.getElementById("button").value = "Выйти";
                 } else {
@@ -216,35 +216,32 @@ function savePassword(password) {
     if (oldPassword.value!="" && newPassword.value!="") {
         if (oldPassword.className == "" && newPassword.className == "") {
 
-            if (document.getElementById("oldPassword").value == password) {
-                var dataJson = {
-                    password: document.getElementById("newPassword").value,
-                    idPassword: 1
-                };
-                $.ajax({
-                    type: "POST",
-                    url: "/changePassword",
-                    data: JSON.stringify(dataJson),
-                    async: false,
-                    dataType: "json",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    success: function (data, textStatus, jqXHR) {
+        if ((document.getElementById("oldPassword").value.hashCode()+"") == password) {
 
-                    }
-                })
-                alert("Пароль успешно изменен!")
-                $("#oldPassword").val("");
-                $("#newPassword").val("");
-                document.getElementById("changePassword").style.display = "none";
-            }
-            else {
-                alert("Неверный старый пароль!");
-                $("#oldPassword").val("");
-                $("#newPassword").val("");
-            }
+            $.ajax({
+                type: "POST",
+                url: "/changePassword?passwordNew="+document.getElementById("newPassword").value ,
+                async: false,
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function (data, textStatus, jqXHR) {
+                    alert("Пароль успешно изменен!")
+                   document.getElementById("button").name = data.password;
+                    document.getElementById("buttonSavePassword").name = data.password;
+                }
+            })
+
+            $("#oldPassword").val("");
+            $("#newPassword").val("");
+            document.getElementById("changePassword").style.display = "none";
+        }
+        else {
+            alert("Неверный старый пароль!");
+            $("#oldPassword").val("");
+            $("#newPassword").val("");
         }
     }
 
@@ -327,20 +324,15 @@ function addEmployee() {
     var inputPositionHeld = document.getElementById("inputPositionHeld");
 if (inputFIO.value!="" && inputPositionHeld.value!="") {
     if (inputFIO.className == "" && inputPositionHeld.className == "") {
-
-
         var dataJson = {
             fio: inputFIO.value,
             positionHeld: inputPositionHeld.value
-
         };
 
         $.ajax({
             type: "POST",
-            url: "/addEmployee?date=" + document.getElementById("calendarD").value,
-            data: JSON.stringify(dataJson)
-
-            ,
+            url: "/addEmployee?date="+document.getElementById("calendarD").value,
+            data: JSON.stringify(dataJson),
             async: false,
             dataType: "json",
             headers: {
@@ -627,6 +619,17 @@ function setRadioButton(listNumber) {
         }
 
     }
-
-
 }
+
+
+
+String.prototype.hashCode = function() {
+    var hash = 0, i, chr, len;
+    if (this.length === 0) return hash;
+    for (i = 0, len = this.length; i < len; i++) {
+        chr   = this.charCodeAt(i);
+        hash  = 31*hash + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+};

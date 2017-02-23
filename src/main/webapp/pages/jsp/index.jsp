@@ -56,7 +56,7 @@
 <div id="prompt-form-container">
     <form id="prompt-form">
         <div id="prompt-message"></div>
-        <input name="text" type="password">
+        <input id = "password" name="text" type="password">
         <input type="submit" value="Ок">
         <input type="button" name="cancel" value="Отмена">
     </form>
@@ -71,7 +71,7 @@
 
 <div class="header">
     <div>Режим админа</div>
-    <div><input id="button" type="button" value="Войти" onclick=authentication(${password})></div>
+    <div><input id="button" type="button" name = "${password}" value="Войти" onclick=authentication(this.name)></div>
     <div id="changePasswordLink"><a href="#" onclick="clickLink()">Сменить пароль</a></div>
     <br>
 
@@ -81,7 +81,7 @@
     <div><input type="password" class="" id="oldPassword" size="20px" onclick="checkoldPassword()" ></div>
     <div>Новый пароль</div>
     <div><input type="password"  class="" id="newPassword" size="20px" onclick="checknewPassword()"></div>
-    <div><input type="button" value="Сохранить" id="buttonSavePassword" onclick="savePassword(${password})"></div>
+    <div><input type="button" value="Сохранить" id="buttonSavePassword" name = "${password}" onclick="savePassword(this.name)"></div>
 
 </div>
 

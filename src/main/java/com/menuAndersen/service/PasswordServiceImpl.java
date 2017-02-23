@@ -17,8 +17,8 @@ public class PasswordServiceImpl implements PasswordService {
 
     @Override
     @Transactional
-    public void addPassword() {
-        this.passwordDao.addPassword();
+    public void addPassword(String passwordHash) {
+        this.passwordDao.addPassword(passwordHash);
     }
 
     @Override

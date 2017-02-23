@@ -112,10 +112,17 @@ public class MainController {
     public
     @ResponseBody
     ResponseEntity<MyDate> blockedDate(@RequestParam("date") Date date) throws SQLException {
-    this.myDateService.setStatusDate(date);
+    //this.myDateService.setStatusDate(date);
     return new ResponseEntity<MyDate>(myDateService.getDateByValue(date),HttpStatus.OK);
     }
 
+    @RequestMapping(value = "setStatusDateFalse", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    void setStatus(@RequestParam("date") Date date) throws SQLException {
+        this.myDateService.setStatusDate(date);
+
+    }
 
     @RequestMapping(value = "getAllByDate", method = RequestMethod.POST)
     public

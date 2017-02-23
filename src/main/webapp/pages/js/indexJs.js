@@ -88,6 +88,7 @@ function authentication(password) {
         showPrompt("Введите что-нибудь<br>...умное :)", function (value) {
             if ((value.hashCode()+"")!= null) {
                 if ((value.hashCode()+"") == password) {
+
                     addButtonPages();
                     document.getElementById("button").value = "Выйти";
                 } else {
@@ -573,6 +574,10 @@ function getAllByDate(selectedDate) {
             loadEmployees(data);
             setRadioButton(data.numberList);
             checkDate(data.myDate,selectedDate);
+            var status = checkBlocked();
+            if (!status){
+                disabledRadioButton();
+            }
 
 
         },
@@ -605,6 +610,10 @@ function getAllByDateAdmin(selectedDate) {
             loadComplexes(data);
             loadEmployees(data);
             setRadioButton(data.numberList);
+            var status = checkBlocked();
+            if (!status){
+                disabledRadioButton();
+            }
 
         },
         error: function (data) {
@@ -613,6 +622,14 @@ function getAllByDateAdmin(selectedDate) {
         }
     })
 
+
+}
+
+function disabledRadioButton() {
+ var radio = document.getElementsByClassName("radioButton");
+ for (var i=0;radio.length;i++){
+     radio[i].disabled = true;
+ }
 
 }
 
@@ -633,7 +650,18 @@ function setRadioButton(listNumber) {
 
 
 function blockedDate() {
-    var status = checkBlocked();
+    $.ajax({
+        type: "POST",
+        url: "/setStatusDateFalse?date=" + document.getElementById("calendarD").value,
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+
 }
 
 function checkBlocked() {

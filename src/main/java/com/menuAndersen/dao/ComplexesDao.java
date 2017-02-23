@@ -3,6 +3,7 @@ package com.menuAndersen.dao;
 import com.menuAndersen.model.Complexes;
 import com.menuAndersen.model.Employees;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface ComplexesDao {
@@ -18,4 +19,6 @@ public interface ComplexesDao {
     public List<Complexes> listComplexes();
 
     public int numberToEmployee(Employees employees,Long idR);
+
+    public List<Complexes> returnComplexesByDate(Date date);
 }

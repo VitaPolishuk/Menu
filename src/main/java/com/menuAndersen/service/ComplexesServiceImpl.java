@@ -6,6 +6,7 @@ import com.menuAndersen.model.Employees;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service("complexesService")
@@ -51,6 +52,11 @@ public class ComplexesServiceImpl implements ComplexesService {
     @Transactional
     public int numberToEmployee(Employees employees, Long idR){
         return this.complexesDao.numberToEmployee(employees,idR);
+    }
+    @Override
+    @Transactional
+    public List<Complexes> returnComplexesByDate(Date date){
+        return this.complexesDao.returnComplexesByDate(date);
     }
 
 }

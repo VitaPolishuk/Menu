@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 @Repository("complexesDao")
 public class ComplexesDaoImpl implements ComplexesDao {
@@ -72,6 +73,19 @@ public class ComplexesDaoImpl implements ComplexesDao {
             return list.get(0).getIdRecord().getIdComplex().getNumber();
         }
         return 5;
+    }
+    @Override
+    public List<Complexes> returnComplexesByDate(Date date){
+        String sql = "select idComplex from DateAndComplexes  where idDate = (select idDate from MyDate where date =:par)";
+
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        query.setParameter("par", date);
+        List<Complexes> list = query.list();
+
+        if (list != null && !list.isEmpty()) {
+            return list;
+        }
+        return null;
     }
 
 }

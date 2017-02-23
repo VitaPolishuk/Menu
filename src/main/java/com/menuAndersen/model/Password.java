@@ -11,7 +11,7 @@ public class Password implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPassword;
 
-    @Column(name = "password", columnDefinition = "varchar(15) default '6'")
+    @Column(name = "password")
     private String password;
 
     public Long getIdPassword() {
@@ -29,5 +29,4 @@ public class Password implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }

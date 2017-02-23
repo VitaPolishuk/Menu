@@ -19,4 +19,5 @@ public interface MyDateService {
     public List<MyDate> listDate();
 
     public MyDate getDateByValue(Date myDate);
+    public void setStatusDate(Date date);
 }

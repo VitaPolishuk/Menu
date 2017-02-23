@@ -1,5 +1,6 @@
 package com.menuAndersen.model;
 
+import java.sql.Date;
 import java.util.List;
 
 public class ObjectModel {
@@ -8,6 +9,15 @@ public class ObjectModel {
     private List<Integer> numberList;
     private List<Complexes> complexesList;
     private List<Long> idRecordList;
+    private MyDate myDate;
+
+    public MyDate getMyDate() {
+        return myDate;
+    }
+
+    public void setMyDate(MyDate myDate) {
+        this.myDate = myDate;
+    }
 
     public List<Employees> getEmployeesList() {
         return employeesList;

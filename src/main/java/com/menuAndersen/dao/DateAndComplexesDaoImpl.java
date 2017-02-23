@@ -74,4 +74,16 @@ public class DateAndComplexesDaoImpl implements DateAndComplexesDao {
         return list;
     }
 
+
+    @Override
+    public void addToDate(Complexes complexes,MyDate myDate) {
+        String sql = "insert into DateAndComplexes (idComplex,idDate) " +
+                "from Complexes c,MyDate m where c.idComplex ="+complexes.getIdComplex()+
+                " and m.idDate="+myDate.getIdDate();
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        query.executeUpdate();
+
+    }
+
+
 }

@@ -3,6 +3,7 @@ package com.menuAndersen.service;
 import com.menuAndersen.dao.DateAndComplexesDao;
 import com.menuAndersen.model.Complexes;
 import com.menuAndersen.model.DateAndComplexes;
+import com.menuAndersen.model.MyDate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +58,11 @@ public class DateAndComplexesServiceImpl implements DateAndComplexesService{
     @Transactional
     public List<Complexes> returnIdComplexesByDate(Date date) {
         return this.dateAndComplexesDao.returnIdComplexesByDate(date);
+    }
+    @Override
+    @Transactional
+    public void addToDate(Complexes complexes,MyDate myDate){
+         this.dateAndComplexesDao.addToDate(complexes,myDate);
     }
 
 }

@@ -25,6 +25,7 @@ function dbClickTable(ev) {
     }
 }
 
+
 function onClickTable(ev) {
     var row = ev.target.parentElement.rowIndex;
     var cell = ev.target.cellIndex;
@@ -104,6 +105,7 @@ function authentication(password) {
 }
 
 function loadEmployees(objectModel) {
+
     var template = document.getElementById('templateTable').innerHTML.trim();
     if (objectModel.idRecordList != 0) {
 
@@ -114,6 +116,7 @@ function loadEmployees(objectModel) {
 
         });
     }
+    countComplexes();
 }
 
 function loadComplexes(objectModel) {
@@ -497,8 +500,26 @@ function saveChangeComplex(idEmployee,idRecord,date) {
             'Content-Type': 'application/json'
         }
     })
+    countComplexes();
 }
 
+function countComplexes() {
+    $.ajax({
+        type: "POST",
+        url: "/countComplexes?date="+document.getElementById("calendarD").value,
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data) {
+            document.getElementById("countComplexFirst").innerText = data[0];
+            document.getElementById("countComplexSecond").innerText = data[1];
+            document.getElementById("countComplexThird").innerText = data[2];
+        }
+    })
+}
 
 function changeDate(obj) {
 
@@ -597,10 +618,10 @@ function getAllByDate(selectedDate) {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
+            checkDate(data.myDate,selectedDate);
             loadComplexes(data);
             loadEmployees(data);
             setRadioButton(data.numberList);
-            checkDate(data.myDate,selectedDate);
             var status = checkBlocked();
             if (!status){
                 disabledRadioButton();
@@ -673,6 +694,7 @@ function setRadioButton(listNumber) {
         }
 
     }
+    countComplexes();
 }
 
 

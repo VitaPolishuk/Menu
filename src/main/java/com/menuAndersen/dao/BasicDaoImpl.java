@@ -118,4 +118,16 @@ public class BasicDaoImpl implements BasicDao{
        query.executeUpdate();
 
     }
+    @Override
+    public int countComplex(Date date, int numberComplex){
+        String sql = "from Basic b where b.idRecord = (select d.idRecord" +
+                " from DateAndComplexes d where d.idDate = (select m.idDate " +
+                "from MyDate m where m.date =:parDate) and d.idComplex = " +
+                "ANY(select c.idComplex from Complexes c where c.number = "+numberComplex+")) " +
+                "and b.status = true";
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        query.setParameter("parDate", date);
+        List list = query.list();
+        return list.size();
+    }
 }

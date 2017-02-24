@@ -98,8 +98,18 @@ public class MainController {
     @RequestMapping(value = "saveChangeComplex", method = RequestMethod.POST)
     public
     @ResponseBody
-    void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
+   void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
         this.basicService.setComplex(idEmployee, idRecord,date);
+    }
+    @RequestMapping(value = "countComplexes", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseEntity<List<Integer>> countComplexes(@RequestParam("date") Date date) throws SQLException {
+        List<Integer> listCountComplex = new ArrayList<>();
+        listCountComplex.add(this.basicService.countComplex(date,1));
+        listCountComplex.add(this.basicService.countComplex(date,2));
+        listCountComplex.add(this.basicService.countComplex(date,3 ));
+        return new ResponseEntity<>(listCountComplex, HttpStatus.OK);
     }
     @RequestMapping(value = "lastDate", method = RequestMethod.POST)
     public

@@ -203,3 +203,8 @@ p{
     border: 3px solid red;
     color: rgba(0, 0, 0, 0.22);
 }
+.counter{
+    position: fixed;
+    top: 1%;
+    left: 2%;
+}

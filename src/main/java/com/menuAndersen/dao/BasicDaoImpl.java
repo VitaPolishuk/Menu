@@ -108,10 +108,14 @@ public class BasicDaoImpl implements BasicDao{
         query1.executeUpdate();
     }
     @Override
-    public void setStatus(Long id, boolean status) {
-        String sql = "update Basic set status =" + status + " where idEmployee = " + id;
+    public void setStatus(Long id, boolean status, Date date) {
+        String sql = "update Basic set status =" + status + " where idEmployee = " + id +
+                " and idRecord = ANY(" +
+                "from DateAndComplexes where " +
+                " idDate = (from MyDate where date =:date))";
         Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
-        int rez = query.executeUpdate();
+        query.setParameter("date", date);
+       query.executeUpdate();
 
     }
 }

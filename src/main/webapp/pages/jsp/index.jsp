@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/pages/css/indexCSS.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/pages/js/indexjs.js"></script>
+    <script src="/pages/js/indexJs.js"></script>
 </head>
 <script>
 
@@ -116,10 +116,10 @@
             <td class="tr1">{{= i + 1}}</td>
             <td class="tr1" id="idEmployee" abbr="{{= listEmployees[i].idEmployee}}">{{= listEmployees[i].fio }}</td>
             <td class="tr1">{{= listEmployees[i].positionHeld }}</td>
-            <td class="tr1">
-                <input type="radio" name="{{= i}}" value="1" alt="{{=idRecordList[0]}}" onclick="changeRadioButton(this)" >1
-                <input type="radio" name="{{= i}}" value="2" alt="{{=idRecordList[1]}}" onclick="changeRadioButton(this)" >2
-                <input type="radio" name="{{= i}}" value="3" alt="{{=idRecordList[2]}}" onclick="changeRadioButton(this)" >3
+            <td class="tr1" abbr="{{=idRecordList[3]}}">
+                <input type="radio" class="radioButton" name="{{= i}}" value="1" alt="{{=idRecordList[0]}}" onclick="changeRadioButton(this)" onmousedown="changeRadioButton1(this)" >1
+                <input type="radio" class="radioButton" name="{{= i}}" value="2" alt="{{=idRecordList[1]}}" onclick="changeRadioButton(this)" onmousedown="changeRadioButton1(this)">2
+                <input type="radio" class="radioButton" name="{{= i}}" value="3" alt="{{=idRecordList[2]}}" onclick="changeRadioButton(this)" onmousedown="changeRadioButton1(this)">3
         </tr>
         {{ } }}
     </table>
@@ -132,7 +132,7 @@
         <td abbr="{{=listComplex.idComplex}}">{{=listComplex.firstCourse}}</td>
     </tr>
     <tr class="stroka">
-        <td>{{=listComplex.secondCourse}}</td>
+        <td abbr="{{=listComplex.number}}">{{=listComplex.secondCourse}}</td>
     </tr>
     <tr class="stroka">
         <td>{{=listComplex.salad}}</td>

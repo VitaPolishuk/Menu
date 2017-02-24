@@ -26,5 +26,5 @@ public interface BasicDao {
 
     public int returnEmployeeFalse(Employees employee);
 
-    public void setStatus(Long id, boolean status);
+    public void setStatus(Long id, boolean status, Date date);
 }

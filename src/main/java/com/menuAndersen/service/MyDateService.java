@@ -20,4 +20,5 @@ public interface MyDateService {
 
     public MyDate getDateByValue(Date myDate);
     public void setStatusDate(Date date);
+    public void setAllStatusFalse();
 }

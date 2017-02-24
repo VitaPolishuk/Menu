@@ -88,6 +88,7 @@ function authentication(password) {
         showPrompt("Введите что-нибудь<br>...умное :)", function (value) {
             if ((value.hashCode()+"")!= null) {
                 if ((value.hashCode()+"") == password) {
+
                     addButtonPages();
                     document.getElementById("button").value = "Выйти";
                 } else {
@@ -281,6 +282,7 @@ function editComplex(table) {
             idComplex: table.rows[0].cells[0].abbr,
             firstCourse: table.rows[0].cells[0].innerHTML,
             secondCourse: table.rows[1].cells[0].innerHTML,
+            number:table.rows[1].cells[0].abbr,
             salad: table.rows[2].cells[0].innerHTML,
             drinks: table.rows[3].cells[0].innerHTML
         };
@@ -380,7 +382,7 @@ function  deleteEmployees() {
             setRadioButton(data.numberList);
         },
         error: function (data) {
-            alert(data);
+            alert("Комплексы можно только редактировать");
         }
     })
     var table = document.getElementsByTagName("table");
@@ -422,7 +424,7 @@ function editEmployees(table, row, cell) {
         },
         success: function (data, textStatus, jqXHR) {
 
-            deleteTableEmployee();
+            deleteTable();
             loadEmployees(data);
             setRadioButton(data.numberList);
 
@@ -462,13 +464,32 @@ function deleteTableComplex() {
 }
 
 function changeRadioButton(obj) {
+    obj.checked=!obj.isChecked;
 
+
+   if (obj.checked==true) {
+        saveChangeComplex(obj.parentElement.parentElement.cells[1].abbr, obj.alt, document.getElementById("calendarD").value);
+
+    } else {
+        saveChangeComplex(obj.parentElement.parentElement.cells[1].abbr, obj.parentElement.abbr, document.getElementById("calendarD").value);
+
+    }
+    var table = document.getElementsByTagName("table");
+    for (var i = 0; i < table.length; i++) {
+        table[i].setAttribute("onclick", "onClickTable(event)");
+    }
+}
+
+function changeRadioButton1(obj) {
+    obj.isChecked=obj.checked;
+}
+
+
+function saveChangeComplex(idEmployee,idRecord,date) {
     $.ajax({
         type: "POST",
-        url: "/saveChangeComplex?idEmployee=" + obj.parentElement.parentElement.cells[1].abbr + "&idRecord="
-        + obj.alt+"&date="+document.getElementById("calendarD").value,
-        //data: JSON.stringify(dataJson),
-
+        url: "/saveChangeComplex?idEmployee=" + idEmployee + "&idRecord="
+        + idRecord + "&date=" + date,
         async: false,
         dataType: "json",
         headers: {
@@ -476,53 +497,60 @@ function changeRadioButton(obj) {
             'Content-Type': 'application/json'
         }
     })
-    var table = document.getElementsByTagName("table");
-    for (var i = 0; i < table.length; i++) {
-        table[i].setAttribute("onclick", "onClickTable(event)");
-    }
-
 }
 
+
 function changeDate(obj) {
+
+
     var selectedDate = obj.value;
     var curDate = obj.alt;
     var admin = document.getElementById("button").value;
 
+    var last = lastDate();
+if  (last<=selectedDate) {
+
+
     if (admin == "Войти") {
-        if (selectedDate<=curDate){
+        if (selectedDate <= curDate) {
             getAllByDate(selectedDate);
-        }else{
+        } else {
             alert("Нельзя смотреть в будущее");
             document.getElementById("calendarD").value = curDate;
         }
     } else {
-        if (selectedDate<curDate){
+        if (selectedDate < curDate) {
             deleteButtonPages();
             getAllByDate(selectedDate);
-        }else if (selectedDate==curDate){
+        } else if (selectedDate == curDate) {
             addButtonPages();
             getAllByDate(selectedDate);
-        }else if (selectedDate>curDate){
-          var lastDat =  lastDate();
-           var raz = new Date(selectedDate) - new Date(curDate);
-            if (raz>432000000){   //5 дней в мс = 432 000 000
-            alert("Нельзя создать меню более чем на 5 дней вперед");
-           }else{
-                if(selectedDate>lastDat){
-                if (confirm("Вы действительно хотите создать меню на это число?")) {
+        } else if (selectedDate > curDate) {
+            var lastDat = lastDate();
+            var raz = new Date(selectedDate) - new Date(curDate);
+            if (raz > 432000000) {   //5 дней в мс = 432 000 000
+                alert("Нельзя создать меню более чем на 5 дней вперед");
+            } else {
+                if (selectedDate > lastDat) {
+                    if (confirm("Вы действительно хотите создать меню на это число?")) {
+                        getAllByDateAdmin(selectedDate);
+                        addButtonPages();
+                    }
+                    else {
+                        document.getElementById("calendarD").value = last;
+                    }
+                }
+                else {
                     getAllByDateAdmin(selectedDate);
                     addButtonPages();
                 }
-                else{
-                    document.getElementById("calendarD").value = curDate;
-                }}
-                else{
-                    getAllByDateAdmin(selectedDate);
-                    addButtonPages();
-                }
-         }
+            }
         }
     }
+}else {
+    deleteButtonPages();
+    getAllByDate(selectedDate);
+}
 }
 function lastDate(){
     var dat;
@@ -543,11 +571,11 @@ function lastDate(){
 }
 function checkDate(returnDate,selectedDate) {
 
-    if (returnDate!=selectedDate){
+    if (returnDate.date!=selectedDate){
         alert("Нету такой даты, дата будет установлена на последнее существующее")
 
     }
-    document.getElementById("calendarD").value = returnDate;
+    document.getElementById("calendarD").value = returnDate.date;
 
 }
 
@@ -572,7 +600,11 @@ function getAllByDate(selectedDate) {
             loadComplexes(data);
             loadEmployees(data);
             setRadioButton(data.numberList);
-            checkDate(data.date,selectedDate);
+            checkDate(data.myDate,selectedDate);
+            var status = checkBlocked();
+            if (!status){
+                disabledRadioButton();
+            }
 
 
         },
@@ -605,6 +637,10 @@ function getAllByDateAdmin(selectedDate) {
             loadComplexes(data);
             loadEmployees(data);
             setRadioButton(data.numberList);
+            var status = checkBlocked();
+            if (!status){
+                disabledRadioButton();
+            }
 
         },
         error: function (data) {
@@ -613,6 +649,14 @@ function getAllByDateAdmin(selectedDate) {
         }
     })
 
+
+}
+
+function disabledRadioButton() {
+ var radio = document.getElementsByClassName("radioButton");
+ for (var i=0;radio.length;i++){
+     radio[i].disabled = true;
+ }
 
 }
 
@@ -629,6 +673,44 @@ function setRadioButton(listNumber) {
         }
 
     }
+}
+
+
+function blockedDate() {
+    $.ajax({
+        type: "POST",
+        url: "/setStatusDateFalse?date=" + document.getElementById("calendarD").value,
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+    })
+    deleteButtonPages();
+    disabledRadioButton();
+
+}
+
+function checkBlocked() {
+    var status;
+    $.ajax({
+        type: "POST",
+        url: "/blockedDate?date=" + document.getElementById("calendarD").value,
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+            status = data.blocked;
+        },
+        error: function (data) {
+        }
+    })
+    return status;
 }
 
 

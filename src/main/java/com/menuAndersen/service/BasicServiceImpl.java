@@ -73,7 +73,7 @@ public class BasicServiceImpl implements BasicService {
     }
     @Override
     @Transactional
-    public void setStatus(Long id, boolean status){
-        this.basicDao.setStatus(id,status);
+    public void setStatus(Long id, boolean status, Date date){
+        this.basicDao.setStatus(id, status, date);
     }
 }

@@ -63,7 +63,7 @@ public class MainController {
     public
     @ResponseBody
     ResponseEntity<ObjectModel> removeEmployees(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
-        this.basicService.setStatus(employees.getIdEmployee(), false);
+        this.basicService.setStatus(employees.getIdEmployee(), false,  date);
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 
@@ -150,6 +150,7 @@ public class MainController {
         ObjectModel objectModel = new ObjectModel();
         Long idGetDate = findIdDate(myDate);
         if (idGetDate == 0) {
+            myDateService.setAllStatusFalse();
             myDate.setBlocked(true);
             dateService.addDate(myDate);
             objectModel = createData(myDate);
@@ -188,7 +189,7 @@ public class MainController {
         ObjectModel objectModel = new ObjectModel();
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
-            String passwordInitial= "andersen";
+            String passwordInitial= "1";
 
           this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
             MyDate todayDate = new MyDate();
@@ -289,7 +290,7 @@ public class MainController {
                 listTrue.add(employee);
             }
         }
-
+        sortList(listTrue);
         objectModel.setIdRecordList(idRecList);
         objectModel.setEmployeesList(listTrue);
 

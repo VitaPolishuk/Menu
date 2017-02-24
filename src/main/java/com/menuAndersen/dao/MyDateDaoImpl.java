@@ -73,4 +73,10 @@ public class MyDateDaoImpl implements MyDateDao{
         query.setParameter("dateValue", date);
         query.executeUpdate();
     }
+
+    @Override
+    public void setAllStatusFalse(){
+        Query query = this.sessionFactory.getCurrentSession().createQuery("update MyDate set blocked=false");
+        query.executeUpdate();
+    }
 }

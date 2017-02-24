@@ -57,4 +57,9 @@ public class MyDateServiceImpl implements MyDateService {
     public void setStatusDate(Date date) {
         this.myDateDao.setStatusDate(date);
     }
+    @Override
+    @Transactional
+    public void setAllStatusFalse(){
+        this.myDateDao.setAllStatusFalse();
+    }
 }

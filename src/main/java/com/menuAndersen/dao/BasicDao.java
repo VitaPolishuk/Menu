@@ -27,4 +27,6 @@ public interface BasicDao {
     public int returnEmployeeFalse(Employees employee);
 
     public void setStatus(Long id, boolean status, Date date);
+
+    public int countComplex(Date date, int numberComplex);
 }

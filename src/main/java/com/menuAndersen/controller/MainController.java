@@ -51,11 +51,11 @@ public class MainController {
     public
     @ResponseBody
     ResponseEntity<ObjectModel> addEmployee(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
-       // employees.setStatus(true);
+
 
         this.employeesService.addEmployees(employees);
         this.basicService.addEmployeeToBasic(employees, date, true);
-
+        
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 

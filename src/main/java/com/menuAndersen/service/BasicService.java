@@ -30,4 +30,6 @@ public interface BasicService {
 
     public void setStatus(Long id, boolean status, Date date);
 
+    public int countComplex(Date date, int numberComplex);
+
 }

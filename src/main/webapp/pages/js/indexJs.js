@@ -62,8 +62,9 @@ function showPrompt(text, callback) {
     form.elements.text.value = '';
 
     function complete(value) {
-        hideCover();
-        container.style.display = 'none';
+        if(value == null){
+        container.style.display = "none";
+        document.body.removeChild(document.getElementById('cover-div'));}
         document.onkeydown = null;
         callback(value);
     }
@@ -71,12 +72,12 @@ function showPrompt(text, callback) {
     form.onsubmit = function () {
         var value = form.elements.text.value;
         if (value == '') return false; // игнорировать пустой submit
-
         complete(value);
         return false;
     };
     form.elements.cancel.onclick = function () {
         complete(null);
+
     };
     container.style.display = 'block';
     form.elements.text.focus();
@@ -84,23 +85,28 @@ function showPrompt(text, callback) {
 
 function authentication(password) {
     var name = document.getElementById("button").value;
-
+    var fl;
     if (name == "Войти") {
-        showPrompt("Введите что-нибудь<br>...умное :)", function (value) {
+        showPrompt("Введите пароль<br>администратора :)", function (value) {
             if ((value.hashCode()+"")!= null) {
                 if ((value.hashCode()+"") == password) {
-
-                    addButtonPages();
+                    var last = lastDate();
+                    if (document.getElementById("calendarD").value==last){
+                    addButtonPages();}
                     document.getElementById("button").value = "Выйти";
+                    document.getElementById('prompt-form-container').style.display = "none";
+                    document.body.removeChild(document.getElementById('cover-div'));
+
                 } else {
                     alert("Не угадал ");
+                    document.getElementById('prompt-form').elements.text.value = "";
                 }
-            } else {
             }
         });
     } else {
         document.getElementById("button").value = "Войти";
         deleteButtonPages();
+
     }
 }
 
@@ -177,7 +183,7 @@ function deleteButtonPages() {
     document.getElementById("windowDel").style.display = "none";
     document.getElementById("changePasswordLink").style.display = "none";
     document.getElementById("blockPages").style.display = "none";
-
+    document.getElementById("changePassword").style.display = "none";
 }
 
 function checkoldPassword() {
@@ -236,8 +242,6 @@ function savePassword(password) {
                 }
             })
 
-            $("#oldPassword").val("");
-            $("#newPassword").val("");
             document.getElementById("changePassword").style.display = "none";
         }
         else {
@@ -249,6 +253,10 @@ function savePassword(password) {
 
 }
 }
+function cancelPassword() {
+    document.getElementById("changePassword").style.display = "none";
+}
+
 function clickLink() {
     document.getElementById("changePassword").style.display = "block";
 }
@@ -675,7 +683,7 @@ function getAllByDateAdmin(selectedDate) {
 
 function disabledRadioButton() {
  var radio = document.getElementsByClassName("radioButton");
- for (var i=0;radio.length;i++){
+ for (var i=0; i< radio.length;i++){
      radio[i].disabled = true;
  }
 

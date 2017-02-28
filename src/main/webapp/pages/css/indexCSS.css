@@ -1,0 +1,374 @@
+
+
+/*Тело весь фон*/
+body{
+
+    background-color: #ffa963;
+    margin: 0;
+    min-width: 1250px;
+}
+.head{
+    text-align: center;
+}
+/*Шапка*/
+.header{
+    position: fixed;
+    top: 0px;
+    right: 10px;
+    background-color:  #ffa963;
+}
+/*Центральная часть*/
+.Main{
+    margin: 0 auto;
+    background-color: #fbf7f9;
+    width: 70%;
+    height: calc(100% + 100px);
+    padding-top: 250px;
+}
+/*Таблицы коплексов*/
+.allComplexes{
+    width: 68%;
+    padding-left: 2%;
+    position: fixed;
+    background-color: #fbf7f9;
+    z-index: 1;
+    top: 0;
+}
+.tableComplexes1, .tableComplexes2, .tableComplexes3{
+    border: 5px solid #ffa963;
+    border-radius: 10px;
+    word-break: break-all;
+}
+
+.complexes1 td, .complexes2 td, .complexes3 td{
+      text-align: center;
+}
+.complexes1, .complexes2, .complexes3{
+    padding-top: 2%;
+    display: inline-block;
+    width: 32%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.tableComplexes1, .tableComplexes2, .tableComplexes3{
+    width: 100%;
+}
+.compl{
+   margin-left: 10%;
+  }
+p{
+    text-align: center;
+    font-family: cursive;
+    font-size: 20px;
+    font-style: italic;
+}
+
+#prompt-form {
+    display: inline-block;
+    padding: 5px 5px 5px 70px;
+    width: 200px;
+    border: 1px solid black;
+    background: #fbf7f9 url(/pages/css/login.png) no-repeat left 5px;
+    vertical-align: middle;
+}
+
+#prompt-form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#prompt-form-container:before {
+    display: inline-block;
+    height: 100%;
+    content: '';
+    vertical-align: middle;
+}
+
+#cover-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+    background-color: #ffc98b;
+    opacity: 0.3;
+}
+
+#prompt-form input[name="text"] {
+    display: block;
+    margin: 5px;
+    width: 180px;
+}
+/*диалоговое окно для добавления сотрудника*/
+#prompt-form-add {
+    display: inline-block;
+    padding: 5px 5px 5px 70px;
+    width: 200px;
+    border: 1px solid black;
+    background: #fbf7f9 url(/pages/css/addIcon.png) no-repeat left 5px;
+    vertical-align: middle;
+}
+
+#prompt-form-container-add {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#prompt-form-container-add:before {
+    display: inline-block;
+    height: 100%;
+    content: '';
+    vertical-align: middle;
+}
+
+#cover-div-add {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+    background-color: #ffc98b;
+    opacity: 0.3;
+}
+
+#prompt-form-add input[name="text"] {
+    display: block;
+    margin: 5px;
+    width: 180px;
+}
+
+/*Поля для добавления сотрудника*/
+#addEmployees-container{
+    position: fixed;
+    top: 300px;
+    left: 20px;
+    display: none;
+}
+/*Блок кнопки удалить*/
+#windowDel{
+    position: fixed;
+    right:20px;
+    top: 400px;
+    display: none;
+}
+#changePasswordLink{
+    display: none;
+}
+#changePassword{
+    display: none;
+    position: absolute;
+    top: 8%;
+    right: 2%;
+
+}
+/*Таблица сотрудников*/
+.tableEmployees{
+    width: 65%;
+    border: 2px solid rgb(255, 159, 64);
+    border-radius: 10px;
+    margin-left: 16%;
+
+}
+.tableEmployees th{
+    border:1px solid #313131 ;
+    background-color: rgba(255, 179, 66, 0.69);
+
+}
+.employees td{
+    text-align: center;
+    border:1px solid #313131;
+}
+.stroka:hover{
+    background-color: rgba(255, 179, 66, 0.37);
+}
+
+.employees{
+    width: 100%;
+
+}
+/*Картинки*/
+.images{
+    position: fixed;
+    bottom: 20px;
+    right: -250px;
+}
+/*Заголовок и дата */
+.titleMenu, .calendar{
+    display: inline-block;
+}
+.calendar{
+
+    padding-left: 7px;
+}
+#calendarD{
+    background-color: #fbf7f9;
+}
+/*Выбор строки в таблице*/
+.selectColor{
+    background-color: rgba(255, 179, 66, 0.69);
+}
+/*Кнопка блокировки*/
+#blockPages{
+    position: fixed;
+    bottom: 5%;
+    left: 2%;
+    display: none;
+}
+/*Стили для полей ввода*/
+.inputFIO{
+    border: 3px solid red;
+    color: rgba(0, 0, 0, 0.22);
+}
+.inputPositionHeld{
+    border: 3px solid red;
+    color: rgba(0, 0, 0, 0.22);
+}
+
+.oldPassword{
+    border: 3px solid red;
+    color: rgba(0, 0, 0, 0.22);
+}
+.newPassword{
+    border: 3px solid red;
+    color: rgba(0, 0, 0, 0.22);
+}
+.counter{
+    position: fixed;
+    top: 1%;
+    left: 1%;
+}
+/*кнопка доббавления стиль*/
+.addEmployee
+{
+    display: inline-block;
+    white-space: nowrap;
+    background-color: rgba(255,197,153,0.3);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#eee), to(rgba(255,197,153,0.3)));
+    background-image: -webkit-linear-gradient(top, #eee, rgba(255,197,153,0.3));
+    background-image: -moz-linear-gradient(top, #eee,rgba(255,197,153,0.3));
+    background-image: -ms-linear-gradient(top, #eee, rgba(255,197,153,0.3));
+    background-image: -o-linear-gradient(top, #eee,rgba(255,197,153,0.3));
+    background-image: linear-gradient(top, #eee,rgba(255,197,153,0.3));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#eeeeee', EndColorStr='#cccccc');
+    border: 1px solid #ffa963;
+    padding: 0 1.5em;
+    margin: 0.5em;
+    font: bold 1em/2em Arial, Helvetica;
+    text-decoration: none;
+    color:  #ffa963;
+    text-shadow: 0 1px 0 rgba(255,255,255,.8);
+    -moz-border-radius: .2em;
+    -webkit-border-radius: .2em;
+    border-radius: .2em;
+    color: rgba(255,197,153,0.76);
+    -moz-box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0  rgba(255,197,153,0.76);
+    -webkit-box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0  rgba(255,197,153,0.76);
+    box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0  rgba(255,197,153,0.76);
+}
+
+.addEmployee:hover
+{
+    background-color: rgba(255,197,153,0.3);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(rgba(255,197,153,0.3)));
+    background-image: -webkit-linear-gradient(top, #fafafa, rgba(255,197,153,0.3));
+    background-image: -moz-linear-gradient(top, #fafafa, rgba(255,197,153,0.3));
+    background-image: -ms-linear-gradient(top, #fafafa, rgba(255,197,153,0.3));
+    background-image: -o-linear-gradient(top, #fafafa,rgba(255,197,153,0.3));
+    background-image: linear-gradient(top, #fafafa, rgba(255,197,153,0.3));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#fafafa', EndColorStr='#dddddd');
+}
+
+.addEmployee:active
+{
+    -moz-box-shadow: 0 0 4px 2px  rgba(255,197,153,0.76) inset;
+    -webkit-box-shadow: 0 0 4px 2px  rgba(255,197,153,0.76) inset;
+    box-shadow: 0 0 4px 2px  rgba(255,197,153,0.76) inset;
+    position: relative;
+    top: 1px;
+}
+
+.addEmployee:focus
+{
+    outline: 0;
+    background: #fafafa;
+}
+
+.addEmployee:before
+{
+    background:  rgba(255,197,153,0.3);
+    background:  rgba(255,197,153,0.2);
+    float: left;
+    width: 1em;
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0 1em 0 -1em;
+    padding: 0 .2em;
+    -moz-box-shadow: 1px 0 0  rgba(255,197,153,1), 2px 0 0 rgba(255,255,255,.5);
+    -webkit-box-shadow: 1px 0 0  rgba(255,197,153,1), 2px 0 0 rgba(255,255,255,.5);
+    box-shadow: 1px 0 0  rgba(255,197,153,1), 2px 0 0 rgba(255,255,255,.5);
+    -moz-border-radius: .15em 0 0 .15em;
+    -webkit-border-radius: .15em 0 0 .15em;
+    border-radius: .15em 0 0 .15em;
+}
+.add:before
+{
+    content: "\271A";
+}
+
+/*стиль списка количества комплексов*/
+.older {
+    list-style: none;
+    margin: 0 auto;
+    width: 100px;
+    counter-reset: li;
+}
+.older li {
+    border-bottom: dashed 1px #006699;
+    margin-top: 10px;
+    box-shadow: 0 1px 4px  rgba(136, 255, 246, 1), 0 0 40px  rgba(136, 255, 246, 1) inset;
+    padding: 5px;
+}
+.older a {
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    line-height: 30px;
+    color: #3A3A3A;
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+}
+.older li:before {
+    display: inline-block;
+    content: counter(li);
+    counter-increment: li;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    border: solid 1px #dedede;
+    margin-right: 20px;
+    box-shadow: 0 1px 4px  rgba(136, 255, 246, 1), 0 0 30px  rgba(136, 255, 246, 1) inset;
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 24px;
+    -webkit-transition: .4s linear;
+    transition: .4s linear;
+}
+.older a:hover:before {
+    color:#D72F2C;
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}

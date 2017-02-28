@@ -55,7 +55,7 @@ public class MainController {
 
         this.employeesService.addEmployees(employees);
         this.basicService.addEmployeeToBasic(employees, date, true);
-        
+
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 

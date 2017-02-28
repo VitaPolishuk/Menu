@@ -2,7 +2,7 @@
 
 /*Тело весь фон*/
 body{
-    height: 3000px;
+
     background-color: #ffa963;
     margin: 0;
     min-width: 1250px;
@@ -22,7 +22,8 @@ body{
     margin: 0 auto;
     background-color: #fbf7f9;
     width: 70%;
-    height: 100%;
+    height: calc(100% + 100px);
+    padding-top: 250px;
 }
 /*Таблицы коплексов*/
 .allComplexes{
@@ -31,6 +32,7 @@ body{
     position: fixed;
     background-color: #fbf7f9;
     z-index: 1;
+    top: 0;
 }
 .tableComplexes1, .tableComplexes2, .tableComplexes3{
     border: 5px solid #ffa963;
@@ -135,9 +137,7 @@ p{
     width: 65%;
     border: 2px solid rgb(255, 159, 64);
     border-radius: 10px;
-    margin-top: 250px;
-    position: absolute;
-    margin-left: 2%;
+    margin-left: 16%;
 
 }
 .tableEmployees th{

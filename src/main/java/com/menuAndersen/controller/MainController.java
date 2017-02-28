@@ -143,11 +143,11 @@ public class MainController {
 
         if (idGetDate == 0) {
             MyDate lastDate = compareDate(dateService.listDate());
-              objectModel = returnInfoByDay(model, lastDate, objectModel);
+         //     objectModel = returnInfoByDay(model, lastDate, objectModel);
 
         } else {
             myDate.setIdDate(idGetDate);
-            objectModel = returnInfoByDay(model, myDate, objectModel);
+         //   objectModel = returnInfoByDay(model, myDate, objectModel);
         }
 
         return new ResponseEntity<>(objectModel, HttpStatus.OK);
@@ -160,16 +160,16 @@ public class MainController {
         ObjectModel objectModel = new ObjectModel();
         Long idGetDate = findIdDate(myDate);
         if (idGetDate == 0) {
-            myDateService.setAllStatusFalse();
+           // myDateService.setAllStatusFalse();
             myDate.setBlocked(true);
             dateService.addDate(myDate);
             objectModel = createData(myDate);
 
-            objectModel = returnInfoByDay(model, myDate, objectModel);
+          //  objectModel = returnInfoByDay(model, myDate, objectModel);
 
         } else {
             myDate.setIdDate(idGetDate);
-            objectModel = returnInfoByDay(model, myDate, objectModel);
+          //  objectModel = returnInfoByDay(model, myDate, objectModel);
         }
         return new ResponseEntity<>(objectModel, HttpStatus.OK);
     }
@@ -200,22 +200,24 @@ public class MainController {
         Date currentDate = new Date(System.currentTimeMillis()); // сегодняшняя дата
         if (myDateList.isEmpty()) { // если таблица пустая, то добавили дату
             String passwordInitial= "1";
+            String currentTime = "09:30";
+            String globalTime = "09:30";
 
-          this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
+          this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()),currentTime,globalTime);
             MyDate todayDate = new MyDate();
             todayDate.setDate(currentDate);
             todayDate.setBlocked(true);
             dateService.addDate(todayDate);
             objectModel = createData(todayDate);
-            setModel(model, todayDate, objectModel);
+            setModel(model, todayDate, objectModel,currentTime);
         } else {
             MyDate lastDate = compareDate(myDateList);
-            returnInfoByDay(model, lastDate, objectModel);
+            //returnInfoByDay(model, lastDate, objectModel);
         }
     }
 
     // заполняет все списки по выбранной дате
-    public ObjectModel returnInfoByDay(Model model, MyDate date, ObjectModel objectModel) {
+    public ObjectModel returnInfoByDay(Model model, MyDate date, ObjectModel objectModel,String currentTime) {
         List<Employees> listEmployeesTrue = new ArrayList<>();
         List<Long> idRecList = dateAndComplexesService.returnIdRecordByDate(date.getDate());
         List<Complexes> listComplexes = dateAndComplexesService.returnIdComplexesByDate(date.getDate());
@@ -228,7 +230,7 @@ public class MainController {
         objectModel.setIdRecordList(idRecList);
         objectModel.setNumberList(returnNumber(listEmployeesTrue, idRecList));
         objectModel.setMyDate(date);
-        setModel(model, date, objectModel);
+        setModel(model, date, objectModel, currentTime);
         return objectModel;
     }
 
@@ -252,10 +254,11 @@ public class MainController {
         return employeesList;
     }
 
-    public void setModel(Model model, MyDate date, ObjectModel objectModel) {
+    public void setModel(Model model, MyDate date, ObjectModel objectModel,String currentTime) {
         model.addAttribute("currentDate", date.getDate());
         model.addAttribute("idDate", date.getIdDate());
         model.addAttribute("objectModel", new Gson().toJson(objectModel));
+        model.addAttribute("currentTime",currentTime);
     }
 
     public Complexes complexInit(int number) {

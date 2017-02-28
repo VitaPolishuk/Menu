@@ -19,6 +19,8 @@ public class MyDate implements Serializable {
     @Column(name = "blocked")
     private Boolean blocked;
 
+
+
     public Long getIdDate() {
         return idDate;
     }

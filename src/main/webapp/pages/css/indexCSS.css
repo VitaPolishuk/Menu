@@ -145,6 +145,7 @@ p{
     background-color: rgba(255, 179, 66, 0.69);
 
 }
+
 .employees td{
     text-align: center;
     border:1px solid #313131;
@@ -164,7 +165,7 @@ p{
     right: -250px;
 }
 /*Заголовок и дата */
-.titleMenu, .calendar{
+.titleMenu, .calendar, .time{
     display: inline-block;
 }
 .calendar{

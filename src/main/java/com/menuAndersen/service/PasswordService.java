@@ -7,7 +7,7 @@ import java.util.List;
 
 @Component
 public interface PasswordService {
-    public void addPassword(String passwordHash);
+    public void addPassword(String passwordHash, String currentTime, String globalTime);
 
     public void editPassword(Password password);
 

@@ -14,9 +14,32 @@ public class Password implements Serializable {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "currentTime")
+    private String currentTime;
+
+    @Column(name = "globalTime")
+    private String globalTime;
+
+    public String getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(String currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    public String getGlobalTime() {
+        return globalTime;
+    }
+
+    public void setGlobalTime(String globalTime) {
+        this.globalTime = globalTime;
+    }
+
     public Long getIdPassword() {
         return idPassword;
     }
+
 
     public void setIdPassword(Long idPassword) {
         this.idPassword = idPassword;

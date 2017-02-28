@@ -30,6 +30,8 @@ function onClickTable(ev) {
     var row = ev.target.parentElement.rowIndex;
     var cell = ev.target.cellIndex;
     var table = ev.currentTarget;
+    var del = document.getElementById("windowDel");
+    var window = document.documentElement.clientWidth;
     var allTable = document.getElementsByTagName("table");
     for (var j = 0; j < allTable.length; j++) {
         for (var i = 0; i < allTable[j].rows.length; i++) {
@@ -39,7 +41,12 @@ function onClickTable(ev) {
 
     if (ev.target.parentElement.tagName == "TR" && row != 0) {
         ev.target.parentElement.setAttribute("class", "stroka selectColor");
+        if (table.id = "employees"){
+            var rect = table.rows[row].cells[3].getBoundingClientRect();
+            del.style.top = rect.top;
+            del.style.right = window - rect.right;
 
+        }
     }
 
 }
@@ -155,6 +162,7 @@ function addButtonPages() {
     }
 
     document.getElementById("windowDel").style.display = "block";
+    document.getElementById("windowDel").style.right = "-200";
 
 
     document.getElementById("changePasswordLink").style.display = "block";
@@ -401,6 +409,7 @@ function  deleteEmployees() {
         table[i].setAttribute("ondblclick", "dbClickTable(event)");
         table[i].setAttribute("onclick", "onClickTable(event)");
     }
+    document.getElementById("windowDel").style.right = "-200";
 }
 
 function editEmployees(table, row, cell) {
@@ -666,10 +675,10 @@ function getAllByDateAdmin(selectedDate) {
             loadComplexes(data);
             loadEmployees(data);
             setRadioButton(data.numberList);
-            var status = checkBlocked();
+           /* var status = checkBlocked();
             if (!status){
                 disabledRadioButton();
-            }
+            }*/
 
         },
         error: function (data) {
@@ -744,6 +753,27 @@ function checkBlocked() {
 }
 
 
+function timeBlocked() {
+    var timerId = setInterval(function() {
+        var time = document.getElementById("timeD").value;
+        var status = checkBlocked();
+        var curDate = new Date();
+        var curDatePage = new Date(document.getElementById("calendarD").value);
+        if (curDatePage.compare(curDate)) {
+            if (status) {
+                var hour = parseInt(time.split(':')[0]);
+                var minute = parseInt(time.split(':')[1]);
+
+                if (curDate.getHours() >= hour && curDate.getMinutes() >= minute) {
+                    blockedDate();
+                    clearInterval(timerId);
+                }
+            }
+        }
+
+    }, 1000);
+}
+
 
 String.prototype.hashCode = function() {
     var hash = 0, i, chr, len;
@@ -754,4 +784,15 @@ String.prototype.hashCode = function() {
         hash |= 0; // Convert to 32bit integer
     }
     return hash;
+};
+
+Date.prototype.compare = function(value) {
+if (this.getFullYear()==value.getFullYear()){
+    if (this.getMonth()==value.getMonth()){
+        if (this.getDate()==value.getDate()){
+            return true;
+        }
+    }
+}
+return false;
 };

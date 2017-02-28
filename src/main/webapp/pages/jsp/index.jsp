@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>Меню</title>
-    <link rel="stylesheet" href="/pages/css/indexCSS.css">
+    <link rel="stylesheet" href="/pages/css/indexCSs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/pages/js/indexJs.js"></script>
+    <script src="/pages/js/indexJS.js"></script>
 </head>
 <script>
 
@@ -81,7 +81,10 @@
     <div><input type="password" class="" id="oldPassword" size="20px" onclick="checkoldPassword()" ></div>
     <div>Новый пароль</div>
     <div><input type="password"  class="" id="newPassword" size="20px" onclick="checknewPassword()"></div>
-    <div><input type="button" value="Сохранить" id="buttonSavePassword" name = "${password}" onclick="savePassword(this.name)"></div>
+    <div>
+        <input type="button" value="Сохранить" id="buttonSavePassword" name = "${password}" onclick="savePassword(this.name)">
+        <input type="button" value="Отмена" id="buttonCancelPassword"  onclick="cancelPassword()">
+    </div>
 
 </div>
 
@@ -97,6 +100,16 @@
     <input type="button" value="Заблокировать меню" onclick="blockedDate()">
 
 </div>
+
+
+<div class="counter">
+    <ol>Количество комплексов
+        <li id = "countComplexFirst"></li>
+        <li id = "countComplexSecond"></li>
+        <li id = "countComplexThird"></li>
+    </ol>
+</div>
+
 
 </body>
 

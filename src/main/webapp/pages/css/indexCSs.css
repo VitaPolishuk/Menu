@@ -63,7 +63,7 @@ p{
     font-size: 20px;
     font-style: italic;
 }
-
+/*диалоговое окно для ввода пароля*/
 #prompt-form {
     display: inline-block;
     padding: 5px 5px 5px 70px;
@@ -73,40 +73,6 @@ p{
     vertical-align: middle;
 }
 
-#prompt-form-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-    display: none;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-}
-
-#prompt-form-container:before {
-    display: inline-block;
-    height: 100%;
-    content: '';
-    vertical-align: middle;
-}
-
-#cover-div {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9000;
-    width: 100%;
-    height: 100%;
-    background-color: #ffc98b;
-    opacity: 0.3;
-}
-
-#prompt-form input[name="text"] {
-    display: block;
-    margin: 5px;
-    width: 180px;
-}
 /*диалоговое окно для добавления сотрудника*/
 #prompt-form-add {
     display: inline-block;
@@ -116,8 +82,17 @@ p{
     background: #fbf7f9 url(/pages/css/addIcon.png) no-repeat left 5px;
     vertical-align: middle;
 }
+/*диалоговое окно для добавления сотрудника*/
+#prompt-form-changePassword {
+    display: inline-block;
+    padding: 5px 5px 5px 70px;
+    width: 200px;
+    border: 1px solid black;
+    background: #fbf7f9 url(/pages/css/addIcon.png) no-repeat left 5px;
+    vertical-align: middle;
+}
 
-#prompt-form-container-add {
+#prompt-form-container-add, #prompt-form-container , #prompt-form-container-changePassword {
     position: fixed;
     top: 0;
     left: 0;
@@ -128,14 +103,14 @@ p{
     text-align: center;
 }
 
-#prompt-form-container-add:before {
+#prompt-form-container-add:before, #prompt-form-container:before,  #prompt-form-container-changePassword:before{
     display: inline-block;
     height: 100%;
     content: '';
     vertical-align: middle;
 }
 
-#cover-div-add {
+#cover-div-add, #cover-div, #cover-div-changePassword {
     position: fixed;
     top: 0;
     left: 0;
@@ -146,7 +121,7 @@ p{
     opacity: 0.3;
 }
 
-#prompt-form-add input[name="text"] {
+#prompt-form-add input[name="text"], #prompt-form input[name="text"], #prompt-form-changePassword input[name="text"] {
     display: block;
     margin: 5px;
     width: 180px;
@@ -229,24 +204,7 @@ p{
     left: 2%;
     display: none;
 }
-/*Стили для полей ввода*/
-.inputFIO{
-    border: 3px solid red;
-    color: rgba(0, 0, 0, 0.22);
-}
-.inputPositionHeld{
-    border: 3px solid red;
-    color: rgba(0, 0, 0, 0.22);
-}
 
-.oldPassword{
-    border: 3px solid red;
-    color: rgba(0, 0, 0, 0.22);
-}
-.newPassword{
-    border: 3px solid red;
-    color: rgba(0, 0, 0, 0.22);
-}
 .counter{
     position: fixed;
     top: 1%;

@@ -178,8 +178,7 @@ function showPromptDish(text, callback) {
         completeDish(null, null);
     };
     container.style.display = 'block';
-    form.elements.text1.focus();
-    //form.elements.text2.focus();
+    form.elements.nameDish.focus();
 }
 
 function authentication(password) {
@@ -388,6 +387,9 @@ function addEmployee() {
     });
 
 }
+function addDish(){
+    
+   }
 function deleteEmployees() {
 
     var table = document.getElementById("employees");

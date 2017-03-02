@@ -50,7 +50,7 @@ public class MainController {
     private TimeBlockedService timeBlockedService;
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
-    public String index(Model model) {
+    public String index(Model model) throws IOException {
         /*Timer timer = new Timer();
         MyTimer myTimer = new MyTimer(timeBlockedService,myDateService);
         timer.schedule(myTimer,0,1000);
@@ -63,7 +63,7 @@ public class MainController {
 
         this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
         model.addAttribute("password", this.passwordService.getPassword(Long.valueOf(1)).getPassword());
-        File image = new File("C:/Users/vita/Desktop/addIcon.png");
+      /*  File image = new File("C:/Users/vita/Desktop/addIcon.png");
         FileInputStream fis = new FileInputStream(image);
         byte[] buffer = new byte[fis.available()];
         // считаем файл в буфер
@@ -79,7 +79,7 @@ public class MainController {
         FileOutputStream file = new FileOutputStream("C:/Users/vita/Desktop/copyAddIcon.png");
         ByteArrayInputStream input = new ByteArrayInputStream(rezImg);
         BufferedImage bi = ImageIO.read(input);
-        ImageIO.write(bi, "png", file);
+        ImageIO.write(bi, "png", file);*/
         return "index";
     }
 

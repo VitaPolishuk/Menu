@@ -14,6 +14,13 @@ public class Complexes implements Serializable {
     @Column(name = "number") // номер
     private int number;
 
+    public Complexes() {
+    }
+
+    public Complexes(int number) {
+        this.number = number;
+    }
+
     public int getNumber() {
         return number;
     }

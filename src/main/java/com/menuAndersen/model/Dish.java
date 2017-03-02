@@ -21,6 +21,14 @@ public class Dish implements Serializable {
     @Column(name = "imgDish" , columnDefinition = "MEDIUMBLOB") // картинка
     private byte[] imgDish;
 
+    public Dish() {
+    }
+
+    public Dish(String nameDish, String typeDish) {
+        this.nameDish = nameDish;
+        this.typeDish = typeDish;
+    }
+
     public Long getIdDish() {
         return idDish;
     }

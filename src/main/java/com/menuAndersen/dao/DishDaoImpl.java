@@ -1,6 +1,7 @@
 package com.menuAndersen.dao;
 
 import com.menuAndersen.model.Dish;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,5 +32,14 @@ public class DishDaoImpl implements DishDao{
             return list;
         }
         return null;
+    }
+
+    @Override
+    public List<Dish> listDish() {
+        @SuppressWarnings("unchecked")
+        List<Dish> listDish = (List<Dish>) sessionFactory.getCurrentSession()
+                .createCriteria(Dish.class)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+        return listDish;
     }
 }

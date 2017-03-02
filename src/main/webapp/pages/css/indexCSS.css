@@ -72,6 +72,15 @@ p{
     background: #fbf7f9 url(/pages/css/login.png) no-repeat left 5px;
     vertical-align: middle;
 }
+/*диалоговое окно для обавления блюда*/
+#prompt-form-dish {
+    display: inline-block;
+    padding: 5px 5px 5px 70px;
+    width: 200px;
+    border: 1px solid black;
+    background: #fbf7f9 url(/pages/css/login.png) no-repeat left 5px;
+    vertical-align: middle;
+}
 
 /*диалоговое окно для добавления сотрудника*/
 #prompt-form-add {
@@ -92,7 +101,7 @@ p{
     vertical-align: middle;
 }
 
-#prompt-form-container-add, #prompt-form-container , #prompt-form-container-changePassword {
+#prompt-form-container-add, #prompt-form-container , #prompt-form-container-changePassword, #prompt-form-container-dish {
     position: fixed;
     top: 0;
     left: 0;
@@ -103,14 +112,14 @@ p{
     text-align: center;
 }
 
-#prompt-form-container-add:before, #prompt-form-container:before,  #prompt-form-container-changePassword:before{
+#prompt-form-container-add:before, #prompt-form-container:before,  #prompt-form-container-changePassword:before,  #prompt-form-container-dish:before{
     display: inline-block;
     height: 100%;
     content: '';
     vertical-align: middle;
 }
 
-#cover-div-add, #cover-div, #cover-div-changePassword {
+#cover-div-add, #cover-div, #cover-div-changePassword, #cover-div-dish {
     position: fixed;
     top: 0;
     left: 0;
@@ -121,7 +130,7 @@ p{
     opacity: 0.3;
 }
 
-#prompt-form-add input[name="text"], #prompt-form input[name="text"], #prompt-form-changePassword input[name="text"] {
+#prompt-form-add input[name="text"], #prompt-form input[name="text"],  #prompt-form-dish input[name="text"] {
     display: block;
     margin: 5px;
     width: 180px;

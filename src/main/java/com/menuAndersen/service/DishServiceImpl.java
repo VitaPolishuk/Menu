@@ -25,4 +25,10 @@ public class DishServiceImpl implements DishService{
     public List<Dish> returnDishByType(String typeDish) {
         return this.dishDao.returnDishByType(typeDish);
     }
+
+    @Override
+    @Transactional
+    public List<Dish> listDish() {
+        return this.dishDao.listDish();
+    }
 }

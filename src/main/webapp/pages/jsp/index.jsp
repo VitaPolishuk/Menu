@@ -182,17 +182,17 @@
 
 <script type="text/template" id="templateComplex">
 
-    <tr class="stroka">
-        <td abbr="{{=listComplex.idComplex}}">{{=listComplex.firstCourse}}</td>
+    <tr class="stroka" colspan = "2">
+        <td abbr="{{=listComplex.idComplex}}">{{=listComplex.firstCourse}}</td><td></td>
     </tr>
     <tr class="stroka">
-        <td abbr="{{=listComplex.number}}">{{=listComplex.secondCourse}}</td>
+        <td abbr="{{=listComplex.number}}">{{=listComplex.secondCourse}}</td><td></td>
     </tr>
-    <tr class="stroka">
-        <td>{{=listComplex.salad}}</td>
+    <tr class="stroka" colspan = "2">
+        <td>{{=listComplex.salad}}</td><td></td>
     </tr>
-    <tr class="stroka">
-        <td class="td1">{{=listComplex.drinks}}</td>
+    <tr class="stroka" colspan = "2">
+        <td class="td1">{{=listComplex.drinks}}</td><td></td>
     </tr>
 
 

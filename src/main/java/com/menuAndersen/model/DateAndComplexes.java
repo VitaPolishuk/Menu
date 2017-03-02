@@ -23,6 +23,15 @@ public class DateAndComplexes implements Serializable{
     @JoinColumn(name = "idDish", nullable = false)
     private Dish idDish;
 
+    public DateAndComplexes() {
+    }
+
+    public DateAndComplexes(MyDate idDate, Complexes idComplex, Dish idDish) {
+        this.idDate = idDate;
+        this.idComplex = idComplex;
+        this.idDish = idDish;
+    }
+
     public Dish getIdDish() {
         return idDish;
     }

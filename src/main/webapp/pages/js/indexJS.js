@@ -167,26 +167,28 @@ function showPromptDish(text, callback) {
     //form.elements.text.value1 = '';
     //form.elements.text.value2 = '';
 
-    function completeDish(value1, value2) {
+    function completeDish(nameDish, typeDish,imgDish) {
 
         container.style.display = "none";
         document.body.removeChild(document.getElementById('cover-div-dish'));
         document.onkeydown = null;
-        callback(value1, value2);
+        callback(nameDish, typeDish, imgDish);
     }
     form.onsubmit = function () {
         var nameDish = form.elements.nameDish.value;
         if (nameDish == '') return false; // игнорировать пустой submit
         var typeDish = form.elements.selectType.value;
         if (typeDish == '') return false; // игнорировать пустой submit
-        completeDish(value1, value2);
+        var imgDish = form.elements.photo.value;
+        if (imgDish == '') return false; // игнорировать пустой submit
+        completeDish(nameDish, typeDish, imgDish);
         return false;
     };
     form.elements.cancelDish.onclick = function () {
-        completeDish(null, null);
+        completeDish(null, null, null);
     };
     container.style.display = 'block';
-    form.elements.text1.focus();
+    form.elements.nameDish.focus();
     //form.elements.text2.focus();
 }
 
@@ -243,6 +245,7 @@ function addButtonPages() {
     var calendar = document.getElementById("dateqqqq");
     var div = document.getElementById("addEmployees-container");
     div.style.display = "block";
+    document.getElementById("addDish").style.display = "block";
     var table = document.getElementsByTagName("table");
     for (var i = 0; i < table.length; i++) {
         table[i].setAttribute("ondblclick", "dbClickTable(event)");
@@ -397,6 +400,13 @@ function addEmployee() {
 
     });
 
+}
+function addDish(){
+    showPromptDish("Новое блюдо", function (nameDish, typeDish, photo){
+        alert(nameDish);
+        alert(typeDish);
+        alert(photo);
+    })
 }
 function deleteEmployees() {
 

@@ -11,4 +11,5 @@ public interface DishService {
     public void addDish(Dish dish);
 
     public List<Dish> returnDishByType(String typeDish);
+    public List<Dish> listDish();
 }

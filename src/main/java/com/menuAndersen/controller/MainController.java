@@ -56,12 +56,12 @@ public class MainController {
         timer.schedule(myTimer,0,1000);
         addCurrDate(model);*/
 
-        // addCurrDate(model);
+        addCurrDate(model);
 
-        String passwordInitial = "1";
+        //String passwordInitial = "1";
 
 
-        this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
+       // this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
         model.addAttribute("password", this.passwordService.getPassword(Long.valueOf(1)).getPassword());
       /*  File image = new File("C:/Users/vita/Desktop/addIcon.png");
         FileInputStream fis = new FileInputStream(image);
@@ -83,7 +83,7 @@ public class MainController {
         return "index";
     }
 
-    /*@RequestMapping(value = "addEmployee", method = RequestMethod.POST)
+    @RequestMapping(value = "addEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseEntity<ObjectModel> addEmployee(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
@@ -212,7 +212,7 @@ public class MainController {
             // myDateService.setAllStatusFalse();
             myDate.setBlocked(true);
             dateService.addDate(myDate);
-            objectModel = createData(myDate);
+           // objectModel = createData(myDate);
 
             objectModel = returnInfoByDay(model, myDate, objectModel);
 
@@ -230,14 +230,21 @@ public class MainController {
             return dateService.getDateByValue(myDate.getDate()).getIdDate();
         }
     }
-// новый день
+// новый день только при старте
     public ObjectModel createData(MyDate myDate) {
         ObjectModel objectModel = new ObjectModel();
-       returnComplexInit();
-        for (int i = complexesService.listComplexes().size() - 4; i < complexesService.listComplexes().size(); i++) {
-           dateAndComplexesService.addToDate(complexesService.listComplexes().get(i),myDate);
-       }
-       addEmplBasic(myDate.getDate());
+       returnDishInit();
+        for (int i = 0; i < 4; i++) {
+            complexesService.addComplex(new Complexes(i));
+        }
+        int cnt=0,cnt1=0;
+        for (int i = 0; i < 20; i++) {
+            if ((i+1)%5==0) cnt++;
+            if ((i+1)%6==0)cnt1++;
+        dateAndComplexesService.addDateComplex(new DateAndComplexes(myDate,
+                complexesService.listComplexes().get(cnt),dishService.listDish().get(cnt1)));
+        }
+        addEmplBasic(myDate.getDate());
         objectModel = listEmployeesTrue(myDate.getDate());
         return objectModel;
     }
@@ -262,7 +269,7 @@ public class MainController {
             setModel(model, todayDate, objectModel,globalTime);
         } else {
             MyDate lastDate = compareDate(myDateList);
-            returnInfoByDay(model, lastDate, objectModel);
+          //  returnInfoByDay(model, lastDate, objectModel);
         }
     }
 
@@ -314,22 +321,18 @@ public class MainController {
 
     }
 
-    public Complexes complexInit(int number) {
-        Complexes complex = new Complexes();
-        complex.setFirstCourse("Первое");
-        complex.setSecondCourse("Второе");
-        complex.setSalad("Салат");
-        complex.setDrinks("Сок");
-        complex.setNumber(number);
-        return complex;
+   
+    public void returnDishInit(){
+        dishService.addDish(new Dish("Суп","Первое"));
+        dishService.addDish(new Dish("Бульба","Гарнир"));
+        dishService.addDish(new Dish("Колбасень","Мясное"));
+        dishService.addDish(new Dish("Трава","Салат"));
+        dishService.addDish(new Dish("Вода","Попить"));
     }
 
-    public void returnComplexInit() {
-        complexesService.addComplex(complexInit(1));
-        complexesService.addComplex(complexInit(2));
-        complexesService.addComplex(complexInit(3));
-        complexesService.addComplex(complexInit(0));
-    }
+
+
+
 
     public List<Integer> returnNumber(List<Employees> lst, List<Long> listRec) {
 
@@ -381,5 +384,5 @@ public class MainController {
             }
         }
         return dateMax;
-    }*/
+    }
 }

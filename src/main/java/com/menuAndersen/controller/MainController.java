@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -33,21 +36,46 @@ public class MainController {
 
     @Autowired(required = true)
     private ComplexesService complexesService;
+    @Autowired(required = true)
+    private MyDateService myDateService;
+
+    @Autowired(required = true)
+    private DishService dishService;
 
     @Autowired(required = true)
     private PasswordService passwordService;
 
-    @Autowired(required = true)
-    private MyDateService myDateService;
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
-    public String index(Model model) {
-        addCurrDate(model);
+    public String index(Model model) throws IOException {
+        // addCurrDate(model);
+
+        String passwordInitial = "1";
+
+
+        this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
         model.addAttribute("password", this.passwordService.getPassword(Long.valueOf(1)).getPassword());
+        File image = new File("C:/Users/vita/Desktop/addIcon.png");
+        FileInputStream fis = new FileInputStream(image);
+        byte[] buffer = new byte[fis.available()];
+        // считаем файл в буфер
+        fis.read(buffer, 0, fis.available());
+        Dish dish = new Dish();
+        dish.setNameDish("запеканка");
+        dish.setTypeDish("второе");
+        dish.setImgDish(buffer);
+        dishService.addDish(dish);
+
+        List<Dish> list = dishService.returnDishByType("второе");
+        byte rezImg[] = list.get(0).getImgDish();
+        FileOutputStream file = new FileOutputStream("C:/Users/vita/Desktop/copyAddIcon.png");
+        ByteArrayInputStream input = new ByteArrayInputStream(rezImg);
+        BufferedImage bi = ImageIO.read(input);
+        ImageIO.write(bi, "png", file);
         return "index";
     }
 
-    @RequestMapping(value = "addEmployee", method = RequestMethod.POST)
+    /*@RequestMapping(value = "addEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseEntity<ObjectModel> addEmployee(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
@@ -260,11 +288,11 @@ public class MainController {
 
     public Complexes complexInit(int number) {
         Complexes complex = new Complexes();
-        complex.setFirstCourse("Первое");
-        complex.setSecondCourse("Второе");
-        complex.setSalad("Салат");
-        complex.setDrinks("Сок");
-        complex.setNumber(number);
+       // complex.setFirstCourse("Первое");
+        //complex.setSecondCourse("Второе");
+        //complex.setSalad("Салат");
+        //complex.setDrinks("Сок");
+        //complex.setNumber(number);
         return complex;
     }
 
@@ -325,5 +353,5 @@ public class MainController {
             }
         }
         return dateMax;
-    }
+    }*/
 }

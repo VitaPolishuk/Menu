@@ -86,9 +86,30 @@
         </div>
     </form>
 </div>
-
+<!--для добавления блюда-->
+<div id="prompt-form-container-dish">
+    <form id="prompt-form-dish">
+        <div id="prompt-message-dish"></div>
+        <div>Название <input type="text" name="nameDish"  id="nameDish" required></div>
+        <div>Тип <select id = "selectType" name = "selectType">
+            <option value = "Первое">Первое</option>
+            <option value = "Второе">Второе</option>
+            <option value = "Салат">Салат</option>
+            <option value = "Сок">Сок</option>
+        </select>
+        </div>
+        <div>Картинка <input type="file" name="photo" multiple accept="image/*"></div>
+        <input type="submit" value="Добавить">
+        <input type="button" name="cancelDish" value="Отмена">
+    </form>
+</div>
+<!--Кнопка добавления пользователя-->
 <div id="addEmployees-container">
     <div><a href="#" class="addEmployee add" name="addEmployee" onclick="addEmployee()">Сотрудник</a></div>
+</div>
+<!--Кнопка добавления блюда-->
+<div id="addDisр">
+    <div><a href="#" class="addDish dish" name="addDis" onclick="addDish()">Блюдо</a></div>
 </div>
 
 

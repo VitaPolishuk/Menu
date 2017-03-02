@@ -11,13 +11,25 @@ public class DateAndComplexes implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRecord;
 
-   @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "idDate", nullable = false)
     private MyDate idDate;
 
     @ManyToOne
     @JoinColumn(name = "idComplex", nullable = false)
     private Complexes idComplex;
+
+    @ManyToOne
+    @JoinColumn(name = "idDish", nullable = false)
+    private Dish idDish;
+
+    public Dish getIdDish() {
+        return idDish;
+    }
+
+    public void setIdDish(Dish idDish) {
+        this.idDish = idDish;
+    }
 
     public Long getIdRecord() {
         return idRecord;

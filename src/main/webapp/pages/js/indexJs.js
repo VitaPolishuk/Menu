@@ -145,6 +145,43 @@ function showPromptChangePassword(text, callback) {
     container.style.display = 'block';
     form.elements.password1.focus();
 }
+// функции для добавления диалогового окна блюда
+function showCoverDish() {
+    var coverDivDish = document.createElement('div');
+    coverDivDish.id = 'cover-div-dish';
+    document.body.appendChild(coverDivDish);
+}
+function showPromptDish(text, callback) {
+    showCoverDish();
+    var form = document.getElementById('prompt-form-dish');
+    var container = document.getElementById('prompt-form-container-dish');
+    document.getElementById('prompt-message-dish').innerHTML = text;
+    //form.elements.text.value1 = '';
+    //form.elements.text.value2 = '';
+
+    function completeDish(value1, value2) {
+
+        container.style.display = "none";
+        document.body.removeChild(document.getElementById('cover-div-dish'));
+        document.onkeydown = null;
+        callback(value1, value2);
+    }
+    form.onsubmit = function () {
+        var nameDish = form.elements.nameDish.value;
+        if (nameDish == '') return false; // игнорировать пустой submit
+        var typeDish = form.elements.selectType.value;
+        if (typeDish == '') return false; // игнорировать пустой submit
+        completeDish(value1, value2);
+        return false;
+    };
+    form.elements.cancelDish.onclick = function () {
+        completeDish(null, null);
+    };
+    container.style.display = 'block';
+    form.elements.text1.focus();
+    //form.elements.text2.focus();
+}
+
 function authentication(password) {
     var name = document.getElementById("button").value;
     var fl;
@@ -268,12 +305,7 @@ function savePassword(password) {
 
     }});
 }
-//function cancelPassword() {
-  //  document.getElementById("changePassword").style.display = "none";
-//}
-//function clickLink() {
-//    document.getElementById("changePassword").style.display = "block";
-//}
+
 function editComplex(table) {
 
     var dataJson = {

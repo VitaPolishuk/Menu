@@ -10,6 +10,15 @@ public class ObjectModel {
     private List<Complexes> complexesList;
     private List<Long> idRecordList;
     private MyDate myDate;
+    private TimeBlocked timeBlocked;
+
+    public TimeBlocked getTimeBlocked() {
+        return timeBlocked;
+    }
+
+    public void setTimeBlocked(TimeBlocked timeBlocked) {
+        this.timeBlocked = timeBlocked;
+    }
 
     public MyDate getMyDate() {
         return myDate;

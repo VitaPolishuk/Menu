@@ -322,7 +322,7 @@ function editComplex(table) {
 
             deleteTableComplex();
             loadComplexes(data);
-
+            document.getElementById("timeD").value = data.timeBlocked.currentTime;
 
         },
         error: function (data) {
@@ -361,6 +361,7 @@ if (inputFIO.value!="" && inputPositionHeld.value!="") {
                     deleteTable();
                     loadEmployees(data);
                     setRadioButton(data.numberList);
+                    document.getElementById("timeD").value = data.timeBlocked.currentTime;
                 },
                 error: function (data) {
                     alert(data);
@@ -399,6 +400,7 @@ function  deleteEmployees() {
             deleteTable();
             loadEmployees(data);
             setRadioButton(data.numberList);
+            document.getElementById("timeD").value = data.timeBlocked.currentTime;
         },
         error: function (data) {
             alert("Комплексы можно только редактировать");
@@ -447,6 +449,7 @@ function editEmployees(table, row, cell) {
             deleteTable();
             loadEmployees(data);
             setRadioButton(data.numberList);
+            document.getElementById("timeD").value = data.timeBlocked.currentTime;
 
         },
         error: function (data) {
@@ -643,6 +646,7 @@ function getAllByDate(selectedDate) {
             if (!status){
                 disabledRadioButton();
             }
+            document.getElementById("timeD").value = data.timeBlocked.currentTime;
 
 
         },
@@ -679,7 +683,7 @@ function getAllByDateAdmin(selectedDate) {
             if (!status){
                 disabledRadioButton();
             }*/
-
+            document.getElementById("timeD").value = data.timeBlocked.currentTime;
         },
         error: function (data) {
             alert("Нет такого числа, дата будет установлена на последнее существующее");
@@ -716,9 +720,10 @@ function setRadioButton(listNumber) {
 
 
 function blockedDate() {
+    var sqlDate = new Date().toISOString().slice(0, 10).replace('T', ' ');
     $.ajax({
         type: "POST",
-        url: "/setStatusDateFalse?date=" + document.getElementById("calendarD").value,
+        url: "/setStatusDateFalse?date=" + sqlDate,
         async: false,
         dataType: "json",
         headers: {
@@ -756,24 +761,30 @@ function checkBlocked() {
 function timeBlocked() {
     var timerId = setInterval(function() {
         var time = document.getElementById("timeD").value;
-        var status = checkBlocked();
         var curDate = new Date();
-        var curDatePage = new Date(document.getElementById("calendarD").value);
-        if (curDatePage.compare(curDate)) {
-            if (status) {
-                var hour = parseInt(time.split(':')[0]);
+                  var hour = parseInt(time.split(':')[0]);
                 var minute = parseInt(time.split(':')[1]);
-
                 if (curDate.getHours() >= hour && curDate.getMinutes() >= minute) {
                     blockedDate();
                     clearInterval(timerId);
-                }
-            }
         }
 
     }, 1000);
 }
 
+function buttonSaveTime() {
+    $.ajax({
+        type: "POST",
+        url: "/buttonSaveTime?status=" + document.getElementById("saveTime").checked+"&time="+document.getElementById("timeD").value,
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    
+}
 
 String.prototype.hashCode = function() {
     var hash = 0, i, chr, len;

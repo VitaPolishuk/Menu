@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Меню</title>
-    <link rel="stylesheet" href="/pages/css/indexCSS.css">
+    <link rel="stylesheet" href="/pages/css/indexCSs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="/pages/js/indexJs.js"></script>
@@ -22,13 +22,15 @@
 <body onload="loadEmployees(objectModel);
                 loadComplexes(objectModel);
                 setRadioButton(objectModel.numberList);
-                timeBlocked()">
+                timeBlocked();">
 
 <div class="Main">
 
     <div class="allComplexes">
         <div class="head">
-            <div class="time"><input type="time" id="timeD" value="18:15" min="09:00" ></div>
+            <div class="buttonSaveTime"><input type="button" id="buttonSaveTime" value="Сохранить время" onclick="buttonSaveTime()"></div>
+            <div class="checkboxTime"><input type="checkbox" id="saveTime" ></div>
+            <div class="time"><input type="time" id="timeD" value="${time}" min="09:00" ></div>
             <div class="titleMenu"><font face="Comic Sans MS" size="+2.5" color=#4F4F4F>Меню для котиков на </font>
             </div>
             <div class="calendar"><input type="date" id="calendarD" name="${idDate}" value="${currentDate}"
@@ -62,6 +64,7 @@
     <form id="prompt-form">
         <div id="prompt-message"></div>
         <input id="password" name="text" type="password">
+        <div id="changePasswordLink1"><a href="#" onclick="clickLink()">Сменить пароль</a></div>
         <input type="submit" value="Ок">
         <input type="button" name="cancel" value="Отмена">
     </form>

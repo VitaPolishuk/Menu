@@ -165,7 +165,7 @@ p{
     right: -250px;
 }
 /*Заголовок и дата */
-.titleMenu, .calendar, .time{
+.titleMenu, .calendar, .time, .checkboxTime, .buttonSaveTime{
     display: inline-block;
 }
 .calendar{

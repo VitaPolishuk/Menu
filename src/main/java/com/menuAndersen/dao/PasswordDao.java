@@ -4,7 +4,7 @@ package com.menuAndersen.dao;
 import com.menuAndersen.model.Password;
 
 public interface PasswordDao {
-    public void addPassword(String passwordHash, String currentTime, String globalTime);
+    public void addPassword(String passwordHash);
 
     public void editPassword(Password password);
 

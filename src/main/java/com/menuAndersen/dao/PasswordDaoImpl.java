@@ -18,8 +18,8 @@ public class PasswordDaoImpl implements PasswordDao {
     }
 
     @Override
-    public void addPassword(String passwordHash, String currentTime, String globalTime) {
-        Query query = this.sessionFactory.getCurrentSession().createSQLQuery("insert into Password (password,currentTime,globalTime) values(" + passwordHash + ",currentTime,globalTime)");
+    public void addPassword(String passwordHash) {
+        Query query = this.sessionFactory.getCurrentSession().createSQLQuery("insert into Password (password) values(" + passwordHash + ")");
         query.executeUpdate();
     }
 

@@ -59,44 +59,73 @@
     </div>
 
 </div>
-
+<!--для пароля-->
 <div id="prompt-form-container">
     <form id="prompt-form">
         <div id="prompt-message"></div>
         <input id="password" name="text" type="password">
-        <div id="changePasswordLink1"><a href="#" onclick="clickLink()">Сменить пароль</a></div>
         <input type="submit" value="Ок">
         <input type="button" name="cancel" value="Отмена">
     </form>
 </div>
-
+<!--для добавления пользователя-->
+<div id="prompt-form-container-add">
+    <form id="prompt-form-add">
+        <div id="prompt-message-add"></div>
+        <div>ФИО <input type="text" name="text1" class="" id="inputFIO" required></div>
+        <div>Должность <input type="text" name="text2" class="" id="inputPositionHeld" required></div>
+        <input type="submit" value="Добавить">
+        <input type="button" name="cancelAdd" value="Отмена">
+    </form>
+</div>
+<!--для смены пароля-->
+<div id="prompt-form-container-changePassword">
+    <form id="prompt-form-changePassword">
+        <div id="prompt-message-changePassword"></div>
+        <div>Старый пароль</div>
+        <div><input type="password" name="password1" class="" id="oldPassword" size="20px" required></div>
+        <div>Новый пароль</div>
+        <div><input type="password" name="password2" class="" id="newPassword" size="20px" required></div>
+        <div>
+            <input type="submit" value="Сохранить" id="buttonSavePassword" >
+            <input type="button" value="Отмена" name = "cancelChangePassword" id="buttonCancelPassword" >
+        </div>
+    </form>
+</div>
+<!--для добавления блюда-->
+<div id="prompt-form-container-dish">
+    <form id="prompt-form-dish">
+        <div id="prompt-message-dish"></div>
+        <div>Название <input type="text" name="nameDish"  id="nameDish" required></div>
+        <div>Тип <select id = "selectType" name = "selectType">
+            <option value = "Первое">Первое</option>
+            <option value = "Второе">Второе</option>
+            <option value = "Салат">Салат</option>
+            <option value = "Сок">Сок</option>
+        </select>
+        </div>
+        <div>Картинка <input type="file" name="photo" multiple accept="image/*"></div>
+        <input type="submit" value="Добавить">
+        <input type="button" name="cancelDish" value="Отмена">
+    </form>
+</div>
+<!--Кнопка добавления пользователя-->
 <div id="addEmployees-container">
-    <p>ФИО</p> <input type="text" class="" id="inputFIO" onclick="checkFIO()">
-    <p>Должность</p> <input type="text" class="" id="inputPositionHeld" onclick="checkPositionHeld()">
-    <p></p> <input type="submit" value="Добавить сотрудника" id="buttonAdd" onclick="addEmployee()">
+    <div><a href="#" class="addEmployee add" name="addEmployee" onclick="addEmployee()">Сотрудник</a></div>
+</div>
+<!--Кнопка добавления блюда-->
+<div id="addDisр">
+    <div><a href="#" class="addDish dish" name="addDis" onclick="addDish()">Блюдо</a></div>
 </div>
 
 
 <div class="header">
     <div>Режим админа</div>
     <div><input id="button" type="button" name="${password}" value="Войти" onclick=authentication(this.name)></div>
-    <div id="changePasswordLink"><a href="#" onclick="clickLink()">Сменить пароль</a></div>
+    <div id="changePasswordLink"><a href="#" name="${password}" onclick="savePassword(this.name)">Сменить пароль</a></div>
     <br>
 
 </div>
-<div id="changePassword">
-    <div>Старый пароль</div>
-    <div><input type="password" class="" id="oldPassword" size="20px" onclick="checkoldPassword()"></div>
-    <div>Новый пароль</div>
-    <div><input type="password" class="" id="newPassword" size="20px" onclick="checknewPassword()"></div>
-    <div>
-        <input type="button" value="Сохранить" id="buttonSavePassword" name="${password}"
-               onclick="savePassword(this.name)">
-        <input type="button" value="Отмена" id="buttonCancelPassword" onclick="cancelPassword()">
-    </div>
-
-</div>
-
 <div id="windowDel">
     <button class="buttonDelete" onclick="deleteEmployees()">Delete</button>
 </div>
@@ -112,12 +141,10 @@
 
 
 <div class="counter">
-    Количество <br>
-    комплексов
-    <ol>
-        <li id="countComplexFirst"></li>
-        <li id="countComplexSecond"></li>
-        <li id="countComplexThird"></li>
+    <ol class="older">
+        <li id="countComplexFirst"><a href="#"></a></li>
+        <li id="countComplexSecond"><a href="#"></a></li>
+        <li id="countComplexThird"><a href="#"></a></li>
     </ol>
 </div>
 
@@ -147,7 +174,6 @@
                        onclick="changeRadioButton(this)" onmousedown="changeRadioButton1(this)">2
                 <input type="radio" class="radioButton" name="{{= i}}" value="3" alt="{{=idRecordList[2]}}"
                        onclick="changeRadioButton(this)" onmousedown="changeRadioButton1(this)">3
-            </td>
         </tr>
         {{ } }}
     </table>

@@ -77,6 +77,7 @@ public class Config extends WebMvcConfigurerAdapter {
         sessionBuilder.addAnnotatedClasses(Employees.class);
         sessionBuilder.addAnnotatedClasses(MyDate.class);
         sessionBuilder.addAnnotatedClasses(Complexes.class);
+        sessionBuilder.addAnnotatedClasses(Dish.class);
         sessionBuilder.addAnnotatedClasses(Basic.class);
         sessionBuilder.addAnnotatedClasses(DateAndComplexes.class);
         sessionBuilder.addAnnotatedClasses(Password.class);
@@ -177,14 +178,22 @@ public class Config extends WebMvcConfigurerAdapter {
     @Autowired
     @Bean(name = "passwordDao")
     public PasswordDao passwordDao(SessionFactory sessionFactory) {
-
         return new PasswordDaoImpl(sessionFactory);
     }
     @Autowired
     @Bean(name = "passwordService")
     public PasswordService passwordService(PasswordDao passwordDao) {
-
         return new PasswordServiceImpl(passwordDao);
+    }
+    @Autowired
+    @Bean(name = "dishDao")
+    public DishDao dishDao(SessionFactory sessionFactory) {
+        return new DishDaoImpl(sessionFactory);
+    }
+    @Autowired
+    @Bean(name = "dishService")
+    public DishService dishService(DishDao dishDao) {
+        return new DishServiceImpl(dishDao);
     }
 
     @Autowired

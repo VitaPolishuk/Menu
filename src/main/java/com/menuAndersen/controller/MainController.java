@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -33,28 +36,54 @@ public class MainController {
 
     @Autowired(required = true)
     private ComplexesService complexesService;
+    @Autowired(required = true)
+    private MyDateService myDateService;
+
+    @Autowired(required = true)
+    private DishService dishService;
 
     @Autowired(required = true)
     private PasswordService passwordService;
 
-    @Autowired(required = true)
-    private MyDateService myDateService;
 
     @Autowired(required = true)
     private TimeBlockedService timeBlockedService;
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(Model model) {
-        Timer timer = new Timer();
+        /*Timer timer = new Timer();
         MyTimer myTimer = new MyTimer(timeBlockedService,myDateService);
         timer.schedule(myTimer,0,1000);
-        addCurrDate(model);
+        addCurrDate(model);*/
 
+        // addCurrDate(model);
+
+        String passwordInitial = "1";
+
+
+        this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
         model.addAttribute("password", this.passwordService.getPassword(Long.valueOf(1)).getPassword());
+        File image = new File("C:/Users/vita/Desktop/addIcon.png");
+        FileInputStream fis = new FileInputStream(image);
+        byte[] buffer = new byte[fis.available()];
+        // считаем файл в буфер
+        fis.read(buffer, 0, fis.available());
+        Dish dish = new Dish();
+        dish.setNameDish("запеканка");
+        dish.setTypeDish("второе");
+        dish.setImgDish(buffer);
+        dishService.addDish(dish);
+
+        List<Dish> list = dishService.returnDishByType("второе");
+        byte rezImg[] = list.get(0).getImgDish();
+        FileOutputStream file = new FileOutputStream("C:/Users/vita/Desktop/copyAddIcon.png");
+        ByteArrayInputStream input = new ByteArrayInputStream(rezImg);
+        BufferedImage bi = ImageIO.read(input);
+        ImageIO.write(bi, "png", file);
         return "index";
     }
 
-    @RequestMapping(value = "addEmployee", method = RequestMethod.POST)
+    /*@RequestMapping(value = "addEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseEntity<ObjectModel> addEmployee(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
@@ -70,7 +99,7 @@ public class MainController {
     public
     @ResponseBody
     ResponseEntity<ObjectModel> removeEmployees(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
-        this.basicService.setStatus(employees.getIdEmployee(), false, date);
+        this.basicService.setStatus(employees.getIdEmployee(), false,  date);
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 
@@ -94,32 +123,30 @@ public class MainController {
     public
     @ResponseBody
     Password changePassword(@RequestParam("passwordNew") String passwordNew) throws SQLException {
-        Password password = new Password();
-        password.setIdPassword(new Long(1));
-        password.setPassword(String.valueOf(passwordNew.hashCode()));
+         Password password = new Password();
+         password.setIdPassword(new Long(1));
+         password.setPassword(String.valueOf(passwordNew.hashCode()));
         this.passwordService.editPassword(password);
-        //    model.addAttribute("password",password.getPassword());
+    //    model.addAttribute("password",password.getPassword());
         return password;
     }
 
     @RequestMapping(value = "saveChangeComplex", method = RequestMethod.POST)
     public
     @ResponseBody
-    void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
-        this.basicService.setComplex(idEmployee, idRecord, date);
+   void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
+        this.basicService.setComplex(idEmployee, idRecord,date);
     }
-
     @RequestMapping(value = "countComplexes", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseEntity<List<Integer>> countComplexes(@RequestParam("date") Date date) throws SQLException {
         List<Integer> listCountComplex = new ArrayList<>();
-        listCountComplex.add(this.basicService.countComplex(date, 1));
-        listCountComplex.add(this.basicService.countComplex(date, 2));
-        listCountComplex.add(this.basicService.countComplex(date, 3));
+        listCountComplex.add(this.basicService.countComplex(date,1));
+        listCountComplex.add(this.basicService.countComplex(date,2));
+        listCountComplex.add(this.basicService.countComplex(date,3 ));
         return new ResponseEntity<>(listCountComplex, HttpStatus.OK);
     }
-
     @RequestMapping(value = "lastDate", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -131,8 +158,8 @@ public class MainController {
     public
     @ResponseBody
     ResponseEntity<MyDate> blockedDate(@RequestParam("date") Date date) throws SQLException {
-        //this.myDateService.setStatusDate(date);
-        return new ResponseEntity<MyDate>(myDateService.getDateByValue(date), HttpStatus.OK);
+    //this.myDateService.setStatusDate(date);
+    return new ResponseEntity<MyDate>(myDateService.getDateByValue(date),HttpStatus.OK);
     }
 
     @RequestMapping(value = "buttonSaveTime", method = RequestMethod.POST)
@@ -165,7 +192,7 @@ public class MainController {
 
         if (idGetDate == 0) {
             MyDate lastDate = compareDate(dateService.listDate());
-            objectModel = returnInfoByDay(model, lastDate, objectModel);
+              objectModel = returnInfoByDay(model, lastDate, objectModel);
 
         } else {
             myDate.setIdDate(idGetDate);
@@ -203,15 +230,14 @@ public class MainController {
             return dateService.getDateByValue(myDate.getDate()).getIdDate();
         }
     }
-
-    // новый день
+// новый день
     public ObjectModel createData(MyDate myDate) {
         ObjectModel objectModel = new ObjectModel();
-        returnComplexInit();
+       returnComplexInit();
         for (int i = complexesService.listComplexes().size() - 4; i < complexesService.listComplexes().size(); i++) {
-            dateAndComplexesService.addToDate(complexesService.listComplexes().get(i), myDate);
-        }
-        addEmplBasic(myDate.getDate());
+           dateAndComplexesService.addToDate(complexesService.listComplexes().get(i),myDate);
+       }
+       addEmplBasic(myDate.getDate());
         objectModel = listEmployeesTrue(myDate.getDate());
         return objectModel;
     }
@@ -326,7 +352,7 @@ public class MainController {
         List<Long> idRecList = dateAndComplexesService.returnIdRecordByDate(date);
         List<Employees> listTrue = new ArrayList<>();
         for (Employees employee : employeesService.listEmployees()) {
-            if (basicService.returnEmployeeFalse(employee) == 0) {
+            if(basicService.returnEmployeeFalse(employee)==0){
                 listTrue.add(employee);
             }
         }
@@ -341,12 +367,12 @@ public class MainController {
 
     public void addEmplBasic(Date date) {
         for (Employees employee : employeesService.listEmployees()) {
-            if (basicService.returnEmployeeFalse(employee) == 0) {
-                basicService.addEmployeeToBasic(employee, date, true);
+            if(basicService.returnEmployeeFalse(employee)==0){
+            basicService.addEmployeeToBasic(employee, date, true);
             }
         }
     }
-
+    
     public MyDate compareDate(List<MyDate> listDate) {
         MyDate dateMax = listDate.get(0);
         for (MyDate dI : listDate) {
@@ -355,7 +381,5 @@ public class MainController {
             }
         }
         return dateMax;
-    }
-
-
+    }*/
 }

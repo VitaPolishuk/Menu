@@ -22,12 +22,13 @@
 <body onload="loadEmployees(objectModel);
                 loadComplexes(objectModel);
                 setRadioButton(objectModel.numberList);
-                timeBlocked();">
+                timeBlocked()">
 
 <div class="Main">
 
     <div class="allComplexes">
         <div class="head">
+
             <div class="buttonSaveTime"><input type="button" id="buttonSaveTime" value="Сохранить время" onclick="buttonSaveTime()"></div>
             <div class="checkboxTime"><input type="checkbox" id="saveTime" ></div>
             <div class="time"><input type="time" id="timeD" value="${time}" min="09:00" ></div>
@@ -141,6 +142,7 @@
 
 
 <div class="counter">
+    <input type="text"  onmouseover="toolTip('mmmm')" onmouseout="toolTip()">
     <ol class="older">
         <li id="countComplexFirst"><a href="#"></a></li>
         <li id="countComplexSecond"><a href="#"></a></li>
@@ -152,6 +154,8 @@
 </body>
 
 </html>
+<!--всплывающее окошко-->
+<div id="floatTip"></div>
 
 <script type="text/template" id="templateTable">
     <table id="employees" class="employees" rules="Cols">

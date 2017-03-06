@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.menuAndersen.model.*;
 import com.menuAndersen.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,7 +65,7 @@ public class MainController {
 
        // this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
         model.addAttribute("password", this.passwordService.getPassword(Long.valueOf(1)).getPassword());
-      /*  File image = new File("C:/Users/vita/Desktop/addIcon.png");
+        File image = new File("C:/Users/wital/Desktop/1.jpg");
         FileInputStream fis = new FileInputStream(image);
         byte[] buffer = new byte[fis.available()];
         // считаем файл в буфер
@@ -74,13 +76,18 @@ public class MainController {
         dish.setImgDish(buffer);
         dishService.addDish(dish);
 
-        List<Dish> list = dishService.returnDishByType("второе");
-        byte rezImg[] = list.get(0).getImgDish();
-        FileOutputStream file = new FileOutputStream("C:/Users/vita/Desktop/copyAddIcon.png");
+
+      /*  FileOutputStream file = new FileOutputStream("C:/Users/vita/Desktop/copyAddIcon.png");
         ByteArrayInputStream input = new ByteArrayInputStream(rezImg);
         BufferedImage bi = ImageIO.read(input);
         ImageIO.write(bi, "png", file);*/
         return "index";
+    }
+    @RequestMapping(value = "image", method = RequestMethod.GET,  produces = MediaType.IMAGE_JPEG_VALUE)
+    public  @ResponseBody byte[] test(@RequestParam("id") Long id ) throws SQLException {
+        List<Dish> list = dishService.returnDishByType("второе");
+        byte rezImg[] = list.get(0).getImgDish();
+        return rezImg;
     }
 
     @RequestMapping(value = "addEmployee", method = RequestMethod.POST)
@@ -239,10 +246,11 @@ public class MainController {
         }
         int cnt=0,cnt1=0;
         for (int i = 0; i < 20; i++) {
-            if ((i+1)%5==0) cnt++;
-            if ((i+1)%6==0)cnt1++;
+            if (i%5==0 && i!=0) cnt++;
+            if (i%5==0 && i!=0) cnt1=0;
         dateAndComplexesService.addDateComplex(new DateAndComplexes(myDate,
                 complexesService.listComplexes().get(cnt),dishService.listDish().get(cnt1)));
+        cnt1++;
         }
         addEmplBasic(myDate.getDate());
         objectModel = listEmployeesTrue(myDate.getDate());
@@ -269,7 +277,7 @@ public class MainController {
             setModel(model, todayDate, objectModel,globalTime);
         } else {
             MyDate lastDate = compareDate(myDateList);
-          //  returnInfoByDay(model, lastDate, objectModel);
+           // returnInfoByDay(model, lastDate, objectModel);
         }
     }
 

@@ -58,7 +58,7 @@ public class DateAndComplexesDaoImpl implements DateAndComplexesDao {
 
     @Override
     public List<Long> returnIdRecordByDate(Date date) {
-       String sql = "select idRecord from DateAndComplexes where idDate = ( from MyDate where date = :parDate)";
+       String sql = "select idRecord from DateAndComplexes where idDate = ( from MyDate where date = :parDate) and distinct idComplex";
         Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
         query.setParameter("parDate", date);
         List<Long> list = query.list();

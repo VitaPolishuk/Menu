@@ -1,3 +1,22 @@
+function TEST() {
+
+    $.ajax({
+        type: "POST",
+        url: "/asdfgh?qwe="+123,
+        async: false,
+        dataType: "json",
+    contentType: "image/jpg",
+        success: function (data, textStatus, jqXHR) {
+           alert(data);
+        },
+        error: function (data) {
+            alert(1);
+        }
+    })
+
+}
+
+
 function dbClickTable(ev) {
     var row = ev.target.parentElement.rowIndex;
     var cell = ev.target.cellIndex;
@@ -798,9 +817,49 @@ function buttonSaveTime() {
             'Content-Type': 'application/json'
         },
     })
-
 }
 
+document.onmousemove = moveTip;
+function moveTip(e) {
+    var floatTipStyle = document.getElementById("floatTip").style;
+    var w = 250; // Ширина слоя
+    // Для браузера IE
+    if (document.all) {
+      var  x = event.x + document.body.scrollLeft;
+        var y = event.y + document.body.scrollTop;
+        // Для остальных браузеров
+    } else {
+        x = e.pageX; // Координата X курсора
+        y = e.pageY; // Координата Y курсора
+    }
+    // Показывать слой справа от курсора
+    if ((x + w + 10) < document.body.clientWidth) {
+        floatTipStyle.left = x + 'px';
+        // Показывать слой слева от курсора
+    } else {
+        floatTipStyle.left = x - w + 'px';
+    }
+    // Положение от верхнего края окна браузера
+    floatTipStyle.top = y + 20 + 'px';
+}
+function toolTip(msg) {
+    var floatTipStyle = document.getElementById("floatTip").style;
+
+    if (msg) {
+        img = document.createElement('img');
+        img.src = "/image?id=1";
+        img.width = 100;
+        img.height = 100;
+        document.getElementById("floatTip").appendChild(img);
+
+        // Выводим текст подсказки
+       // document.getElementById("floatTip").innerHTML = msg;
+        floatTipStyle.display = "block"; // Показываем слой
+    } else {
+        floatTipStyle.display = "none"; // Прячем слой
+        document.getElementById("floatTip").removeChild(img);
+    }
+}
 
 String.prototype.hashCode = function () {
     var hash = 0, i, chr, len;

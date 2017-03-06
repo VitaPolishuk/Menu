@@ -2,6 +2,7 @@ package com.menuAndersen.dao;
 
 import com.menuAndersen.model.Complexes;
 import com.menuAndersen.model.DateAndComplexes;
+import com.menuAndersen.model.Dish;
 import com.menuAndersen.model.MyDate;
 
 import java.sql.Date;
@@ -23,4 +24,6 @@ public interface DateAndComplexesDao {
     public List<Complexes>  returnIdComplexesByDate(Date date);
 
     public void addToDate(Complexes complexes,MyDate myDate);
+
+    public List<Dish> returnDishByDate(Date date);
 }

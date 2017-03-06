@@ -4,20 +4,15 @@ import com.google.gson.Gson;
 import com.menuAndersen.model.*;
 import com.menuAndersen.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -65,7 +60,7 @@ public class MainController {
 
        // this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
         model.addAttribute("password", this.passwordService.getPassword(Long.valueOf(1)).getPassword());
-        File image = new File("C:/Users/wital/Desktop/1.jpg");
+        File image = new File("C:/Users/vita/Desktop/addIcon.png");
         FileInputStream fis = new FileInputStream(image);
         byte[] buffer = new byte[fis.available()];
         // считаем файл в буфер
@@ -240,7 +235,7 @@ public class MainController {
 // новый день только при старте
     public ObjectModel createData(MyDate myDate) {
         ObjectModel objectModel = new ObjectModel();
-       returnDishInit();
+        returnDishInit();
         for (int i = 0; i < 4; i++) {
             complexesService.addComplex(new Complexes(i));
         }
@@ -285,12 +280,12 @@ public class MainController {
     public ObjectModel returnInfoByDay(Model model, MyDate date, ObjectModel objectModel) {
         List<Employees> listEmployeesTrue = new ArrayList<>();
         List<Long> idRecList = dateAndComplexesService.returnIdRecordByDate(date.getDate());
-        List<Complexes> listComplexes = dateAndComplexesService.returnIdComplexesByDate(date.getDate());
+        //List<Complexes> listComplexes = dateAndComplexesService.returnIdComplexesByDate(date.getDate());
         if (basicService.returnEmployeeByRecord(idRecList.get(0), idRecList.get(idRecList.size() - 1), true) != null) {
             listEmployeesTrue = basicService.returnEmployeeByRecord(idRecList.get(0), idRecList.get(idRecList.size() - 1), true);
         }
         sortList(listEmployeesTrue);
-        objectModel.setComplexesList(listComplexes);
+        objectModel.setDishList(dateAndComplexesService.returnDishByDate(date.getDate()));
         objectModel.setEmployeesList(listEmployeesTrue);
         objectModel.setIdRecordList(idRecList);
         objectModel.setNumberList(returnNumber(listEmployeesTrue, idRecList));
@@ -370,9 +365,8 @@ public class MainController {
         sortList(listTrue);
         objectModel.setIdRecordList(idRecList);
         objectModel.setEmployeesList(listTrue);
-
         objectModel.setNumberList(returnNumber(listTrue, idRecList));
-        objectModel.setComplexesList(complexesService.returnComplexesByDate(date));
+        objectModel.setDishList(dateAndComplexesService.returnDishByDate(date));
         return objectModel;
     }
 

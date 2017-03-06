@@ -2,6 +2,7 @@ package com.menuAndersen.service;
 
 import com.menuAndersen.model.Complexes;
 import com.menuAndersen.model.DateAndComplexes;
+import com.menuAndersen.model.Dish;
 import com.menuAndersen.model.MyDate;
 import org.springframework.stereotype.Component;
 
@@ -25,5 +26,7 @@ public interface DateAndComplexesService {
     public List<Complexes>  returnIdComplexesByDate(Date date);
 
     public void addToDate(Complexes complexes,MyDate myDate);
+
+    public List<Dish> returnDishByDate(Date date);
 }
 

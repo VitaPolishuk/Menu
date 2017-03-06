@@ -7,10 +7,18 @@ public class ObjectModel {
 
     private List<Employees> employeesList;
     private List<Integer> numberList;
-    private List<Complexes> complexesList;
+    private List<Dish> dishList;
     private List<Long> idRecordList;
     private MyDate myDate;
     private TimeBlocked timeBlocked;
+
+    public List<Dish> getDishList() {
+        return dishList;
+    }
+
+    public void setDishList(List<Dish> dishList) {
+        this.dishList = dishList;
+    }
 
     public TimeBlocked getTimeBlocked() {
         return timeBlocked;
@@ -44,13 +52,6 @@ public class ObjectModel {
         this.numberList = numberList;
     }
 
-    public List<Complexes> getComplexesList() {
-        return complexesList;
-    }
-
-    public void setComplexesList(List<Complexes> complexesList) {
-        this.complexesList = complexesList;
-    }
 
     public List<Long> getIdRecordList() {
         return idRecordList;

@@ -815,7 +815,7 @@ function checkBlocked() {
 
 
 function timeBlocked() {
-    var time = document.getElementById("timeD").value;
+    var time = document.getElementById("timeD").value;gggggggggg
     var curDate = new Date();
     var hour = parseInt(time.split(':')[0]);
     var minute = parseInt(time.split(':')[1]);

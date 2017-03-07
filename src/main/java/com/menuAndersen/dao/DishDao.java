@@ -12,4 +12,5 @@ public interface DishDao {
     public List<Dish> returnDishByType(String typeDish);
 
     public List<Dish> listDish();
+
 }

@@ -213,19 +213,19 @@ function showPromptDish(text, callback) {
 
 function authentication(password) {
     var name = document.getElementById("button").value;
-    var fl;
     if (name == "Войти") {
         showPrompt("Введите пароль<br>администратора :)", function (value) {
             if ((value + "") != null) {
                 if ((value.hashCode() + "") == password) {
                     var last = lastDate();
                     if (document.getElementById("calendarD").value == last) {
+                        getAllByDateAdmin(last);
                         addButtonPages();
-                        openAdmin();
-                        document.getElementById("button").value = "Выйти";
+                                            document.getElementById("button").value = "Выйти";
                         document.getElementById('prompt-form-container').style.display = "none";
                         document.body.removeChild(document.getElementById('cover-div'));
                     }
+                    getAllByDateAdmin(document.getElementById("calendarD").value);
                     document.getElementById("button").value = "Выйти";
                 } else {
                     alert("Не угадал ");
@@ -239,22 +239,7 @@ function authentication(password) {
     }
 }
 
-function openAdmin() {
-    $.ajax({
-        type: "POST",
-        url: "/openAdmin",
-        async: false,
-        dataType: "json",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        success: function (data, textStatus, jqXHR) {
 
-        }
-    })
-    dhjkl
-}
 
 function loadEmployees(objectModel) {
 
@@ -284,6 +269,20 @@ function loadComplexes(objectModel) {
         });
     }
 }
+
+function  loadComplexesAdmin(objectModel) {
+
+    var template = document.getElementById('templateComplexAdmin').innerHTML.trim();
+    template = _.template(template);
+    for (var i = 0; i < 3; i++) {
+    var str = 'complex' + (i + 1);
+    document.getElementById(str).innerHTML = template({
+        listDish: objectModel.dishListAll
+    });
+}
+}
+
+
 function addButtonPages() {
 
     var div = document.getElementById("addEmployees-container");
@@ -743,7 +742,7 @@ function getAllByDateAdmin(selectedDate) {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
-            loadComplexes(data);
+            loadComplexesAdmin(data);
             loadEmployees(data);
             setRadioButton(data.numberList);
 
@@ -815,7 +814,7 @@ function checkBlocked() {
 
 
 function timeBlocked() {
-    var time = document.getElementById("timeD").value;gggggggggg
+    var time = document.getElementById("timeD").value;
     var curDate = new Date();
     var hour = parseInt(time.split(':')[0]);
     var minute = parseInt(time.split(':')[1]);

@@ -42,4 +42,6 @@ public class DishDaoImpl implements DishDao{
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         return listDish;
     }
+
+
 }

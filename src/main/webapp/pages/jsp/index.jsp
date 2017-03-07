@@ -173,12 +173,12 @@
             <td class="tr1">{{= i + 1}}</td>
             <td class="tr1" id="idEmployee" abbr="{{= listEmployees[i].idEmployee}}">{{= listEmployees[i].fio }}</td>
             <td class="tr1">{{= listEmployees[i].positionHeld }}</td>
-            <td class="tr1" abbr="{{=idRecordList[3]}}">
-                <input type="radio" class="radioButton" name="{{= i}}" value="1" alt="{{=idRecordList[0]}}"
+            <td class="tr1" abbr="{{=idRecordList[0]}}">
+                <input type="radio" class="radioButton" name="{{= i}}" value="1" alt="{{=idRecordList[1]}}"
                        onclick="changeRadioButton(this)" onmousedown="changeRadioButton1(this)">1
-                <input type="radio" class="radioButton" name="{{= i}}" value="2" alt="{{=idRecordList[1]}}"
+                <input type="radio" class="radioButton" name="{{= i}}" value="2" alt="{{=idRecordList[2]}}"
                        onclick="changeRadioButton(this)" onmousedown="changeRadioButton1(this)">2
-                <input type="radio" class="radioButton" name="{{= i}}" value="3" alt="{{=idRecordList[2]}}"
+                <input type="radio" class="radioButton" name="{{= i}}" value="3" alt="{{=idRecordList[3]}}"
                        onclick="changeRadioButton(this)" onmousedown="changeRadioButton1(this)">3
         </tr>
         {{ } }}
@@ -188,7 +188,7 @@
 
 <script type="text/template" id="templateComplex">
 
-    <tr class="stroka" >
+    <tr class="stroka">
         <td abbr="{{=listDishToOneComplex[0].idDish}}" colspan="2">{{=listDishToOneComplex[0].nameDish}}</td>
         <td></td>
     </tr>
@@ -201,7 +201,53 @@
         <td></td>
     </tr>
     <tr class="stroka">
-        <td class="td1" abbr="{{=listDishToOneComplex[4].idDish}}" colspan="2">{{=listDishToOneComplex[4].nameDish}}</td>
+        <td class="td1" abbr="{{=listDishToOneComplex[4].idDish}}" colspan="2">{{=listDishToOneComplex[4].nameDish}}
+        </td>
+        <td></td>
+    </tr>
+
+
+</script>
+
+<script type="text/template" id="templateComplexAdmin">
+
+    <tr class="stroka">
+        <td colspan="2"><select>
+            {{ for (var i=0;i < listDish.dishListFirst.length;i++) { }}
+                <option name="" value="listDish.dishListFirst[i].idDish">{{=listDish.dishListFirst[i].nameDish}}</option>
+            {{ } }}
+        </select></td>
+        <td></td>
+    </tr>
+    <tr class="stroka">
+        <td><select>
+            {{ for (var i=0;i < listDish.dishListGarnor.length;i++) { }}
+            <option name="" value="listDish.dishListGarnor[i].idDish">{{=listDish.dishListGarnor[i].nameDish}}</option>
+            {{ } }}
+        </select></td>
+
+        <td><select>
+            {{ for (var i=0;i < listDish.dishListMeat.length;i++) { }}
+            <option name="" value="listDish.dishListMeat[i].idDish">{{=listDish.dishListMeat[i].nameDish}}</option>
+            {{ } }}
+        </select></td>
+    </tr>
+    <tr class="stroka">
+        <td colspan="2"><select>
+            {{ for (var i=0;i < listDish.dishListSalat.length;i++) { }}
+            <option name="" value="listDish.dishListSalat[i].idDish">{{=listDish.dishListSalat[i].nameDish}}</option>
+            {{ } }}
+        </select></td>
+
+        <td></td>
+    </tr>
+    <tr class="stroka">
+        <td colspan="2"><select>
+            {{ for (var i=0;i < listDish.dishListDrink.length;i++) { }}
+            <option name="" value="listDish.dishListDrink[i].idDish">{{=listDish.dishListDrink[i].nameDish}}</option>
+            {{ } }}
+        </select></td>
+
         <td></td>
     </tr>
 

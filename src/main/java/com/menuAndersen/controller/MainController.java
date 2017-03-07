@@ -366,6 +366,7 @@ public class MainController {
         objectModel.setIdRecordList(idRecList);
         objectModel.setEmployeesList(listTrue);
         objectModel.setNumberList(returnNumber(listTrue, idRecList));
+        objectModel.setTimeBlocked(this.timeBlockedService.getTime(Long.valueOf(1)));
         objectModel.setDishList(dateAndComplexesService.returnDishByDate(date));
         return objectModel;
     }

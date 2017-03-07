@@ -266,7 +266,7 @@ function loadComplexes(objectModel) {
     }
 }
 function addButtonPages() {
-    var calendar = document.getElementById("dateqqqq");
+
     var div = document.getElementById("addEmployees-container");
     div.style.display = "block";
     document.getElementById("addDish").style.display = "block";
@@ -304,7 +304,8 @@ function deleteButtonPages() {
     document.getElementById("windowDel").style.display = "none";
     document.getElementById("changePasswordLink").style.display = "none";
     document.getElementById("blockPages").style.display = "none";
-    document.getElementById("changePassword").style.display = "none";
+    document.getElementById("addDish").style.display = "none";
+
 }
 
 function savePassword(password) {
@@ -798,17 +799,20 @@ function checkBlocked() {
 
 
 function timeBlocked() {
+    var time = document.getElementById("timeD").value;
+    var curDate = new Date();
+    var hour = parseInt(time.split(':')[0]);
+    var minute = parseInt(time.split(':')[1]);
+    if (curDate.getHours() <= hour && curDate.getMinutes() <= minute) {
     var timerId = setInterval(function() {
-        var time = document.getElementById("timeD").value;
-        var curDate = new Date();
-                  var hour = parseInt(time.split(':')[0]);
-                var minute = parseInt(time.split(':')[1]);
+
                 if (curDate.getHours() >= hour && curDate.getMinutes() >= minute) {
                     blockedDate();
                     clearInterval(timerId);
         }
 
     }, 1000);
+    }
 }
 
 function buttonSaveTime() {

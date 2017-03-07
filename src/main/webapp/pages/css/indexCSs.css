@@ -161,13 +161,9 @@ p{
 #changePasswordLink{
     display: none;
 }
-#changePassword{
-    display: none;
-    position: absolute;
-    top: 8%;
-    right: 2%;
 
-}
+
+
 /*Таблица сотрудников*/
 .tableEmployees{
     width: 65%;

@@ -101,7 +101,7 @@ public class BasicDaoImpl implements BasicDao{
         String sql1 = "update Basic set status ="+ status+", idRecord = (" +
                 "from DateAndComplexes where " +
                 "idComplex = ANY(from Complexes where number=0) " +
-                "and idDate = (from MyDate where date =:date))" +
+                "and idDate = (from MyDate where date =:date) group by idComplex    )" +
                 "where idEmployee="+employees.getIdEmployee()+" and idRecord=null";
         Query query1 = this.sessionFactory.getCurrentSession().createQuery(sql1);
         query1.setParameter("date",date);

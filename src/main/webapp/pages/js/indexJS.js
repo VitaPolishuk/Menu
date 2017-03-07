@@ -250,13 +250,18 @@ function loadEmployees(objectModel) {
     countComplexes();
 }
 function loadComplexes(objectModel) {
-
+    var listDishToOneComplex = [];
     var template = document.getElementById('templateComplex').innerHTML.trim();
     template = _.template(template);
-    for (var i = 0; i < objectModel.complexesList.length - 1; i++) {
+    for (var i = 0; i < 3; i++) {
+        for (var j = i;j<objectModel.dishList.length;j+=3){
+              listDishToOneComplex.push(objectModel.dishList[j]);
+
+        }
+
         var str = 'complex' + (i + 1);
         document.getElementById(str).innerHTML = template({
-            listComplex: objectModel.complexesList[i]
+            listDishToOneComplex: listDishToOneComplex
         });
     }
 }

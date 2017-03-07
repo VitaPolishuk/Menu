@@ -120,7 +120,7 @@ public class BasicDaoImpl implements BasicDao{
     }
     @Override
     public int countComplex(Date date, int numberComplex){
-        String sql = "from Basic b where b.idRecord = (select d.idRecord" +
+        String sql = "from Basic b where b.idRecord = ANY(select d.idRecord" +
                 " from DateAndComplexes d where d.idDate = (select m.idDate " +
                 "from MyDate m where m.date =:parDate) and d.idComplex = " +
                 "ANY(select c.idComplex from Complexes c where c.number = "+numberComplex+")) " +

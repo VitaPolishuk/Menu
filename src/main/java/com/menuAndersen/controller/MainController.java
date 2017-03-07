@@ -60,7 +60,7 @@ public class MainController {
 
        // this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
         model.addAttribute("password", this.passwordService.getPassword(Long.valueOf(1)).getPassword());
-        File image = new File("C:/Users/vita/Desktop/addIcon.png");
+     /*   File image = new File("C:/Users/vita/Desktop/addIcon.png");
         FileInputStream fis = new FileInputStream(image);
         byte[] buffer = new byte[fis.available()];
         // считаем файл в буфер
@@ -69,7 +69,7 @@ public class MainController {
         dish.setNameDish("запеканка");
         dish.setTypeDish("второе");
         dish.setImgDish(buffer);
-        dishService.addDish(dish);
+        dishService.addDish(dish);*/
 
 
       /*  FileOutputStream file = new FileOutputStream("C:/Users/vita/Desktop/copyAddIcon.png");
@@ -272,7 +272,7 @@ public class MainController {
             setModel(model, todayDate, objectModel,globalTime);
         } else {
             MyDate lastDate = compareDate(myDateList);
-           // returnInfoByDay(model, lastDate, objectModel);
+            returnInfoByDay(model, lastDate, objectModel);
         }
     }
 

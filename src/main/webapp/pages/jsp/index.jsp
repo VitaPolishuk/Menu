@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Меню</title>
-    <link rel="stylesheet" href="/pages/css/indexCSS.css">
+    <link rel="stylesheet" href="/pages/css/indexCSs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="/pages/js/indexJS.js"></script>
@@ -29,9 +29,10 @@
     <div class="allComplexes">
         <div class="head">
 
-            <div class="buttonSaveTime"><input type="button" id="buttonSaveTime" value="Сохранить время" onclick="buttonSaveTime()"></div>
-            <div class="checkboxTime"><input type="checkbox" id="saveTime" ></div>
-            <div class="time"><input type="time" id="timeD" value="${time}" min="09:00" ></div>
+            <div class="buttonSaveTime"><input type="button" id="buttonSaveTime" value="Сохранить время"
+                                               onclick="buttonSaveTime()"></div>
+            <div class="checkboxTime"><input type="checkbox" id="saveTime"></div>
+            <div class="time"><input type="time" id="timeD" value="${time}" min="09:00"></div>
             <div class="titleMenu"><font face="Comic Sans MS" size="+2.5" color=#4F4F4F>Меню для котиков на </font>
             </div>
             <div class="calendar"><input type="date" id="calendarD" name="${idDate}" value="${currentDate}"
@@ -88,8 +89,8 @@
         <div>Новый пароль</div>
         <div><input type="password" name="password2" class="" id="newPassword" size="20px" required></div>
         <div>
-            <input type="submit" value="Сохранить" id="buttonSavePassword" >
-            <input type="button" value="Отмена" name = "cancelChangePassword" id="buttonCancelPassword" >
+            <input type="submit" value="Сохранить" id="buttonSavePassword">
+            <input type="button" value="Отмена" name="cancelChangePassword" id="buttonCancelPassword">
         </div>
     </form>
 </div>
@@ -97,12 +98,12 @@
 <div id="prompt-form-container-dish">
     <form id="prompt-form-dish">
         <div id="prompt-message-dish"></div>
-        <div>Название <input type="text" name="nameDish"  id="nameDish" required></div>
-        <div>Тип <select id = "selectType" name = "selectType">
-            <option value = "Первое">Первое</option>
-            <option value = "Второе">Второе</option>
-            <option value = "Салат">Салат</option>
-            <option value = "Сок">Сок</option>
+        <div>Название <input type="text" name="nameDish" id="nameDish" required></div>
+        <div>Тип <select id="selectType" name="selectType">
+            <option value="Первое">Первое</option>
+            <option value="Второе">Второе</option>
+            <option value="Салат">Салат</option>
+            <option value="Сок">Сок</option>
         </select>
         </div>
         <div>Картинка <input type="file" name="photo" multiple accept="image/*"></div>
@@ -115,7 +116,7 @@
     <div><a href="#" class="addEmployee add" name="addEmployee" onclick="addEmployee()">Сотрудник</a></div>
 </div>
 <!--Кнопка добавления блюда-->
-<div id="addDisр">
+<div id="addDish">
     <div><a href="#" class="addDish dish" name="addDis" onclick="addDish()">Блюдо</a></div>
 </div>
 
@@ -123,7 +124,8 @@
 <div class="header">
     <div>Режим админа</div>
     <div><input id="button" type="button" name="${password}" value="Войти" onclick=authentication(this.name)></div>
-    <div id="changePasswordLink"><a href="#" name="${password}" onclick="savePassword(this.name)">Сменить пароль</a></div>
+    <div id="changePasswordLink"><a href="#" name="${password}" onclick="savePassword(this.name)">Сменить пароль</a>
+    </div>
     <br>
 
 </div>
@@ -142,7 +144,7 @@
 
 
 <div class="counter">
-    <input type="text"  onmouseover="toolTip('mmmm')" onmouseout="toolTip()">
+    <input type="text" onmouseover="toolTip('mmmm')" onmouseout="toolTip()">
     <ol class="older">
         <li id="countComplexFirst"><a href="#"></a></li>
         <li id="countComplexSecond"><a href="#"></a></li>
@@ -186,17 +188,21 @@
 
 <script type="text/template" id="templateComplex">
 
-    <tr class="stroka" colspan = "2">
-        <td abbr="{{=listComplex.idComplex}}">{{=listComplex.firstCourse}}</td><td></td>
+    <tr class="stroka" >
+        <td abbr="{{=listDishToOneComplex[0].idDish}}" colspan="2">{{=listDishToOneComplex[0].nameDish}}</td>
+        <td></td>
     </tr>
     <tr class="stroka">
-        <td abbr="{{=listComplex.number}}">{{=listComplex.secondCourse}}</td><td></td>
+        <td abbr="{{=listDishToOneComplex[1].idDish}}">{{=listDishToOneComplex[1].nameDish}}</td>
+        <td abbr="{{=listDishToOneComplex[2].idDish}}">{{=listDishToOneComplex[2].nameDish}}</td>
     </tr>
-    <tr class="stroka" colspan = "2">
-        <td>{{=listComplex.salad}}</td><td></td>
+    <tr class="stroka">
+        <td abbr="{{=listDishToOneComplex[3].idDish}}" colspan="2">{{=listDishToOneComplex[3].nameDish}}</td>
+        <td></td>
     </tr>
-    <tr class="stroka" colspan = "2">
-        <td class="td1">{{=listComplex.drinks}}</td><td></td>
+    <tr class="stroka">
+        <td class="td1" abbr="{{=listDishToOneComplex[4].idDish}}" colspan="2">{{=listDishToOneComplex[4].nameDish}}</td>
+        <td></td>
     </tr>
 
 

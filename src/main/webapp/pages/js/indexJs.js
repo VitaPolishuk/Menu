@@ -221,6 +221,7 @@ function authentication(password) {
                     var last = lastDate();
                     if (document.getElementById("calendarD").value == last) {
                         addButtonPages();
+                        openAdmin();
                         document.getElementById("button").value = "Выйти";
                         document.getElementById('prompt-form-container').style.display = "none";
                         document.body.removeChild(document.getElementById('cover-div'));
@@ -237,6 +238,24 @@ function authentication(password) {
         deleteButtonPages();
     }
 }
+
+function openAdmin() {
+    $.ajax({
+        type: "POST",
+        url: "/openAdmin",
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+
+        }
+    })
+        
+}
+
 function loadEmployees(objectModel) {
 
     var template = document.getElementById('templateTable').innerHTML.trim();
@@ -727,10 +746,7 @@ function getAllByDateAdmin(selectedDate) {
             loadComplexes(data);
             loadEmployees(data);
             setRadioButton(data.numberList);
-           /* var status = checkBlocked();
-            if (!status){
-                disabledRadioButton();
-            }*/
+
             document.getElementById("timeD").value = data.timeBlocked.currentTime;
         },
         error: function (data) {

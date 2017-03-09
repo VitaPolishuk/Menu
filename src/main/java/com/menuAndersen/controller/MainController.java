@@ -96,6 +96,16 @@ public class MainController {
 
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
+    @RequestMapping(value = "addDish", method = RequestMethod.POST)
+    void addDish(@RequestBody Dish dish, @RequestParam("img") String imgAddr) throws SQLException, IOException {
+        String imgA = imgAddr.replace("\\","/");
+        File image = new File(imgA);
+        FileInputStream fis = new FileInputStream(image);
+        byte[] buffer = new byte[fis.available()];
+        fis.read(buffer, 0, fis.available());
+        dish.setImgDish(buffer);
+        dishService.addDish(dish);
+    }
 
     @RequestMapping(value = "deleteEmployee", method = RequestMethod.POST)
     public
@@ -321,10 +331,8 @@ public class MainController {
         model.addAttribute("idDate", date.getIdDate());
         model.addAttribute("objectModel", new Gson().toJson(objectModel));
         model.addAttribute("time",time);
-
     }
 
-   
     public void returnDishInit(){
         dishService.addDish(new Dish("Суп","Первое"));
         dishService.addDish(new Dish("Бульба","Гарнир"));
@@ -332,10 +340,6 @@ public class MainController {
         dishService.addDish(new Dish("Трава","Салат"));
         dishService.addDish(new Dish("Вода","Попить"));
     }
-
-
-
-
 
     public List<Integer> returnNumber(List<Employees> lst, List<Long> listRec) {
 

@@ -8,9 +8,7 @@
     <script src="/pages/js/indexJs.js"></script>
 </head>
 <script>
-
     objectModel = ${objectModel};
-
 </script>
 <script>
     _.templateSettings = {
@@ -98,15 +96,20 @@
 <div id="prompt-form-container-dish">
     <form id="prompt-form-dish">
         <div id="prompt-message-dish"></div>
-        <div>Название <input type="text" name="nameDish" id="nameDish" required></div>
-        <div>Тип <select id="selectType" name="selectType">
-            <option value="Первое">Первое</option>
-            <option value="Второе">Второе</option>
+        <div class = "nameDish">Название <input type="text" name="nameDish" id="nameDish" required></div>
+        <div class = "typeDish">Тип блюда<select id="selectType" name="selectType">
+            <option value="Первое" selected>Первое</option>
+            <option value="Гарнир">Второе</option>
+            <option value="Мясное">Мясное</option>
             <option value="Салат">Салат</option>
             <option value="Сок">Сок</option>
         </select>
         </div>
-        <div>Картинка <input type="file" name="photo" multiple accept="image/*"></div>
+        <div class="fileform">
+            <div id="fileformlabel"></div>
+            <div class="selectbutton">Обзор</div>
+            <input type="file" name="upload" id="upload" onchange="getName(this.value)" multiple accept="image/*">
+        </div>
         <input type="submit" value="Добавить">
         <input type="button" name="cancelDish" value="Отмена">
     </form>
@@ -116,10 +119,9 @@
     <div><a href="#" class="addEmployee add" name="addEmployee" onclick="addEmployee()">Сотрудник</a></div>
 </div>
 <!--Кнопка добавления блюда-->
-<div id="addDish">
-    <div><a href="#" class="addDish dish" name="addDis" onclick="addDish()">Блюдо</a></div>
+<div id="addDish-container">
+    <div><a href="#" class="addDish add" name="addDish" onclick="addDish()">Блюдо</a></div>
 </div>
-
 
 <div class="header">
     <div>Режим админа</div>
@@ -142,7 +144,6 @@
 
 </div>
 
-
 <div class="counter">
     <input type="text" onmouseover="toolTip('mmmm')" onmouseout="toolTip()">
     <ol class="older">
@@ -151,7 +152,6 @@
         <li id="countComplexThird"><a href="#"></a></li>
     </ol>
 </div>
-
 
 </body>
 
@@ -204,6 +204,5 @@
         <td class="td1" abbr="{{=listDishToOneComplex[4].idDish}}" colspan="2">{{=listDishToOneComplex[4].nameDish}}</td>
         <td></td>
     </tr>
-
 
 </script>

@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.*;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -59,7 +58,7 @@ public class MainController {
         //String passwordInitial = "1";
 
 
-        // this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
+       // this.passwordService.addPassword(String.valueOf(passwordInitial.hashCode()));
         model.addAttribute("password", this.passwordService.getPassword(Long.valueOf(1)).getPassword());
      /*   File image = new File("C:/Users/vita/Desktop/addIcon.png");
         FileInputStream fis = new FileInputStream(image);
@@ -79,11 +78,8 @@ public class MainController {
         ImageIO.write(bi, "png", file);*/
         return "index";
     }
-
-    @RequestMapping(value = "image", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-    public
-    @ResponseBody
-    byte[] test(@RequestParam("id") Long id) throws SQLException {
+    @RequestMapping(value = "image", method = RequestMethod.GET,  produces = MediaType.IMAGE_JPEG_VALUE)
+    public  @ResponseBody byte[] test(@RequestParam("id") Long id ) throws SQLException {
         List<Dish> list = dishService.returnDishByType("второе");
         byte rezImg[] = list.get(0).getImgDish();
         return rezImg;
@@ -100,12 +96,22 @@ public class MainController {
 
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
+    @RequestMapping(value = "addDish", method = RequestMethod.POST)
+    void addDish(@RequestBody Dish dish, @RequestParam("img") String imgAddr) throws SQLException, IOException {
+        String imgA = imgAddr.replace("\\","/");
+        File image = new File(imgA);
+        FileInputStream fis = new FileInputStream(image);
+        byte[] buffer = new byte[fis.available()];
+        fis.read(buffer, 0, fis.available());
+        dish.setImgDish(buffer);
+        dishService.addDish(dish);
+    }
 
     @RequestMapping(value = "deleteEmployee", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseEntity<ObjectModel> removeEmployees(@RequestBody Employees employees, @RequestParam("date") Date date) throws SQLException {
-        this.basicService.setStatus(employees.getIdEmployee(), false, date);
+        this.basicService.setStatus(employees.getIdEmployee(), false,  date);
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
 
@@ -129,32 +135,30 @@ public class MainController {
     public
     @ResponseBody
     Password changePassword(@RequestParam("passwordNew") String passwordNew) throws SQLException {
-        Password password = new Password();
-        password.setIdPassword(new Long(1));
-        password.setPassword(String.valueOf(passwordNew.hashCode()));
+         Password password = new Password();
+         password.setIdPassword(new Long(1));
+         password.setPassword(String.valueOf(passwordNew.hashCode()));
         this.passwordService.editPassword(password);
-        //    model.addAttribute("password",password.getPassword());
+    //    model.addAttribute("password",password.getPassword());
         return password;
     }
 
     @RequestMapping(value = "saveChangeComplex", method = RequestMethod.POST)
     public
     @ResponseBody
-    void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
-        this.basicService.setComplex(idEmployee, idRecord, date);
+   void save(@RequestParam("idEmployee") Long idEmployee, @RequestParam("idRecord") Long idRecord, @RequestParam("date") Date date) throws SQLException {
+        this.basicService.setComplex(idEmployee, idRecord,date);
     }
-
     @RequestMapping(value = "countComplexes", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseEntity<List<Integer>> countComplexes(@RequestParam("date") Date date) throws SQLException {
         List<Integer> listCountComplex = new ArrayList<>();
-        listCountComplex.add(this.basicService.countComplex(date, 1));
-        listCountComplex.add(this.basicService.countComplex(date, 2));
-        listCountComplex.add(this.basicService.countComplex(date, 3));
+        listCountComplex.add(this.basicService.countComplex(date,1));
+        listCountComplex.add(this.basicService.countComplex(date,2));
+        listCountComplex.add(this.basicService.countComplex(date,3 ));
         return new ResponseEntity<>(listCountComplex, HttpStatus.OK);
     }
-
     @RequestMapping(value = "lastDate", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -166,18 +170,18 @@ public class MainController {
     public
     @ResponseBody
     ResponseEntity<MyDate> blockedDate(@RequestParam("date") Date date) throws SQLException {
-        //this.myDateService.setStatusDate(date);
-        return new ResponseEntity<MyDate>(myDateService.getDateByValue(date), HttpStatus.OK);
+    //this.myDateService.setStatusDate(date);
+    return new ResponseEntity<MyDate>(myDateService.getDateByValue(date),HttpStatus.OK);
     }
 
     @RequestMapping(value = "buttonSaveTime", method = RequestMethod.POST)
     public
     @ResponseBody
-    void statusCheckbox(@RequestParam("status") boolean status, @RequestParam("time") String time) throws SQLException {
-        if (status) {
+    void statusCheckbox(@RequestParam("status") boolean status,@RequestParam("time") String time) throws SQLException {
+        if (status){
             timeBlockedService.cheangeGlobalTime(time);
             timeBlockedService.cheangeCurrentTime(time);
-        } else {
+        }else{
             timeBlockedService.cheangeCurrentTime(time);
         }
 
@@ -200,7 +204,7 @@ public class MainController {
 
         if (idGetDate == 0) {
             MyDate lastDate = compareDate(dateService.listDate());
-            objectModel = returnInfoByDay(model, lastDate, objectModel);
+              objectModel = returnInfoByDay(model, lastDate, objectModel);
 
         } else {
             myDate.setIdDate(idGetDate);
@@ -229,7 +233,6 @@ public class MainController {
         return new ResponseEntity<>(objectModel, HttpStatus.OK);
     }
 
-
     public Long findIdDate(MyDate myDate) {
         if (dateService.getDateByValue(myDate.getDate()) == null) {
             return new Long(0);
@@ -237,8 +240,7 @@ public class MainController {
             return dateService.getDateByValue(myDate.getDate()).getIdDate();
         }
     }
-
-    // новый день только при старте
+// новый день только при старте
     public ObjectModel createData(MyDate myDate) {
         ObjectModel objectModel = new ObjectModel();
         returnDishInit();
@@ -340,7 +342,6 @@ public class MainController {
         dishService.addDish(new Dish("Трава", "Салат"));
         dishService.addDish(new Dish("Вода", "Напиток"));
     }
-
 
     public List<Integer> returnNumber(List<Employees> lst, List<Long> listRec) {
 

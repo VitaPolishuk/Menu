@@ -183,8 +183,8 @@ function showPromptDish(text, callback) {
     var form = document.getElementById('prompt-form-dish');
     var container = document.getElementById('prompt-form-container-dish');
     document.getElementById('prompt-message-dish').innerHTML = text;
-    //form.elements.text.value1 = '';
-    //form.elements.text.value2 = '';
+    form.elements.nameDish.value = null;
+    form.elements.upload.value = null;
 
     function completeDish(nameDish, typeDish,imgDish) {
 
@@ -197,8 +197,7 @@ function showPromptDish(text, callback) {
         var nameDish = form.elements.nameDish.value;
         if (nameDish == '') return false; // игнорировать пустой submit
         var typeDish = form.elements.selectType.value;
-        if (typeDish == '') return false; // игнорировать пустой submit
-        var imgDish = form.elements.photo.value;
+        var imgDish = form.elements.upload.value;
         if (imgDish == '') return false; // игнорировать пустой submit
         completeDish(nameDish, typeDish, imgDish);
         return false;
@@ -239,7 +238,22 @@ function authentication(password) {
     }
 }
 
+function openAdmin() {
+    $.ajax({
+        type: "POST",
+        url: "/openAdmin",
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
 
+        }
+    })
+    dhjkl
+}
 
 function loadEmployees(objectModel) {
 
@@ -285,9 +299,8 @@ function  loadComplexesAdmin(objectModel) {
 
 function addButtonPages() {
 
-    var div = document.getElementById("addEmployees-container");
-    div.style.display = "block";
-    document.getElementById("addDish").style.display = "block";
+    document.getElementById("addEmployees-container").style.display = "block";
+    document.getElementById("addDish-container").style.display = "block";
     var table = document.getElementsByTagName("table");
     for (var i = 0; i < table.length; i++) {
         table[i].setAttribute("ondblclick", "dbClickTable(event)");
@@ -445,10 +458,26 @@ function addEmployee() {
 
 }
 function addDish(){
-    showPromptDish("Новое блюдо", function (nameDish, typeDish, photo){
-        alert(nameDish);
-        alert(typeDish);
-        alert(photo);
+    showPromptDish("", function (nameDish, typeDish, photo){
+        if (nameDish != null && photo != null) {
+            var dataJson = {
+                nameDish: nameDish,
+                typeDish: typeDish
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/addDish?img=" + input.files[0].getAsDataURL(),
+                data: JSON.stringify(dataJson),
+                async: false,
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+             })
+            alert("Блюдо успешно добавлено!");
+        }
     })
 }
 function deleteEmployees() {
@@ -906,3 +935,16 @@ if (this.getFullYear()==value.getFullYear()){
 }
 return false;
 };
+
+//функция на выбор картинки
+function getName (str){
+    if (str.lastIndexOf('\\')){
+        var i = str.lastIndexOf('\\')+1;
+    }
+    else{
+        var i = str.lastIndexOf('/')+1;
+    }
+    var filename = str.slice(i);
+    var uploaded = document.getElementById("fileformlabel");
+    uploaded.innerHTML = filename;
+}

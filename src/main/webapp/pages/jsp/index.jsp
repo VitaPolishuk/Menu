@@ -94,7 +94,7 @@
 </div>
 <!--для добавления блюда-->
 <div id="prompt-form-container-dish">
-    <form id="prompt-form-dish">
+    <form id="prompt-form-dish" action="" method="post"  enctype="multipart/form-data">
         <div id="prompt-message-dish"></div>
         <div class = "nameDish">Название <input type="text" name="nameDish" id="nameDish" required></div>
         <div class = "typeDish">Тип блюда<select id="selectType" name="selectType">
@@ -110,7 +110,7 @@
             <div class="selectbutton">Обзор</div>
             <input type="file" name="upload" id="upload" onchange="getName(this.value)" multiple accept="image/*">
         </div>
-        <input type="submit" value="Добавить">
+        <input type="submit" value="Добавить" >
         <input type="button" name="cancelDish" value="Отмена">
     </form>
 </div>

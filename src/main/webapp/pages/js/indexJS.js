@@ -236,11 +236,10 @@ function authentication(password) {
             }
         });
     } else {
-       deleteButtonPages();
         document.getElementById("button").value = "Войти";
+        deleteButtonPages();
     }
 }
-
 
 function loadEmployees(objectModel) {
 
@@ -417,64 +416,73 @@ function addEmployee() {
     showPromptAdd("Добавление сотрудника:)", function (value1, value2) {
         var inputFIO = value1;
         var inputPositionHeld = value2;
-        if (inputFIO != null && inputPositionHeld != null) {
-            var dataJson = {
-                fio: inputFIO,
-                positionHeld: inputPositionHeld
-            };
+            if (inputFIO != null && inputPositionHeld != null) {
+                var dataJson = {
+                    fio: inputFIO,
+                    positionHeld: inputPositionHeld
+                };
 
-            $.ajax({
-                type: "POST",
-                url: "/addEmployee?date=" + document.getElementById("calendarD").value,
-                data: JSON.stringify(dataJson),
-                async: false,
-                dataType: "json",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                success: function (data, textStatus, jqXHR) {
-                    $("#inputFIO").val("");
-                    $("#inputPositionHeld").val("");
-                    deleteTable();
-                    loadEmployees(data);
-                    setRadioButton(data.numberList);
-                    document.getElementById("timeD").value = data.timeBlocked.currentTime;
-                },
-                error: function (data) {
-                    alert(data);
+                $.ajax({
+                    type: "POST",
+                    url: "/addEmployee?date=" + document.getElementById("calendarD").value,
+                    data: JSON.stringify(dataJson),
+                    async: false,
+                    dataType: "json",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        $("#inputFIO").val("");
+                        $("#inputPositionHeld").val("");
+                        deleteTable();
+                        loadEmployees(data);
+                        setRadioButton(data.numberList);
+                        document.getElementById("timeD").value = data.timeBlocked.currentTime;
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                })
+                var table = document.getElementsByTagName("table");
+                for (var i = 0; i < table.length; i++) {
+                    table[i].setAttribute("ondblclick", "dbClickTable(event)");
+                    table[i].setAttribute("onclick", "onClickTable(event)");
                 }
-            })
-            var table = document.getElementsByTagName("table");
-            for (var i = 0; i < table.length; i++) {
-                table[i].setAttribute("ondblclick", "dbClickTable(event)");
-                table[i].setAttribute("onclick", "onClickTable(event)");
-            }
-        }
+           }
 
     });
 
 }
-function addDish() {
-    showPromptDish("", function (nameDish, typeDish, photo) {
+function addDish(){
+   showPromptDish("", function (nameDish, typeDish, photo){
+       var msg ;
         if (nameDish != null && photo != null) {
-            var dataJson = {
-                nameDish: nameDish,
-                typeDish: typeDish
-            };
 
+               // nameDish: nameDish,
+              //  typeDish: typeDish,
+               // img: files
+            var msg = new FormData($('#prompt-form-dish')[0]);
+           // msg = $('#prompt-form-dish').serialize();
             $.ajax({
                 type: "POST",
-                url: "/addDish?img=" + input.files[0].getAsDataURL(),
-                data: JSON.stringify(dataJson),
-                async: false,
-                dataType: "json",
+                url: "/addDish",
+                data: msg,
+                processData: false,
+                contentType: false,
+                cache:false,
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                  //  'Accept': 'application/json',
+                 //   'Content-Type': 'multipart/form-data'
+                },
+                success: function (data, textStatus, jqXHR) {
+                    alert("ok");
+                },
+                error: function (data) {
+                    alert("error");
                 }
-            })
-            alert("Блюдо успешно добавлено!");
+             })
+
         }
     })
 }

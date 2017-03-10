@@ -10,6 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -97,16 +102,32 @@ public class MainController {
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
     }
     @RequestMapping(value = "addDish", method = RequestMethod.POST)
-    void addDish(@RequestBody Dish dish, @RequestParam("img") String imgAddr) throws SQLException, IOException {
-        String imgA = imgAddr.replace("\\","/");
-        File image = new File(imgA);
-        FileInputStream fis = new FileInputStream(image);
-        byte[] buffer = new byte[fis.available()];
-        fis.read(buffer, 0, fis.available());
-        dish.setImgDish(buffer);
+    public String handleFileUpload( @RequestParam String nameDish,@RequestParam String selectType,
+                                   @RequestParam CommonsMultipartFile[] upload) throws Exception {
+
+        if (upload != null && upload.length > 0) {
+            for (CommonsMultipartFile aFile : upload){
+                Dish dish = new Dish();
+                dish.setImgDish(aFile.getBytes());
+                dish.setNameDish(nameDish);
+                dish.setTypeDish(selectType);
+                dishService.addDish(dish);
+            }
+        }
+        return "redirect:/index";
+    }
+    /*  @RequestMapping(value = "addDish", method = RequestMethod.POST)
+    void addDish(@RequestBody Dish dish) throws SQLException, IOException {
+       // String imgA = imgAddr.replace("\\","/");
+      //  File image = new File(imgA);
+      //  FileInputStream fis = new FileInputStream(image);
+      //  byte[] buffer = new byte[fis.available()];
+      //  fis.read(buffer, 0, fis.available());
+        System.out.println();
+       // dish.setImgDish(dish);
         dishService.addDish(dish);
     }
-
+*/
     @RequestMapping(value = "deleteEmployee", method = RequestMethod.POST)
     public
     @ResponseBody

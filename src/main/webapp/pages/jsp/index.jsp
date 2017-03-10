@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>Меню</title>
-    <link rel="stylesheet" href="/pages/css/indexCSs.css">
+    <link rel="stylesheet" href="/pages/css/indexCSS.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/pages/js/indexJs.js"></script>
+    <script src="/pages/js/indexJS.js"></script>
 </head>
 <script>
     objectModel = ${objectModel};
@@ -214,7 +214,7 @@
     <tr class="stroka">
         <td colspan="2"><select>
             {{ for (var i=0;i < listDish.dishListFirst.length;i++) { }}
-                <option name="" value="listDish.dishListFirst[i].idDish">{{=listDish.dishListFirst[i].nameDish}}</option>
+                <option name="{{=listDish.dishListFirst[i].idDish}}">{{=listDish.dishListFirst[i].nameDish}}</option>
             {{ } }}
         </select></td>
         <td></td>
@@ -222,20 +222,20 @@
     <tr class="stroka">
         <td><select>
             {{ for (var i=0;i < listDish.dishListGarnor.length;i++) { }}
-            <option name="" value="listDish.dishListGarnor[i].idDish">{{=listDish.dishListGarnor[i].nameDish}}</option>
+            <option name="{{=listDish.dishListGarnor[i].idDish}}" >{{=listDish.dishListGarnor[i].nameDish}}</option>
             {{ } }}
         </select></td>
 
         <td><select>
             {{ for (var i=0;i < listDish.dishListMeat.length;i++) { }}
-            <option name="" value="listDish.dishListMeat[i].idDish">{{=listDish.dishListMeat[i].nameDish}}</option>
+            <option name="{{=listDish.dishListMeat[i].idDish}}" >{{=listDish.dishListMeat[i].nameDish}}</option>
             {{ } }}
         </select></td>
     </tr>
     <tr class="stroka">
         <td colspan="2"><select>
             {{ for (var i=0;i < listDish.dishListSalat.length;i++) { }}
-            <option name="" value="listDish.dishListSalat[i].idDish">{{=listDish.dishListSalat[i].nameDish}}</option>
+            <option name="{{=listDish.dishListSalat[i].idDish}}" >{{=listDish.dishListSalat[i].nameDish}}</option>
             {{ } }}
         </select></td>
 
@@ -244,7 +244,7 @@
     <tr class="stroka">
         <td colspan="2"><select>
             {{ for (var i=0;i < listDish.dishListDrink.length;i++) { }}
-            <option name="" value="listDish.dishListDrink[i].idDish">{{=listDish.dishListDrink[i].nameDish}}</option>
+            <option name="{{=listDish.dishListDrink[i].idDish}}" >{{=listDish.dishListDrink[i].nameDish}}</option>
             {{ } }}
         </select></td>
 

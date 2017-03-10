@@ -7,7 +7,6 @@ import java.io.Serializable;
 @Table(name = "employees")
 public class Employees implements Serializable {
 
-
     @Id
     @Column(name = "idEmployee")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

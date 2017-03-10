@@ -243,7 +243,7 @@ public class MainController {
 // новый день только при старте
     public ObjectModel createData(MyDate myDate) {
         ObjectModel objectModel = new ObjectModel();
-        returnDishInit();
+
         for (int i = 0; i < 4; i++) {
             complexesService.addComplex(new Complexes(i));
         }
@@ -276,6 +276,7 @@ public class MainController {
             todayDate.setDate(currentDate);
             todayDate.setBlocked(true);
             dateService.addDate(todayDate);
+            returnDishInit();
             objectModel = createData(todayDate);
             setModel(model, todayDate, objectModel, globalTime);
         } else {

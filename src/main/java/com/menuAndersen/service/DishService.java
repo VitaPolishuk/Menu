@@ -12,4 +12,7 @@ public interface DishService {
 
     public List<Dish> returnDishByType(String typeDish);
     public List<Dish> listDish();
+    public void editDish(Long id,String name,String type);
+    public Dish returnDish();
+    public Dish getDish(Long id);
 }

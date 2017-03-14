@@ -43,5 +43,34 @@ public class DishDaoImpl implements DishDao{
         return listDish;
     }
 
+    @Override
+    public void editDish(Long id,String name,String type) {
+        String sql = " update Dish set nameDish='"+name+"', typeDish='"+type+"' where idDish="+id;
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        query.executeUpdate();
 
+    }
+
+    @Override
+    public Dish returnDish() {
+        String sql = " from Dish order by idDish desc";
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+
+        List<Dish> list = query.setMaxResults(1).list();
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public Dish getDish(Long id) {
+        String sql = " from Dish where idDish ="+id;
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        List<Dish> list = query.list();
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
+    }
 }

@@ -94,10 +94,10 @@
 </div>
 <!--для добавления блюда-->
 <div id="prompt-form-container-dish">
-    <form id="prompt-form-dish" action="" method="post"  enctype="multipart/form-data">
+    <form id="prompt-form-dish" action="" method="post" enctype="multipart/form-data">
         <div id="prompt-message-dish"></div>
-        <div class = "nameDish">Название <input type="text" name="nameDish" id="nameDish" required></div>
-        <div class = "typeDish">Тип блюда<select id="selectType" name="selectType">
+        <div class="nameDish">Название <input type="text" name="nameDish" id="nameDish" required></div>
+        <div class="typeDish">Тип блюда<select id="selectType" name="selectType">
             <option value="Первое" selected>Первое</option>
             <option value="Гарнир">Второе</option>
             <option value="Мясное">Мясное</option>
@@ -110,7 +110,7 @@
             <div class="selectbutton">Обзор</div>
             <input type="file" name="upload" id="upload" onchange="getName(this.value)" multiple accept="image/*">
         </div>
-        <input type="submit" value="Добавить" >
+        <input type="submit" value="Добавить">
         <input type="button" name="cancelDish" value="Отмена">
     </form>
 </div>
@@ -132,20 +132,15 @@
 
 </div>
 <div id="windowDel">
-    <button class="buttonDelete" onclick="deleteEmployees()">Delete</button>
+    <button class="buttonDelete" onclick="deleteEmployees()">[X]</button>
 </div>
 
 <div class="images">
     <img src="/pages/css/tiger.png" width="50%">
 </div>
 
-<div id="blockPages">
-    <input type="button" value="Заблокировать меню" onclick="blockedDate()">
-
-</div>
 
 <div class="counter">
-    <input type="text" onmouseover="toolTip('mmmm')" onmouseout="toolTip()">
     <ol class="older">
         <li id="countComplexFirst"><a href="#"></a></li>
         <li id="countComplexSecond"><a href="#"></a></li>
@@ -188,67 +183,71 @@
 
 <script type="text/template" id="templateComplex">
 
-    <tr class="stroka">
-        <td abbr="{{=listDishToOneComplex[0].idDish}}" colspan="2">{{=listDishToOneComplex[0].nameDish}}</td>
-        <td></td>
-    </tr>
-    <tr class="stroka">
-        <td abbr="{{=listDishToOneComplex[1].idDish}}">{{=listDishToOneComplex[1].nameDish}}</td>
-        <td abbr="{{=listDishToOneComplex[2].idDish}}">{{=listDishToOneComplex[2].nameDish}}</td>
-    </tr>
-    <tr class="stroka">
-        <td abbr="{{=listDishToOneComplex[3].idDish}}" colspan="2">{{=listDishToOneComplex[3].nameDish}}</td>
-        <td></td>
-    </tr>
-    <tr class="stroka">
-        <td class="td1" abbr="{{=listDishToOneComplex[4].idDish}}" colspan="2">{{=listDishToOneComplex[4].nameDish}}
+    <tr>
+        <td abbr="{{=listDishToOneComplex[0].idDish}}" colspan="2" onmouseover="toolTip(this.abbr)"
+            onmouseout="toolTip()">{{=listDishToOneComplex[0].nameDish}}
         </td>
-        <td></td>
+    </tr>
+    <tr>
+        <td abbr="{{=listDishToOneComplex[1].idDish}}" onmouseover="toolTip(this.abbr)" onmouseout="toolTip()">
+            {{=listDishToOneComplex[1].nameDish}}
+        </td>
+        <td abbr="{{=listDishToOneComplex[2].idDish}}" onmouseover="toolTip(this.abbr)" onmouseout="toolTip()">
+            {{=listDishToOneComplex[2].nameDish}}
+        </td>
+    </tr>
+    <tr>
+        <td abbr="{{=listDishToOneComplex[3].idDish}}" colspan="2" onmouseover="toolTip(this.abbr)"
+            onmouseout="toolTip()">{{=listDishToOneComplex[3].nameDish}}
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" abbr="{{=listDishToOneComplex[4].idDish}}" colspan="2" onmouseover="toolTip(this.abbr)"
+            onmouseout="toolTip()">{{=listDishToOneComplex[4].nameDish}}
+        </td>
     </tr>
 
 
 </script>
 
 <script type="text/template" id="templateComplexAdmin">
-
-    <tr class="stroka">
-        <td colspan="2"><select>
+    <tr>
+        <td colspan="2"><select onmouseover="toolTip(this.selectedOptions[0].label)" onmouseout="toolTip()">
             {{ for (var i=0;i < listDish.dishListFirst.length;i++) { }}
-                <option name="{{=listDish.dishListFirst[i].idDish}}">{{=listDish.dishListFirst[i].nameDish}}</option>
+            <option label="{{=listDish.dishListFirst[i].idDish}}" >{{=listDish.dishListFirst[i].nameDish}}
+            </option>
             {{ } }}
         </select></td>
-        <td></td>
     </tr>
-    <tr class="stroka">
-        <td><select>
+    <tr>
+        <td><select onmouseover="toolTip(this.selectedOptions[0].label)" onmouseout="toolTip()">
             {{ for (var i=0;i < listDish.dishListGarnor.length;i++) { }}
-            <option name="{{=listDish.dishListGarnor[i].idDish}}" >{{=listDish.dishListGarnor[i].nameDish}}</option>
+            <option label="{{=listDish.dishListGarnor[i].idDish}}" >{{=listDish.dishListGarnor[i].nameDish}}
+            </option>
             {{ } }}
         </select></td>
 
-        <td><select>
+        <td><select onmouseover="toolTip(this.selectedOptions[0].label)" onmouseout="toolTip()">
             {{ for (var i=0;i < listDish.dishListMeat.length;i++) { }}
-            <option name="{{=listDish.dishListMeat[i].idDish}}" >{{=listDish.dishListMeat[i].nameDish}}</option>
+            <option label="{{=listDish.dishListMeat[i].idDish}}" >{{=listDish.dishListMeat[i].nameDish}}
+            </option>
             {{ } }}
         </select></td>
     </tr>
-    <tr class="stroka">
-        <td colspan="2"><select>
+    <tr>
+        <td colspan="2"><select onmouseover="toolTip(this.selectedOptions[0].label)" onmouseout="toolTip()">
             {{ for (var i=0;i < listDish.dishListSalat.length;i++) { }}
-            <option name="{{=listDish.dishListSalat[i].idDish}}" >{{=listDish.dishListSalat[i].nameDish}}</option>
+            <option label="{{=listDish.dishListSalat[i].idDish}}" >{{=listDish.dishListSalat[i].nameDish}}
+            </option>
             {{ } }}
         </select></td>
-
-        <td></td>
     </tr>
-    <tr class="stroka">
-        <td colspan="2"><select>
+    <tr>
+        <td colspan="2"><select onmouseover="toolTip(this.selectedOptions[0].label)" onmouseout="toolTip()">
             {{ for (var i=0;i < listDish.dishListDrink.length;i++) { }}
-            <option name="{{=listDish.dishListDrink[i].idDish}}" >{{=listDish.dishListDrink[i].nameDish}}</option>
+            <option label="{{=listDish.dishListDrink[i].idDish}}">{{=listDish.dishListDrink[i].nameDish}}
+            </option>
             {{ } }}
         </select></td>
-
-        <td></td>
     </tr>
-
 </script>

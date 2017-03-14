@@ -70,7 +70,7 @@ p{
     padding: 5px 5px 5px 70px;
     width: 200px;
     border: 1px solid black;
-    background: #fbf7f9 url(/pages/css/login.png) no-repeat left 5px;
+    background: #fbf7f9 url(/pages/image/login.png) no-repeat left 5px;
     vertical-align: middle;
 }
 /*диалоговое окно для обавления блюда*/
@@ -79,7 +79,7 @@ p{
     padding: 5px 5px 5px 150px;
 
     border: 1px solid black;
-    background: #fbf7f9 url(/pages/css/dish.jpg) no-repeat left 5px;
+    background: #fbf7f9 url(/pages/image/DISH.jpg) no-repeat left 5px;
     vertical-align: middle;
 }
 
@@ -89,7 +89,7 @@ p{
     padding: 5px 5px 5px 70px;
     width: 200px;
     border: 1px solid black;
-    background: #fbf7f9 url(/pages/css/addIcon.png) no-repeat left 5px;
+    background: #fbf7f9 url(/pages/image/addIcon.png) no-repeat left 5px;
     vertical-align: middle;
 }
 /*диалоговое окно для добавления сотрудника*/
@@ -98,7 +98,7 @@ p{
     padding: 5px 5px 5px 70px;
     width: 200px;
     border: 1px solid black;
-    background: #fbf7f9 url(/pages/css/addIcon.png) no-repeat left 5px;
+    background: #fbf7f9 url(/pages/image/addIcon.png) no-repeat left 5px;
     vertical-align: middle;
 }
 
@@ -115,7 +115,7 @@ p{
 #prompt-form-container-dish{
     position: fixed;
     top: 0;
-    left: 0;
+    left: 42%;
     z-index: 9999;
     display: none;
     width: 100%;
@@ -176,10 +176,10 @@ p{
 
 /*Таблица сотрудников*/
 .tableEmployees{
-    width: 65%;
+    width: 80%;
     border: 2px solid rgb(255, 159, 64);
     border-radius: 10px;
-    margin-left: 16%;
+    margin-left: 10%;
 
 }
 .tableEmployees th{
@@ -221,13 +221,7 @@ p{
 .selectColor{
     background-color: rgba(255, 179, 66, 0.69);
 }
-/*Кнопка блокировки*/
-#blockPages{
-    position: fixed;
-    bottom: 5%;
-    left: 2%;
-    display: none;
-}
+
 .counter{
     position: fixed;
     top: 1%;
@@ -361,6 +355,7 @@ p{
     font-family: sans-serif; font-size: 9pt;
     color: #333;  background: #ECF5E4;
     opacity: 0.85; /* Прозрачность слоя */
+    z-index: 999;
 }
 /*стиль для кнопки загрузки картинки*/
 .fileform {
@@ -424,4 +419,11 @@ p{
     align:left;
     padding-top: 2px;
     padding-bottom: 2px;
+}
+
+select{
+    max-width: 130px;
+}
+.buttonSaveTime, .checkboxTime{
+    display: none;
 }

@@ -24,9 +24,10 @@ public class Dish implements Serializable {
     public Dish() {
     }
 
-    public Dish(String nameDish, String typeDish) {
+    public Dish(String nameDish, String typeDish, byte[] imgDish) {
         this.nameDish = nameDish;
         this.typeDish = typeDish;
+        this.imgDish = imgDish;
     }
 
     public Long getIdDish() {

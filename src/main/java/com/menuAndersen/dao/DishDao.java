@@ -13,4 +13,9 @@ public interface DishDao {
 
     public List<Dish> listDish();
 
+    public void editDish(Long id,String name,String type);
+
+    public Dish returnDish();
+
+    public Dish getDish(Long id);
 }

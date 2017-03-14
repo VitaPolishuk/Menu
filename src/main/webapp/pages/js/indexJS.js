@@ -1,21 +1,3 @@
-function TEST() {
-
-    $.ajax({
-        type: "POST",
-        url: "/asdfgh?qwe=" + 123,
-        async: false,
-        dataType: "json",
-        contentType: "image/jpg",
-        success: function (data, textStatus, jqXHR) {
-            alert(data);
-        },
-        error: function (data) {
-            alert(1);
-        }
-    })
-
-}
-
 
 function dbClickTable(ev) {
     var row = ev.target.parentElement.rowIndex;
@@ -36,8 +18,6 @@ function dbClickTable(ev) {
         table.rows[row].cells[cell].onblur = function () {
             if (table.id == "employees") {
                 editEmployees(table, row, cell);
-            } else if (table.id == "complex1" || table.id == "complex2" || table.id == "complex3") {
-                editComplex(table);
             }
             table.rows[row].cells[cell].setAttribute("contenteditable", "false");
         }
@@ -50,19 +30,28 @@ function onClickTable(ev) {
     var del = document.getElementById("windowDel");
     var window = document.documentElement.clientWidth;
     var allTable = document.getElementsByTagName("table");
-    for (var j = 0; j < allTable.length; j++) {
-        for (var i = 0; i < allTable[j].rows.length; i++) {
-            allTable[j].rows[i].setAttribute("class", "stroka");
-        }
-    }
-    if (ev.target.parentElement.tagName == "TR" && row != 0) {
-        ev.target.parentElement.setAttribute("class", "stroka selectColor");
-        if (table.id = "employees") {
-            var rect = table.rows[row].cells[3].getBoundingClientRect();
-            del.style.top = rect.top;
-            del.style.right = window - rect.right;
 
+    if (ev.target.parentElement.tagName == "TR" && row != 0) {
+        if (ev.target.parentElement.className=="stroka selectColor") {
+            ev.target.parentElement.setAttribute("class", "stroka");
+            del.style.right = -200;
+        }else{
+            for (var j = 0; j < allTable.length; j++) {
+                if (allTable[j].id == "employees") {
+                    for (var i = 0; i < allTable[j].rows.length; i++) {
+                        allTable[j].rows[i].setAttribute("class", "stroka");
+                    }
+                }
+            }
+            ev.target.parentElement.setAttribute("class", "stroka selectColor");
+            if (table.id = "employees") {
+                var rect = table.rows[row].cells[3].getBoundingClientRect();
+                del.style.top = rect.top;
+                del.style.right = window - rect.right;
+
+            }
         }
+
     }
 }
 //функции для добавления диалогового окна на вход в админ
@@ -185,8 +174,6 @@ function showPromptDish(text, callback) {
     var form = document.getElementById('prompt-form-dish');
     var container = document.getElementById('prompt-form-container-dish');
     document.getElementById('prompt-message-dish').innerHTML = text;
-    form.elements.nameDish.value = null;
-    form.elements.upload.value = null;
 
     function completeDish(nameDish, typeDish, imgDish) {
 
@@ -220,15 +207,14 @@ function authentication(password) {
             if ((value + "") != null) {
                 if ((value.hashCode() + "") == password) {
                     var last = lastDate();
-                    if (document.getElementById("calendarD").value == last) {
-                        getAllByDateAdmin(last);
-                        addButtonPages();
-                        document.getElementById("button").value = "Выйти";
-                        document.getElementById('prompt-form-container').style.display = "none";
-                        document.body.removeChild(document.getElementById('cover-div'));
-                    }
-                    getAllByDateAdmin(document.getElementById("calendarD").value);
                     document.getElementById("button").value = "Выйти";
+                    document.getElementById('prompt-form-container').style.display = "none";
+                    document.body.removeChild(document.getElementById('cover-div'));
+                    if (document.getElementById("calendarD").value == last) {
+                        getAllByDate(last,last);
+                    }else {
+                        getAllByDate(document.getElementById("calendarD").value,last);
+                    }
                 } else {
                     alert("Не угадал ");
                     document.getElementById('prompt-form').elements.text.value = "";
@@ -236,13 +222,12 @@ function authentication(password) {
             }
         });
     } else {
-        document.getElementById("button").value = "Войти";
         deleteButtonPages();
+        document.getElementById("button").value = "Войти";
     }
 }
 
 function loadEmployees(objectModel) {
-
     var template = document.getElementById('templateTable').innerHTML.trim();
     if (objectModel.idRecordList != 0) {
         template = _.template(template);
@@ -260,9 +245,7 @@ function loadComplexes(objectModel) {
     for (var i = 0; i < 3; i++) {
         for (var j = i; j < objectModel.dishList.length; j += 3) {
             listDishToOneComplex.push(objectModel.dishList[j]);
-
         }
-
         var str = 'complex' + (i + 1);
         document.getElementById(str).innerHTML = template({
             listDishToOneComplex: listDishToOneComplex
@@ -271,34 +254,36 @@ function loadComplexes(objectModel) {
 }
 
 function loadComplexesAdmin(objectModel) {
-
     var template = document.getElementById('templateComplexAdmin').innerHTML.trim();
     template = _.template(template);
     for (var i = 0; i < 3; i++) {
         var str = 'complex' + (i + 1);
         document.getElementById(str).innerHTML = template({
-            listDish: objectModel.dishListAll
+            listDish: objectModel
         });
     }
 }
 
 
 function addButtonPages() {
-
     document.getElementById("addEmployees-container").style.display = "block";
     document.getElementById("addDish-container").style.display = "block";
     var table = document.getElementsByTagName("table");
     for (var i = 0; i < table.length; i++) {
-        table[i].setAttribute("ondblclick", "dbClickTable(event)");
+        if (table[i].id=="employees") {
+            table[i].setAttribute("ondblclick", "dbClickTable(event)");
+        }
     }
-
     for (var i = 0; i < table.length; i++) {
-        table[i].setAttribute("onclick", "onClickTable(event)");
+        if (table[i].id=="employees") {
+            table[i].setAttribute("onclick", "onClickTable(event)");
+        }
     }
     document.getElementById("windowDel").style.display = "block";
     document.getElementById("windowDel").style.right = "-200";
     document.getElementById("changePasswordLink").style.display = "block";
-    document.getElementById("blockPages").style.display = "block";
+    document.getElementsByClassName("buttonSaveTime")[0].style.display = "inline-block";
+    document.getElementsByClassName("checkboxTime")[0].style.display = "inline-block";
 }
 function deleteButtonPages() {
     var div = document.getElementById("addEmployees-container");
@@ -314,25 +299,32 @@ function deleteButtonPages() {
     }
 
     for (var j = 0; j < table.length; j++) {
-        for (var i = 0; i < table[j].rows.length; i++) {
-            table[j].rows[i].setAttribute("class", "stroka");
+        if (table[j].id == "employees") {
+            for (var i = 0; i < table[j].rows.length; i++) {
+                table[j].rows[i].setAttribute("class", "stroka");
+            }
         }
     }
     document.getElementById("windowDel").style.display = "none";
     document.getElementById("changePasswordLink").style.display = "none";
-    document.getElementById("blockPages").style.display = "none";
     document.getElementById("addDish-container").style.display = "none";
-
-if (document.getElementById("button").value == "Выйти") {
-    var selectAll = document.getElementsByTagName("select");
-    for (var i = selectAll.length - 1; i >=0 ; i--) {
-        var tmp = selectAll[i].value;
-        var td = selectAll[i].parentElement;
-        td.removeChild(selectAll[i]);
-        td.innerHTML = tmp;
+    document.getElementsByClassName("buttonSaveTime")[0].style.display = "none";
+    document.getElementsByClassName("checkboxTime")[0].style.display = "none";
+    if (document.getElementById("button").value == "Выйти") {
+        var selectAll = document.getElementsByTagName("select");
+        for (var i = selectAll.length - 1; i >= 0; i--) {
+            var option = selectAll[i].children;
+            var tmp = selectAll[i].value;
+            var td = selectAll[i].parentElement;
+            for (var j = 0; j < option.length; j++) {
+                if (tmp == option[j].value) {
+                    td.abbr = option[j].label;
+                }
+            }
+            td.removeChild(selectAll[i]);
+            td.innerHTML = tmp;
+        }
     }
-}
-
 }
 
 function savePassword(password) {
@@ -354,7 +346,6 @@ function savePassword(password) {
                         alert("Пароль успешно изменен!")
                         document.getElementById("button").name = data.password;
                         document.getElementById("buttonSavePassword").name = data.password;
-
                         document.getElementById('prompt-form-container-changePassword').style.display = "none";
                         document.body.removeChild(document.getElementById('cover-div-changePassword'));
                     }
@@ -416,75 +407,93 @@ function addEmployee() {
     showPromptAdd("Добавление сотрудника:)", function (value1, value2) {
         var inputFIO = value1;
         var inputPositionHeld = value2;
-            if (inputFIO != null && inputPositionHeld != null) {
-                var dataJson = {
-                    fio: inputFIO,
-                    positionHeld: inputPositionHeld
-                };
+        if (inputFIO != null && inputPositionHeld != null) {
+            var dataJson = {
+                fio: inputFIO,
+                positionHeld: inputPositionHeld
+            };
 
-                $.ajax({
-                    type: "POST",
-                    url: "/addEmployee?date=" + document.getElementById("calendarD").value,
-                    data: JSON.stringify(dataJson),
-                    async: false,
-                    dataType: "json",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        $("#inputFIO").val("");
-                        $("#inputPositionHeld").val("");
-                        deleteTable();
-                        loadEmployees(data);
-                        setRadioButton(data.numberList);
-                        document.getElementById("timeD").value = data.timeBlocked.currentTime;
-                    },
-                    error: function (data) {
-                        alert(data);
-                    }
-                })
-                var table = document.getElementsByTagName("table");
-                for (var i = 0; i < table.length; i++) {
-                    table[i].setAttribute("ondblclick", "dbClickTable(event)");
-                    table[i].setAttribute("onclick", "onClickTable(event)");
+            $.ajax({
+                type: "POST",
+                url: "/addEmployee?date=" + document.getElementById("calendarD").value,
+                data: JSON.stringify(dataJson),
+                async: false,
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function (data, textStatus, jqXHR) {
+                    $("#inputFIO").val("");
+                    $("#inputPositionHeld").val("");
+                    deleteTable();
+                    loadEmployees(data);
+                    setRadioButton(data.numberList);
+                    document.getElementById("timeD").value = data.timeBlocked.currentTime;
+                },
+                error: function (data) {
+                    alert(data);
                 }
-           }
+            })
+            var table = document.getElementsByTagName("table");
+            for (var i = 0; i < table.length; i++) {
+                table[i].setAttribute("ondblclick", "dbClickTable(event)");
+                table[i].setAttribute("onclick", "onClickTable(event)");
+            }
+        }
 
     });
 
 }
-function addDish(){
-   showPromptDish("", function (nameDish, typeDish, photo){
-       var msg ;
+function addDish() {
+    showPromptDish("", function (nameDish, typeDish, photo) {
+        var msg;
+        var dataJson = {
+            nameDish: nameDish,
+            typeDish: typeDish
+        };
         if (nameDish != null && photo != null) {
-
-               // nameDish: nameDish,
-              //  typeDish: typeDish,
-               // img: files
             var msg = new FormData($('#prompt-form-dish')[0]);
-           // msg = $('#prompt-form-dish').serialize();
             $.ajax({
                 type: "POST",
                 url: "/addDish",
                 data: msg,
                 processData: false,
                 contentType: false,
-                cache:false,
-                headers: {
-                  //  'Accept': 'application/json',
-                 //   'Content-Type': 'multipart/form-data'
-                },
+                cache: false,
                 success: function (data, textStatus, jqXHR) {
-                    alert("ok");
+                    ajaxDish(dataJson, data);
+                    $("#nameDish").val("");
+
+
+                    document.getElementById("fileformlabel").innerHTML= "";
                 },
                 error: function (data) {
-                    alert("error");
+
                 }
-             })
+            });
+
 
         }
     })
+}
+function ajaxDish(obj, id) {
+    $.ajax({
+        type: "POST",
+        url: "/addDishN?idDish=" + id,
+        data: JSON.stringify(obj),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+            loadComplexesAdmin(data);
+        },
+        error: function (data) {
+
+        }
+    })
+
 }
 function deleteEmployees() {
 
@@ -654,18 +663,16 @@ function changeDate(obj) {
     if (last <= selectedDate) {
         if (admin == "Войти") {
             if (selectedDate <= curDate) {
-                getAllByDate(selectedDate);
+                getAllByDate(selectedDate,last);
             } else {
                 alert("Нельзя смотреть в будущее");
                 document.getElementById("calendarD").value = curDate;
             }
         } else {
             if (selectedDate < curDate) {
-                deleteButtonPages();
-                getAllByDate(selectedDate);
+                getAllByDate(selectedDate,last);
             } else if (selectedDate == curDate) {
                 getAllByDateAdmin(selectedDate);
-                addButtonPages();
             } else if (selectedDate > curDate) {
                 var lastDat = lastDate();
                 var raz = new Date(selectedDate) - new Date(curDate);
@@ -675,7 +682,6 @@ function changeDate(obj) {
                     if (selectedDate > lastDat) {
                         if (confirm("Вы действительно хотите создать меню на это число?")) {
                             getAllByDateAdmin(selectedDate);
-                            addButtonPages();
                         }
                         else {
                             document.getElementById("calendarD").value = last;
@@ -683,15 +689,14 @@ function changeDate(obj) {
                     }
                     else {
                         getAllByDateAdmin(selectedDate);
-                        addButtonPages();
                     }
                 }
             }
         }
     } else {
-        deleteButtonPages();
-        getAllByDate(selectedDate);
-    }
+            getAllByDate(selectedDate,last);
+        }
+
 }
 function lastDate() {
     var dat;
@@ -719,7 +724,7 @@ function checkDate(returnDate, selectedDate) {
     document.getElementById("calendarD").value = returnDate.date;
 
 }
-function getAllByDate(selectedDate) {
+function getAllByDate(selectedDate,last) {
 
     var dataJson = {
         date: selectedDate
@@ -738,13 +743,22 @@ function getAllByDate(selectedDate) {
         },
         success: function (data, textStatus, jqXHR) {
             checkDate(data.myDate, selectedDate);
-            loadComplexes(data);
-            loadEmployees(data);
-            setRadioButton(data.numberList);
-            var status = checkBlocked();
-            if (!status) {
-                disabledRadioButton();
+            if (document.getElementById("button").value=="Выйти" && data.myDate.date==last){
+                loadComplexesAdmin(data.dishListAll);
+                loadEmployees(data);
+                setRadioButton(data.numberList);
+                addButtonPages();
+            }else{
+                loadComplexes(data);
+                loadEmployees(data);
+                setRadioButton(data.numberList);
+                var status = checkBlocked();
+                if (!status) {
+                    disabledRadioButton();
+                }
+                deleteButtonPages();
             }
+
             document.getElementById("timeD").value = data.timeBlocked.currentTime;
 
 
@@ -774,10 +788,10 @@ function getAllByDateAdmin(selectedDate) {
             'Content-Type': 'application/json'
         },
         success: function (data, textStatus, jqXHR) {
-            loadComplexesAdmin(data);
+            loadComplexesAdmin(data.dishListAll);
             loadEmployees(data);
             setRadioButton(data.numberList);
-
+            addButtonPages();
             document.getElementById("timeD").value = data.timeBlocked.currentTime;
         },
         error: function (data) {
@@ -897,12 +911,12 @@ function moveTip(e) {
     // Положение от верхнего края окна браузера
     floatTipStyle.top = y + 20 + 'px';
 }
-function toolTip(msg) {
+function toolTip(idD) {
     var floatTipStyle = document.getElementById("floatTip").style;
 
-    if (msg) {
+    if (idD) {
         img = document.createElement('img');
-        img.src = "/image?id=1";
+        img.src = "/image?id="+idD;
         img.width = 100;
         img.height = 100;
         document.getElementById("floatTip").appendChild(img);

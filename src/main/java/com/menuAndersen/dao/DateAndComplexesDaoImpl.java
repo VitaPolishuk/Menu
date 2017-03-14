@@ -89,8 +89,8 @@ public class DateAndComplexesDaoImpl implements DateAndComplexesDao {
 
     @Override
     public List<Dish> returnDishByDate(Date date) {
-        String sql = "select idDish from DateAndComplexes where idDate = ANY( from MyDate where date = :parDate)" +
-                "and idComplex in (from Complexes where number <> 0)";
+        String sql = "select d.idDish from DateAndComplexes d where d.idDate = ANY( from MyDate where date = :parDate)" +
+                "and d.idComplex in (from Complexes where number <> 0) order by d.idDish asc";
         Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
         query.setParameter("parDate", date);
         List<Dish> list = query.list();

@@ -52,6 +52,14 @@ public class DishDaoImpl implements DishDao{
     }
 
     @Override
+    public void editDishImg(Long id, byte[] img) {
+        String sql = " update Dish set imgDish =:par where idDish="+id;
+        Query query = this.sessionFactory.getCurrentSession().createQuery(sql);
+        query.setParameter("par", img);
+        query.executeUpdate();
+    }
+
+    @Override
     public Dish returnDish() {
         String sql = " from Dish order by idDish desc";
         Query query = this.sessionFactory.getCurrentSession().createQuery(sql);

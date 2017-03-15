@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>Меню</title>
-    <link rel="stylesheet" href="/pages/css/indexCSS.css">
+    <link rel="stylesheet" href="/pages/css/indexCSs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="/pages/js/indexJS.js"></script>
+    <script src="/pages/js/indexJs.js"></script>
 </head>
 <script>
     objectModel = ${objectModel};
@@ -114,6 +114,31 @@
         <input type="button" name="cancelDish" value="Отмена">
     </form>
 </div>
+<!--для редактирования блюда-->
+<div id="prompt-form-container-dishEdit">
+    <form id="prompt-form-dishEdit" action="" method="post" enctype="multipart/form-data">
+        <div id="prompt-message-dishEdit">Редактирование блюда</div>
+        <div class="nameDishEdit">Название <input type="text" name="nameDishEdit" id="nameDishEdit" required></div>
+       <div class = "typeAndImg">
+        <div class="typeDishEdit">Тип блюда<select id="selectTypeEdit" name="selectTypeEdit">
+            <option value="Первое" selected>Первое</option>
+            <option value="Гарнир">Второе</option>
+            <option value="Мясное">Мясное</option>
+            <option value="Салат">Салат</option>
+            <option value="Сок">Сок</option>
+        </select>
+        </div>
+        <div id="imgDishOld"></div>
+       </div>
+        <div class="fileformEdit">
+            <div id="fileformlabelEdit"></div>
+            <div class="selectbuttonEdit">Обзор</div>
+            <input type="file" name="uploadEdit" id="uploadEdit" onchange="getNameEdit(this.value)" multiple accept="image/*">
+        </div>
+        <input type="submit" value="Сохранить">
+        <input type="button" name="cancelDishEdit" value="Отмена">
+    </form>
+</div>
 <!--Кнопка добавления пользователя-->
 <div id="addEmployees-container">
     <div><a href="#" class="addEmployee add" name="addEmployee" onclick="addEmployee()">Сотрудник</a></div>
@@ -217,7 +242,12 @@
             <option label="{{=listDish.dishListFirst[i].idDish}}" >{{=listDish.dishListFirst[i].nameDish}}
             </option>
             {{ } }}
-        </select></td>
+        </select>
+            <a class="editDishButton" href="#"  onclick = "editDish(this)">
+                <span class="editDishButtonIcon"></span>
+            </a>
+        </td>
+
     </tr>
     <tr>
         <td><select onmouseover="toolTip(this.selectedOptions[0].label)" onmouseout="toolTip()">
@@ -225,14 +255,22 @@
             <option label="{{=listDish.dishListGarnor[i].idDish}}" >{{=listDish.dishListGarnor[i].nameDish}}
             </option>
             {{ } }}
-        </select></td>
+        </select>
+            <a class="editDishButton" href="#"  onclick = "editDish(this)">
+                <span class="editDishButtonIcon"></span>
+            </a>
+        </td>
 
         <td><select onmouseover="toolTip(this.selectedOptions[0].label)" onmouseout="toolTip()">
             {{ for (var i=0;i < listDish.dishListMeat.length;i++) { }}
             <option label="{{=listDish.dishListMeat[i].idDish}}" >{{=listDish.dishListMeat[i].nameDish}}
             </option>
             {{ } }}
-        </select></td>
+        </select>
+            <a class="editDishButton" href="#" onclick = "editDish(this)">
+                <span class="editDishButtonIcon"></span>
+            </a>
+        </td>
     </tr>
     <tr>
         <td colspan="2"><select onmouseover="toolTip(this.selectedOptions[0].label)" onmouseout="toolTip()">
@@ -240,7 +278,11 @@
             <option label="{{=listDish.dishListSalat[i].idDish}}" >{{=listDish.dishListSalat[i].nameDish}}
             </option>
             {{ } }}
-        </select></td>
+        </select>
+            <a class="editDishButton" href="#" onclick = "editDish(this)">
+                <span class="editDishButtonIcon"></span>
+            </a>
+        </td>
     </tr>
     <tr>
         <td colspan="2"><select onmouseover="toolTip(this.selectedOptions[0].label)" onmouseout="toolTip()">
@@ -248,6 +290,10 @@
             <option label="{{=listDish.dishListDrink[i].idDish}}">{{=listDish.dishListDrink[i].nameDish}}
             </option>
             {{ } }}
-        </select></td>
+        </select>
+            <a class="editDishButton" href="#"  onclick = "editDish(this)">
+                <span class="editDishButtonIcon"></span>
+            </a>
+        </td>
     </tr>
 </script>

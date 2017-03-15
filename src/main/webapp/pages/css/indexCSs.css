@@ -82,6 +82,15 @@ p{
     background: #fbf7f9 url(/pages/image/DISH.jpg) no-repeat left 5px;
     vertical-align: middle;
 }
+#prompt-form-dishEdit {
+    display: inline-block;
+    padding: 5px 5px 5px 5px;
+
+    border: 1px solid black;
+    background: #fbf7f9;
+    vertical-align: middle;
+}
+
 
 /*диалоговое окно для добавления сотрудника*/
 #prompt-form-add {
@@ -112,7 +121,7 @@ p{
     height: 100%;
     text-align: center;
 }
-#prompt-form-container-dish{
+#prompt-form-container-dish, #prompt-form-container-dishEdit{
     position: fixed;
     top: 0;
     left: 42%;
@@ -122,14 +131,15 @@ p{
     height: 100%;
 }
 
-#prompt-form-container-add:before, #prompt-form-container:before,  #prompt-form-container-changePassword:before,  #prompt-form-container-dish:before{
+#prompt-form-container-add:before, #prompt-form-container:before,  #prompt-form-container-changePassword:before,
+#prompt-form-container-dish:before, #prompt-form-container-dishEdit:before{
     display: inline-block;
     height: 100%;
     content: '';
     vertical-align: middle;
 }
 
-#cover-div-add, #cover-div, #cover-div-changePassword, #cover-div-dish {
+#cover-div-add, #cover-div, #cover-div-changePassword, #cover-div-dish, #cover-div-dishEdit {
     position: fixed;
     top: 0;
     left: 0;
@@ -140,7 +150,8 @@ p{
     opacity: 0.3;
 }
 
-#prompt-form-add input[name="text"], #prompt-form input[name="text"],  #prompt-form-dish input[name="text"] {
+#prompt-form-add input[name="text"], #prompt-form input[name="text"],  #prompt-form-dish input[name="text"],
+#prompt-form-dishEdit input[name="text"]{
     display: block;
     margin: 5px;
     width: 180px;
@@ -357,8 +368,12 @@ p{
     opacity: 0.85; /* Прозрачность слоя */
     z-index: 999;
 }
+#imgDishOld{
+    display: none;
+
+}
 /*стиль для кнопки загрузки картинки*/
-.fileform {
+.fileform, .fileformEdit {
     background-color: #FFFFFF;
     border: 1px solid #CCCCCC;
     border-radius: 2px;
@@ -372,7 +387,7 @@ p{
     width: 230px;
 }
 
-.fileform .selectbutton {
+.fileform .selectbutton, .fileformEdit .selectbuttonEdit {
     background-color: #A2A3A3;
     border: 1px solid #939494;
     border-radius: 2px;
@@ -388,7 +403,7 @@ p{
 
 }
 
-.fileform #upload{
+.fileform #upload, .fileformEdit #uploadEdit{
     position:absolute;
     top:0;
     left:0;
@@ -400,7 +415,7 @@ p{
     height: 30px;
     z-index:20;
 }
-.fileform #fileformlabel {
+.fileform #fileformlabel, .fileformEdit #fileformlabelEdit {
     background-color: #FFFFFF;
     float: left;
     height: 22px;
@@ -409,13 +424,14 @@ p{
     padding: 2px;
     text-align: left;
     vertical-align: middle;
-    width:80px;
+    width:140px;
 }
-.nameDish{
+.nameDish, .nameDishEdit
+{
     align:left;
     padding-bottom: 2px;
     }
-.typeDish{
+.typeDish, .typeDishEdit{
     align:left;
     padding-top: 2px;
     padding-bottom: 2px;
@@ -426,4 +442,25 @@ select{
 }
 .buttonSaveTime, .checkboxTime{
     display: none;
+}
+.editDishButton {
+    display: inline-block;
+    white-space: nowrap;
+    background-image: -moz-linear-gradient(top, #eee,rgba(255,197,153,0.3));
+    background-image: -ms-linear-gradient(top, #eee, rgba(255,197,153,0.3));
+    background-image: -o-linear-gradient(top, #eee,rgba(255,197,153,0.3));
+    background-image: linear-gradient(top, #eee,rgba(255,197,153,0.3));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#eeeeee', EndColorStr='#cccccc');
+    border: 1px solid #939494;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.8);
+    -moz-border-radius: .2em;
+    border-radius: .2em;
+    -moz-box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 rgba(255,197,153,0.76);
+}
+.editDishButton:before{
+    content: "\270E";
+}
+#typeDishEdit, #imgDishOld{
+    display: inline-block;
 }

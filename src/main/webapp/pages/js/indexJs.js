@@ -199,7 +199,49 @@ function showPromptDish(text, callback) {
     form.elements.nameDish.focus();
     //form.elements.text2.focus();
 }
+// функции для добавления диалогового окна редактирования блюда
+function showCoverDishEdit() {
+    var coverDivDishEdit = document.createElement('div');
+    coverDivDishEdit.id = 'cover-div-dishEdit';
+    document.body.appendChild(coverDivDishEdit);
+}
+function showPromptDishEdit(nameD, typeD, id, callback) {
+    showCoverDishEdit();
+    var form = document.getElementById('prompt-form-dishEdit');
+    var container = document.getElementById('prompt-form-container-dishEdit');
+    document.getElementById('nameDishEdit').value = nameD;
+    document.getElementById('selectTypeEdit').value = typeD;
+    img = document.createElement('img');
+    img.src = "/image?id="+id;
+    img.width = 50;
+    img.height = 50;
+    document.getElementById("imgDishOld").appendChild(img);
+    document.getElementById("imgDishOld").style.display = "block";
 
+    function completeDishEdit(nameDishEdit, typeDishEdit, imgDishEdit) {
+
+        container.style.display = "none";
+        document.body.removeChild(document.getElementById('cover-div-dishEdit'));
+        document.onkeydown = null;
+        callback(nameDishEdit, typeDishEdit, imgDishEdit);
+    }
+
+    form.onsubmit = function () {
+        var nameDishEdit = form.elements.nameDishEdit.value;
+        if (nameDishEdit == '') return false; // игнорировать пустой submit
+        var typeDishEdit = form.elements.selectTypeEdit.value;
+        var imgDishEdit = form.elements.uploadEdit.value;
+        if (imgDishEdit == '') return false; // игнорировать пустой submit
+        completeDishEdit(nameDishEdit, typeDishEdit, imgDishEdit);
+        return false;
+    };
+    form.elements.cancelDishEdit.onclick = function () {
+        completeDishEdit(null, null, null);
+    };
+    container.style.display = 'block';
+    form.elements.nameDishEdit.focus();
+    //form.elements.text2.focus();
+}
 function authentication(password) {
     var name = document.getElementById("button").value;
     if (name == "Войти") {
@@ -495,6 +537,7 @@ function ajaxDish(obj, id) {
     })
 
 }
+
 function deleteEmployees() {
 
     var table = document.getElementById("employees");
@@ -963,4 +1006,84 @@ function getName(str) {
     var filename = str.slice(i);
     var uploaded = document.getElementById("fileformlabel");
     uploaded.innerHTML = filename;
+}
+function getNameEdit(str) {
+    if (str.lastIndexOf('\\')) {
+        var i = str.lastIndexOf('\\') + 1;
+    }
+    else {
+        var i = str.lastIndexOf('/') + 1;
+    }
+    var filename = str.slice(i);
+    var uploaded = document.getElementById("fileformlabelEdit");
+    uploaded.innerHTML = filename;
+}
+function editDish(idDish){
+    var id = idDish.parentElement.children[0].selectedOptions[0].label;
+    var name;
+    var type;
+   $.ajax({
+        type: "POST",
+        url: "/returnInfoDish?idDish=" + id,
+        async: false,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+       success: function (data, textStatus, jqXHR) {
+          name = data.nameDish;
+          type = data.typeDish;
+       }
+
+    })
+    showPromptDishEdit(name, type, id, function (nameDish, typeDish, photo) {
+       var msg;
+       var dataJson = {
+            idDish: id,
+            nameDish: nameDish,
+            typeDish: typeDish
+        };
+        if (nameDish != null && photo != null) {
+            var msg = new FormData($('#prompt-form-dishEdit')[0]);
+            $.ajax({
+                type: "POST",
+                url: "/editDish?idDish=" + id,
+                data: msg,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (data, textStatus, jqXHR) {
+                    ajaxDishEdit(dataJson, data);
+                    $("#nameDishEdit").val("");
+
+
+                    document.getElementById("fileformlabelEdit").innerHTML= "";
+                },
+                error: function (data) {
+
+                }
+            });
+
+
+        }
+    })
+}
+function ajaxDishEdit(obj, id) {
+    $.ajax({
+        type: "POST",
+        url: "/editDishN?idDish=" + id,
+        data: JSON.stringify(obj),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data, textStatus, jqXHR) {
+            loadComplexesAdmin(data);
+        },
+        error: function (data) {
+
+        }
+    })
+
 }

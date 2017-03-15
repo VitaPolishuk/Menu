@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.persistence.Convert;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -166,6 +169,32 @@ public class MainController {
     ResponseEntity<ObjectModel> editComplex(@RequestBody Complexes complexes, @RequestParam("date") Date date) throws SQLException {
         this.complexesService.editComplex(complexes);
         return new ResponseEntity<>(listEmployeesTrue(date), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "returnInfoDish", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseEntity<Dish> returnInfoDish(@RequestParam("idDish") Long idDish) throws SQLException {
+        Dish dish = dishService.getDish(idDish);
+        return new ResponseEntity<>(dish, HttpStatus.OK);
+    }
+    @RequestMapping(value = "editDish", method = RequestMethod.POST)
+    public ResponseEntity<DishListAll> editDish(@RequestParam("idDish")Long idDish, @RequestParam CommonsMultipartFile[] upload) throws SQLException {
+        if (upload != null && upload.length > 0) {
+            this.dishService.editDishImg(idDish, upload[0].getBytes());
+            System.out.println("czxczxczxczxczxczx");
+        }
+
+        DishListAll dishListAll = new DishListAll(dishService.returnDishByType("Первое"), dishService.returnDishByType("Гарнир"),
+                dishService.returnDishByType("Мясное"), dishService.returnDishByType("Салат"), dishService.returnDishByType("Напиток"));
+        return new ResponseEntity<>(dishListAll, HttpStatus.OK);
+    }
+    @RequestMapping(value = "editDishN", method = RequestMethod.POST)
+    public ResponseEntity<DishListAll> editDishN(@RequestBody Dish dish, @RequestParam("idDish") Long id) throws Exception {
+        dishService.editDish(id, dish.getNameDish(), dish.getTypeDish());
+        DishListAll dishListAll = new DishListAll(dishService.returnDishByType("Первое"), dishService.returnDishByType("Гарнир"),
+                dishService.returnDishByType("Мясное"), dishService.returnDishByType("Салат"), dishService.returnDishByType("Напиток"));
+        return new ResponseEntity<>(dishListAll, HttpStatus.OK);
     }
 
     @RequestMapping(value = "changePassword", method = RequestMethod.POST)

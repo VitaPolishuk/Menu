@@ -40,6 +40,12 @@ public class DishServiceImpl implements DishService{
 
     @Override
     @Transactional
+    public void editDishImg(Long id, byte[] img)  {
+        this.dishDao.editDishImg(id,img);
+    }
+
+    @Override
+    @Transactional
     public Dish returnDish() {
         return this.dishDao.returnDish();
     }
